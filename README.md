@@ -1,8 +1,10 @@
 # 见程 GlanceFlow
 
-见程是面向校园线下高价值时限通知的第一视角可信行动编译智能体。本仓库实现 Stage 1 行动安全门、Stage 2 本地 OCR 证据链，以及 Stage 3 可信日历事务层。
+见程是面向校园线下高价值时限通知的第一视角可信行动编译智能体。本仓库实现 Stage 1 行动安全门、Stage 2 本地 OCR 证据链、Stage 3 可信日历事务层，以及 Stage 4 本地第一视角眼镜交互模拟器。
 
 Stage 3 默认使用隔离的内存日历，支持预检、结构化确认、原子创建、event_id 回读、补偿回滚和精准撤销。Google Calendar 适配器已经实现并通过假服务契约测试，但当前没有测试凭据，因此没有进行或声称真实 Google 调用。
+
+Stage 4 是“眼镜工作流模拟”，不是已经部署到真实眼镜设备。它以本地短视频或浏览器短时相机采集模拟第一视角输入，只在明确的“帮我安排”指令后采集约 3 秒，自动选帧并复用既有 OCR、安全门和可信日历事务。默认日历仍为内存实现。
 
 ## Windows 环境安装
 
@@ -58,6 +60,35 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 
 演示从 Stage 2 合法图片结果加载草案，真实执行内存日历正常双事件事务与撤销、冲突未接受、第二事件失败回滚、回读不一致回滚，并写入 `outputs\stage3_results.json`。
 
+运行本地第一视角交互演示：
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.cli wearable-demo
+```
+
+演示真实处理六个场景：正常创建并回读、全程模糊重拍、星期矛盾阻断、冲突等待二次确认、移动中确认延后，以及按 event_id 撤销。结果写入 `outputs\stage4_results.json`。
+
+启动本地浏览器模拟器：
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.simulator.app
+```
+
+然后打开 `http://127.0.0.1:8765/`。浏览器支持上传短视频；在浏览器允许且用户主动点击时，也可调用 `getUserMedia + MediaRecorder` 采集约 2.8 秒并自动停止所有相机轨道。若浏览器不支持语音识别，页面始终提供明显的文本指令降级入口。
+
+模拟器只接受四类确定性指令：`帮我安排`、`确认`、`取消`、`撤销上一步`（及代码内列出的少量固定同义词）。未知表达或低置信度结果不触发状态变化和外部写入。
+
+## Stage 4 隐私与安全边界
+
+- 不持续录音或录像；没有明确的安排指令就不开始采集。
+- 每次只处理触发后的最多 3 秒，较长输入不会扩大处理窗口。
+- 浏览器上传的原始临时视频在抽帧后默认删除；未选中的帧随即删除。
+- 只保留自动选中的证据帧到当前会话目录；“清除并新建会话”会删除它。
+- 画面质量不足时直接进入 `RECAPTURE`，不会强行挑选一个坏帧。
+- `MOVING` 或 `UNKNOWN` 姿态可以生成待确认草案，但禁止确认、创建和撤销日历事件。
+- 冲突不会自动改时间，也不会静默创建；必须在冲突 HUD 出现后明确确认。
+- 模拟层只持有 `TrustedSchedulingService`，不直接持有或调用 `CalendarPort`。
+
 ## 日历事务保证
 
 - 只有 `READY_TO_CONFIRM` 且安全门允许确认的草案能进入预检。
@@ -96,7 +127,7 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-测试覆盖原67项 Stage 1/2 行为，以及内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约和 Stage 3 CLI。
+测试覆盖 Stage 1/2 行为、内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约，以及 Stage 4 语音、抽帧、自动选帧、隐私删除、状态机、运动门禁、失败回滚和浏览器 API。
 
 ## 代码入口
 
@@ -111,5 +142,9 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 - `data\generate_synthetic_posters.py`：固定种子的人工素材生成脚本。
 - `src\glanceflow\calendar\`：厂商无关模型、端口、内存/Google提供器、预检、验证、回滚和事务状态机。
 - `src\glanceflow\application\`：可信调度服务与内存演示编排。
+- `src\glanceflow\wearable\`：采集端口、自动选帧、语音、姿态、HUD 与会话模型。
+- `src\glanceflow\application\glanceflow_service.py`：串接眼镜模拟输入与既有可信日历事务的唯一编排层。
+- `src\glanceflow\simulator\`：FastAPI 本地接口和原生 HTML/CSS/JS 模拟器。
+- `data\generate_synthetic_videos.py`：固定种子的八段合成短视频生成器。
 
-十张图片均为程序生成的人工测试素材，不代表任何真实学校通知。下一阶段可定义第一视角短视频帧输入、明确语音触发和只读 HUD 展示接口，但不得绕过现有质量门、安全门和日历确认事务。
+十张图片和八段短视频均为程序生成的人工测试素材，不代表任何真实学校通知。任何后续真实设备适配都必须实现现有端口，并继续经过质量门、安全门、明确确认和可信日历事务。

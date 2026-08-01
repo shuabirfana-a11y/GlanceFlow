@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>见程 · 眼镜交互模拟器</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand"><span class="mark">见</span><div><h1>见程</h1><p>GLANCEFLOW / LOCAL SIMULATOR</p></div></div>
+      <span class="local-badge">仅本机 · 内存日历</span>
+    </header>
+
+    <section class="stage">
+      <div class="eyebrow">第一视角预览</div>
+      <div class="viewfinder">
+        <video id="preview" muted playsinline></video>
+        <div class="corners" aria-hidden="true"></div>
+        <div id="emptyView" class="empty-view"><span>◎</span><p>明确触发后，仅采集约 3 秒</p></div>
+        <div id="capturePulse" class="capture-pulse">REC</div>
+      </div>
+
+      <div id="hud" class="hud" data-severity="info">
+        <div class="hud-top"><span id="hudStatus">IDLE</span><span id="motionReadout">静止</span></div>
+        <h2 id="hudHeadline">见程就绪</h2>
+        <p id="hudPrimary">说“帮我安排”后开始短时采集。</p>
+        <p id="hudSecondary"></p>
+        <div id="hudPrompt" class="prompt">等待明确语音触发</div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="command-row">
+        <label for="command">语音指令</label>
+        <input id="command" value="帮我安排" maxlength="40" autocomplete="off">
+        <button id="speak" class="icon-button" title="浏览器语音识别">◉ 听取</button>
+      </div>
+      <div class="actions">
+        <button id="camera" class="primary">用相机安排</button>
+        <label class="upload">上传短视频<input id="file" type="file" accept="video/*"></label>
+        <button id="send">发送指令</button>
+        <button id="cancelNow" class="danger">取消</button>
+      </div>
+      <div class="settings">
+        <label>姿态
+          <select id="motion"><option value="STATIONARY">静止</option><option value="MOVING">移动中</option><option value="UNKNOWN">未知</option></select>
+        </label>
+        <button id="newSession" class="quiet">清除并新建会话</button>
+      </div>
+      <p id="message" role="status">这是眼镜工作流模拟，不代表已部署到真实设备。</p>
+    </section>
+
+    <details class="audit"><summary>查看本地审计轨迹</summary><ol id="auditList"></ol></details>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>

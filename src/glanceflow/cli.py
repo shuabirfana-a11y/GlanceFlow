@@ -14,6 +14,7 @@ from glanceflow.config import DEFAULT_TIMEZONE, SUPPORTED_IMAGE_EXTENSIONS
 from glanceflow.ocr.provider import RapidOcrProvider
 from glanceflow.pipeline import ImagePipelineResult, process_image
 from glanceflow.application.demo import run_calendar_demo
+from glanceflow.application.wearable_demo import run_wearable_demo
 from glanceflow.safety.gate import evaluate_notice
 from glanceflow.safety.results import SafetyGateDecision
 
@@ -227,12 +228,30 @@ def calendar_demo_main(argv: list[str]) -> int:
     return 0
 
 
+def wearable_demo_main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description="GlanceFlow Stage 4 本地眼镜交互模拟演示")
+    parser.add_argument("command", choices=["wearable-demo"])
+    parser.parse_args(argv)
+    result = run_wearable_demo()
+    output_path = Path("outputs") / "stage4_results.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("本地第一视角眼镜交互模拟（未部署到真实设备）：")
+    for name, scenario in result["scenarios"].items():
+        session = scenario["session"]
+        print(f"  {name}: {session['status']} / calendar={scenario['calendar_event_count']}")
+    print(f"结果已保存：{output_path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     raw_argv = list(sys.argv[1:] if argv is None else argv)
     if raw_argv and raw_argv[0] == "extract-image":
         return image_main(raw_argv)
     if raw_argv and raw_argv[0] == "calendar-demo":
         return calendar_demo_main(raw_argv)
+    if raw_argv and raw_argv[0] == "wearable-demo":
+        return wearable_demo_main(raw_argv)
     args = build_parser().parse_args(raw_argv)
     input_path: Path = args.input
     if not input_path.exists():

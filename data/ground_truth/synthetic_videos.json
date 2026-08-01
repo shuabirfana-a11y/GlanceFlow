@@ -1,0 +1,86 @@
+{
+  "seed": 20260801,
+  "notice": "全部素材均为程序生成，不含真实校园数据。",
+  "scenarios": [
+    {
+      "video": "01_clear_notice.mp4",
+      "source_poster": "01_valid_event.png",
+      "transformation": "clear",
+      "expected_pipeline_status": "READY_TO_CONFIRM",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "02_blur_to_clear.mp4",
+      "source_poster": "01_valid_event.png",
+      "transformation": "blur_to_clear",
+      "expected_pipeline_status": "READY_TO_CONFIRM",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "03_always_blurred.mp4",
+      "source_poster": "09_blurred_image.png",
+      "transformation": "always_blur",
+      "expected_pipeline_status": "RECAPTURE_REQUIRED",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "04_event_with_deadline.mp4",
+      "source_poster": "02_event_with_deadline.png",
+      "transformation": "clear",
+      "expected_pipeline_status": "READY_TO_CONFIRM",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "05_weekday_contradiction.mp4",
+      "source_poster": "03_weekday_contradiction.png",
+      "transformation": "clear",
+      "expected_pipeline_status": "CONTRADICTION_BLOCKED",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "06_unresolved_time.mp4",
+      "source_poster": "04_unresolved_time.png",
+      "transformation": "clear",
+      "expected_pipeline_status": "NEED_USER_INPUT",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "07_ambiguous_times.mp4",
+      "source_poster": "10_ambiguous_times.png",
+      "transformation": "clear",
+      "expected_pipeline_status": "CONTRADICTION_BLOCKED",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    },
+    {
+      "video": "08_moving_notice.mp4",
+      "source_poster": "01_valid_event.png",
+      "transformation": "moving",
+      "expected_pipeline_status": "READY_TO_CONFIRM",
+      "fps": 5,
+      "frame_count": 15,
+      "duration_ms": 3000,
+      "synthetic_only": true
+    }
+  ]
+}

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "glanceflow"
-version = "0.3.0"
+version = "0.4.0"
 description = "Trusted action compilation safety gate for campus notices"
 requires-python = ">=3.11"
 dependencies = [
@@ -16,16 +16,22 @@ dependencies = [
     "rapidocr-onnxruntime==1.2.3",
     "google-api-python-client==2.198.0",
     "google-auth==2.56.2",
+    "fastapi>=0.116,<1",
+    "uvicorn>=0.35,<1",
+    "python-multipart>=0.0.20,<1",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<9"]
+dev = ["pytest>=8,<9", "httpx>=0.28,<1"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"glanceflow.simulator" = ["static/*.html", "static/*.js", "static/*.css"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
