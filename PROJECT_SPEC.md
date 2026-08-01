@@ -80,6 +80,30 @@ Stage 2 增加了 `OcrProvider` 协议和确定性提取适配器，并遵守：
 
 `process_image(...)` 顺序执行质量门、OCR、抽取、Pydantic 和原安全门。质量或 OCR 失败返回 `RECAPTURE_REQUIRED`；无法确定具体时间返回结构化 `NEED_USER_INPUT`；多时间歧义返回 `CONTRADICTION_BLOCKED`。只有产生合法草案后才执行 Stage 1 全部规则。
 
-## Stage 3 日历事务接口边界（未实现）
+## Stage 3 可信日历事务层（已实现）
 
-下一阶段应先定义 `CalendarPort`、创建请求/回读快照、幂等键、事务日志和补偿删除结果，使用内存假实现验证原子语义。真实 Google Calendar、OAuth、凭据管理和外部写入需单独授权后再接入。
+### 事务入口
+
+`TrustedSchedulingService` 提供 `preflight`、`confirm`、`execute`、`undo` 和 `get_transaction`。安全门状态与事务状态使用不同枚举。非 READY 草案在创建事务记录前即被拒绝。
+
+### 计划与确认
+
+日程包只包含一个主活动和一个可选截止提醒。主活动默认60分钟、截止提醒15分钟，阈值集中在 `config.py`，并在描述中明确不是 OCR 结果。确认对象逐字段锁定用户看到的标题、开始时间、地点和截止时间；冲突要求额外确认。
+
+### 原子创建与回读
+
+每个请求使用 `<transaction_id>:<event_role>` 项目幂等键。创建后必须根据返回的 event_id 回读并严格验证关键字段。第二事件失败、回读异常或字段不一致均进入 `ROLLING_BACK`，逐个删除已创建 event_id 并验证不存在；回滚不完整标记 `FAILED`。
+
+### 精准撤销
+
+仅 `VERIFIED` 事务可以撤销。系统读取事务保存的 event_id，逐个删除并验证；不搜索标题。重复撤销是安全空操作，部分失败保留剩余 event_id 并标记 `FAILED`。
+
+### 提供器
+
+- `MemoryCalendarProvider`：测试隔离、稳定 ID、时间查询、项目幂等和创建/回读/删除故障注入。
+- `GoogleCalendarProvider`：官方客户端契约适配器，使用私有扩展字段保存通知包、事务、角色和幂等键；拒绝 `primary`。
+- 当前没有 Google 凭据，只完成代码与假服务契约测试，未真实访问 Google Calendar。
+
+## Stage 4 第一视角交互接口边界（未实现）
+
+下一阶段可定义帧采集端口、明确语音触发事件和只读 HUD 呈现模型。它们只能产生图片输入、确认对象或状态展示；不得直接获得 CalendarPort 写权限。

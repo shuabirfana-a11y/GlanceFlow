@@ -15,3 +15,5 @@ work/
 *.pem
 credentials*.json
 secrets*.json
+token*.json
+google-calendar-credentials*.json

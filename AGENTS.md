@@ -7,5 +7,6 @@
 - Run relevant tests after every code change and the full suite before handoff.
 - A language model may propose a draft but may never bypass the action safety gate.
 - An unverified draft must never trigger an external operation.
-- Current scope includes Stage 1 data structures/safety gate and Stage 2 local OCR, image quality, deterministic extraction, synthetic fixtures, CLI, and tests.
-- Do not add calendars, OAuth, external execution, video, voice, HUD, web UI, databases, maps, automatic registration, or multi-agent behavior in Stage 2.
+- Current scope includes Stage 1 safety, Stage 2 local OCR, and Stage 3 provider-neutral calendar transactions with a memory provider and Google contract adapter.
+- Real Google calls require an explicitly configured non-primary test calendar and local untracked credentials; never log credentials or tokens.
+- Do not add video, voice, HUD, web UI, databases, maps, automatic registration, recommendations, Gmail, Google Tasks, or multi-agent behavior in Stage 3.

@@ -1,0 +1,4057 @@
+{
+  "generated_at": "2026-08-01T04:02:20.604447+00:00",
+  "provider": "memory-calendar",
+  "google_calendar": {
+    "adapter_implemented": true,
+    "contract_tested": true,
+    "real_call_verified": false,
+    "reason": "未提供专用测试日历凭据，未访问真实 Google Calendar。"
+  },
+  "scenarios": {
+    "normal_verified_then_undone": {
+      "preflight": {
+        "transaction_id": "GF-TX-DEMO-NORMAL",
+        "passed": true,
+        "duplicate_result": {
+          "is_duplicate": false,
+          "matching_events": [],
+          "comparison_basis": [],
+          "message": "未发现重复日程。"
+        },
+        "conflict_result": {
+          "has_conflict": false,
+          "conflicting_events": [],
+          "overlap_minutes": 0,
+          "message": "未发现时间冲突。"
+        },
+        "requires_conflict_confirmation": false,
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "messages": [
+          "未发现重复日程。",
+          "未发现时间冲突。"
+        ]
+      },
+      "verified_transaction": {
+        "transaction_id": "GF-TX-DEMO-NORMAL",
+        "notice_package_id": "GF-PKG-0002",
+        "source_draft_snapshot": {
+          "notice_package_id": "GF-PKG-0002",
+          "notice_type": "EVENT_WITH_DEADLINE",
+          "captured_at": "2026-08-01T09:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "source_frame_id": "frame-02_event_with_deadline",
+          "main_event": {
+            "title": "实验室招募说明会",
+            "event_start": "2026-08-08T15:00:00+08:00",
+            "location": "理科楼A201",
+            "title_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0002"
+              ],
+              "confidence": 0.83175499524389
+            },
+            "time_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "confidence": 0.8478154242038727
+            },
+            "location_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0004"
+              ],
+              "confidence": 0.8643537001176314
+            },
+            "raw_date_text": "2026年8月8日",
+            "raw_weekday_text": "星期六",
+            "unresolved_time_expression": null
+          },
+          "deadline_action": {
+            "deadline": "2026-08-07T20:00:00+08:00",
+            "action": "完成实验室报名",
+            "role": "REGISTRATION",
+            "deadline_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "confidence": 0.8776801288127899
+            },
+            "action_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "confidence": 0.8907842957056485
+            }
+          },
+          "evidence_lines": [
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0001",
+              "text": "人工构造测试素材",
+              "confidence": 0.8089555899302164,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                98.0,
+                50.0,
+                320.0,
+                77.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0002",
+              "text": "活动标题：实验室招募说明会",
+              "confidence": 0.83175499524389,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                82.0,
+                165.0,
+                754.0,
+                214.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0003",
+              "text": "2026年8月8日星期六15:00",
+              "confidence": 0.8478154242038727,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                83.0,
+                276.0,
+                756.0,
+                324.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0004",
+              "text": "地点：理科楼A201",
+              "confidence": 0.8643537001176314,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                78.0,
+                385.0,
+                525.0,
+                441.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0005",
+              "text": "报名截止：2026年8月7日20:00",
+              "confidence": 0.8776801288127899,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                499.0,
+                845.0,
+                548.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0006",
+              "text": "截止动作：完成实验室报名",
+              "confidence": 0.8907842957056485,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                612.0,
+                700.0,
+                661.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0007",
+              "text": "仅用于GlanceFlow测试，并非真实学校通知",
+              "confidence": 0.9215528154373169,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                80.0,
+                847.0,
+                563.0,
+                874.0
+              ]
+            }
+          ],
+          "extraction_version": "deterministic-v1",
+          "metadata": {
+            "ocr_provider": "rapidocr-onnxruntime",
+            "ocr_provider_version": "1.2.3",
+            "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+          }
+        },
+        "safety_decision_snapshot": {
+          "status": "READY_TO_CONFIRM",
+          "can_proceed_to_confirmation": true,
+          "rule_results": [
+            {
+              "rule_id": "GF-FIELD-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动标题完整。",
+              "affected_fields": [
+                "main_event.title"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-FIELD-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动地点完整。",
+              "affected_fields": [
+                "main_event.location"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "采集时间包含时区。",
+              "affected_fields": [
+                "captured_at"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间包含时区。",
+              "affected_fields": [
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间晚于采集时间。",
+              "affected_fields": [
+                "captured_at",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-004",
+              "passed": true,
+              "severity": "INFO",
+              "message": "原始日期、星期与活动时间一致。",
+              "affected_fields": [
+                "main_event.raw_date_text",
+                "main_event.raw_weekday_text",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-005",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在未解析时间表达。",
+              "affected_fields": [
+                "main_event.unresolved_time_expression"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止事项字段与证据完整。",
+              "affected_fields": [
+                "deadline_action"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005",
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止时间早于活动开始时间。",
+              "affected_fields": [
+                "deadline_action.deadline",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心字段均绑定证据行。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有引用的证据行均真实存在。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "核心证据均来自当前源帧。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-CONFIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心证据置信度达到阈值。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-NOTICE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型与字段组合一致。",
+              "affected_fields": [
+                "notice_type",
+                "deadline_action"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DUPLICATE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "未发现标题与开始时间均相同的通知。",
+              "affected_fields": [
+                "main_event.title",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            }
+          ],
+          "blocking_reasons": [],
+          "required_user_inputs": [],
+          "recapture_reasons": [],
+          "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+          "draft_snapshot": {
+            "notice_package_id": "GF-PKG-0002",
+            "notice_type": "EVENT_WITH_DEADLINE",
+            "captured_at": "2026-08-01T09:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "source_frame_id": "frame-02_event_with_deadline",
+            "main_event": {
+              "title": "实验室招募说明会",
+              "event_start": "2026-08-08T15:00:00+08:00",
+              "location": "理科楼A201",
+              "title_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0002"
+                ],
+                "confidence": 0.83175499524389
+              },
+              "time_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0003"
+                ],
+                "confidence": 0.8478154242038727
+              },
+              "location_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0004"
+                ],
+                "confidence": 0.8643537001176314
+              },
+              "raw_date_text": "2026年8月8日",
+              "raw_weekday_text": "星期六",
+              "unresolved_time_expression": null
+            },
+            "deadline_action": {
+              "deadline": "2026-08-07T20:00:00+08:00",
+              "action": "完成实验室报名",
+              "role": "REGISTRATION",
+              "deadline_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0005"
+                ],
+                "confidence": 0.8776801288127899
+              },
+              "action_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0006"
+                ],
+                "confidence": 0.8907842957056485
+              }
+            },
+            "evidence_lines": [
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0001",
+                "text": "人工构造测试素材",
+                "confidence": 0.8089555899302164,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  98.0,
+                  50.0,
+                  320.0,
+                  77.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0002",
+                "text": "活动标题：实验室招募说明会",
+                "confidence": 0.83175499524389,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  82.0,
+                  165.0,
+                  754.0,
+                  214.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0003",
+                "text": "2026年8月8日星期六15:00",
+                "confidence": 0.8478154242038727,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  83.0,
+                  276.0,
+                  756.0,
+                  324.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0004",
+                "text": "地点：理科楼A201",
+                "confidence": 0.8643537001176314,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  78.0,
+                  385.0,
+                  525.0,
+                  441.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0005",
+                "text": "报名截止：2026年8月7日20:00",
+                "confidence": 0.8776801288127899,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  499.0,
+                  845.0,
+                  548.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0006",
+                "text": "截止动作：完成实验室报名",
+                "confidence": 0.8907842957056485,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  612.0,
+                  700.0,
+                  661.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0007",
+                "text": "仅用于GlanceFlow测试，并非真实学校通知",
+                "confidence": 0.9215528154373169,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  80.0,
+                  847.0,
+                  563.0,
+                  874.0
+                ]
+              }
+            ],
+            "extraction_version": "deterministic-v1",
+            "metadata": {
+              "ocr_provider": "rapidocr-onnxruntime",
+              "ocr_provider_version": "1.2.3",
+              "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+            }
+          }
+        },
+        "preflight_result": {
+          "transaction_id": "GF-TX-DEMO-NORMAL",
+          "passed": true,
+          "duplicate_result": {
+            "is_duplicate": false,
+            "matching_events": [],
+            "comparison_basis": [],
+            "message": "未发现重复日程。"
+          },
+          "conflict_result": {
+            "has_conflict": false,
+            "conflicting_events": [],
+            "overlap_minutes": 0,
+            "message": "未发现时间冲突。"
+          },
+          "requires_conflict_confirmation": false,
+          "planned_requests": [
+            {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            }
+          ],
+          "messages": [
+            "未发现重复日程。",
+            "未发现时间冲突。"
+          ]
+        },
+        "user_confirmation": {
+          "confirmed": true,
+          "confirmed_at": "2026-08-01T04:02:20.601840Z",
+          "confirmed_title": "实验室招募说明会",
+          "confirmed_event_start": "2026-08-08T15:00:00+08:00",
+          "confirmed_location": "理科楼A201",
+          "confirmed_deadline": "2026-08-07T20:00:00+08:00",
+          "accepted_conflict": false,
+          "confirmation_source": "calendar-demo-structured-confirmation"
+        },
+        "status": "VERIFIED",
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "created_event_ids": [
+          "mem-event-0001",
+          "mem-event-0002"
+        ],
+        "readback_snapshots": [
+          {
+            "event_id": "mem-event-0001",
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.603999+08:00"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.604084+08:00"
+          }
+        ],
+        "verification_results": [
+          {
+            "event_id": "mem-event-0001",
+            "passed": true,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": true,
+                "expected": "实验室招募说明会",
+                "actual": "实验室招募说明会"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-08T15:00:00+08:00",
+                "actual": "2026-08-08T15:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-08T16:00:00+08:00",
+                "actual": "2026-08-08T16:00:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "理科楼A201",
+                "actual": "理科楼A201"
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-NORMAL",
+                "actual": "GF-TX-DEMO-NORMAL"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "MAIN_EVENT",
+                "actual": "MAIN_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0001",
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.603999+08:00"
+            },
+            "mismatch_fields": [],
+            "message": "回读关键字段全部一致。"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "passed": true,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": true,
+                "expected": "【截止】完成实验室报名",
+                "actual": "【截止】完成实验室报名"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-07T20:00:00+08:00",
+                "actual": "2026-08-07T20:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-07T20:15:00+08:00",
+                "actual": "2026-08-07T20:15:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "",
+                "actual": ""
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-NORMAL",
+                "actual": "GF-TX-DEMO-NORMAL"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "DEADLINE_EVENT",
+                "actual": "DEADLINE_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0002",
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.604084+08:00"
+            },
+            "mismatch_fields": [],
+            "message": "回读关键字段全部一致。"
+          }
+        ],
+        "rollback_results": [],
+        "undo_results": [],
+        "created_at": "2026-08-01T04:02:20.601840Z",
+        "updated_at": "2026-08-01T04:02:20.604447Z",
+        "audit_events": [
+          {
+            "occurred_at": "2026-08-01T04:02:20.602117Z",
+            "action": "TRANSACTION_PLANNED",
+            "message": "已从验证草案生成不可变执行请求。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.602289Z",
+            "action": "PREFLIGHT_PASSED",
+            "message": "重复与冲突预检完成。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.602300Z",
+            "action": "WAITING_CONFIRMATION",
+            "message": "等待结构化用户确认。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.603267Z",
+            "action": "USER_CONFIRMED",
+            "message": "用户确认内容与计划请求完全一致。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.603976Z",
+            "action": "CREATE_STARTED",
+            "message": "开始原子化创建日程包。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604067Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "event_role": "MAIN_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604140Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "event_role": "DEADLINE_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604149Z",
+            "action": "READBACK_STARTED",
+            "message": "开始根据真实 event_id 回读验证。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604302Z",
+            "action": "READBACK_VERIFIED",
+            "message": "回读关键字段全部一致。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "mismatch_fields": []
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604421Z",
+            "action": "READBACK_VERIFIED",
+            "message": "回读关键字段全部一致。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "mismatch_fields": []
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604447Z",
+            "action": "TRANSACTION_VERIFIED",
+            "message": "日程包全部创建且回读一致。",
+            "details": {}
+          }
+        ]
+      },
+      "undone_transaction": {
+        "transaction_id": "GF-TX-DEMO-NORMAL",
+        "notice_package_id": "GF-PKG-0002",
+        "source_draft_snapshot": {
+          "notice_package_id": "GF-PKG-0002",
+          "notice_type": "EVENT_WITH_DEADLINE",
+          "captured_at": "2026-08-01T09:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "source_frame_id": "frame-02_event_with_deadline",
+          "main_event": {
+            "title": "实验室招募说明会",
+            "event_start": "2026-08-08T15:00:00+08:00",
+            "location": "理科楼A201",
+            "title_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0002"
+              ],
+              "confidence": 0.83175499524389
+            },
+            "time_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "confidence": 0.8478154242038727
+            },
+            "location_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0004"
+              ],
+              "confidence": 0.8643537001176314
+            },
+            "raw_date_text": "2026年8月8日",
+            "raw_weekday_text": "星期六",
+            "unresolved_time_expression": null
+          },
+          "deadline_action": {
+            "deadline": "2026-08-07T20:00:00+08:00",
+            "action": "完成实验室报名",
+            "role": "REGISTRATION",
+            "deadline_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "confidence": 0.8776801288127899
+            },
+            "action_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "confidence": 0.8907842957056485
+            }
+          },
+          "evidence_lines": [
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0001",
+              "text": "人工构造测试素材",
+              "confidence": 0.8089555899302164,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                98.0,
+                50.0,
+                320.0,
+                77.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0002",
+              "text": "活动标题：实验室招募说明会",
+              "confidence": 0.83175499524389,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                82.0,
+                165.0,
+                754.0,
+                214.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0003",
+              "text": "2026年8月8日星期六15:00",
+              "confidence": 0.8478154242038727,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                83.0,
+                276.0,
+                756.0,
+                324.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0004",
+              "text": "地点：理科楼A201",
+              "confidence": 0.8643537001176314,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                78.0,
+                385.0,
+                525.0,
+                441.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0005",
+              "text": "报名截止：2026年8月7日20:00",
+              "confidence": 0.8776801288127899,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                499.0,
+                845.0,
+                548.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0006",
+              "text": "截止动作：完成实验室报名",
+              "confidence": 0.8907842957056485,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                612.0,
+                700.0,
+                661.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0007",
+              "text": "仅用于GlanceFlow测试，并非真实学校通知",
+              "confidence": 0.9215528154373169,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                80.0,
+                847.0,
+                563.0,
+                874.0
+              ]
+            }
+          ],
+          "extraction_version": "deterministic-v1",
+          "metadata": {
+            "ocr_provider": "rapidocr-onnxruntime",
+            "ocr_provider_version": "1.2.3",
+            "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+          }
+        },
+        "safety_decision_snapshot": {
+          "status": "READY_TO_CONFIRM",
+          "can_proceed_to_confirmation": true,
+          "rule_results": [
+            {
+              "rule_id": "GF-FIELD-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动标题完整。",
+              "affected_fields": [
+                "main_event.title"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-FIELD-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动地点完整。",
+              "affected_fields": [
+                "main_event.location"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "采集时间包含时区。",
+              "affected_fields": [
+                "captured_at"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间包含时区。",
+              "affected_fields": [
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间晚于采集时间。",
+              "affected_fields": [
+                "captured_at",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-004",
+              "passed": true,
+              "severity": "INFO",
+              "message": "原始日期、星期与活动时间一致。",
+              "affected_fields": [
+                "main_event.raw_date_text",
+                "main_event.raw_weekday_text",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-005",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在未解析时间表达。",
+              "affected_fields": [
+                "main_event.unresolved_time_expression"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止事项字段与证据完整。",
+              "affected_fields": [
+                "deadline_action"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005",
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止时间早于活动开始时间。",
+              "affected_fields": [
+                "deadline_action.deadline",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心字段均绑定证据行。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有引用的证据行均真实存在。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "核心证据均来自当前源帧。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-CONFIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心证据置信度达到阈值。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-NOTICE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型与字段组合一致。",
+              "affected_fields": [
+                "notice_type",
+                "deadline_action"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DUPLICATE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "未发现标题与开始时间均相同的通知。",
+              "affected_fields": [
+                "main_event.title",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            }
+          ],
+          "blocking_reasons": [],
+          "required_user_inputs": [],
+          "recapture_reasons": [],
+          "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+          "draft_snapshot": {
+            "notice_package_id": "GF-PKG-0002",
+            "notice_type": "EVENT_WITH_DEADLINE",
+            "captured_at": "2026-08-01T09:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "source_frame_id": "frame-02_event_with_deadline",
+            "main_event": {
+              "title": "实验室招募说明会",
+              "event_start": "2026-08-08T15:00:00+08:00",
+              "location": "理科楼A201",
+              "title_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0002"
+                ],
+                "confidence": 0.83175499524389
+              },
+              "time_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0003"
+                ],
+                "confidence": 0.8478154242038727
+              },
+              "location_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0004"
+                ],
+                "confidence": 0.8643537001176314
+              },
+              "raw_date_text": "2026年8月8日",
+              "raw_weekday_text": "星期六",
+              "unresolved_time_expression": null
+            },
+            "deadline_action": {
+              "deadline": "2026-08-07T20:00:00+08:00",
+              "action": "完成实验室报名",
+              "role": "REGISTRATION",
+              "deadline_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0005"
+                ],
+                "confidence": 0.8776801288127899
+              },
+              "action_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0006"
+                ],
+                "confidence": 0.8907842957056485
+              }
+            },
+            "evidence_lines": [
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0001",
+                "text": "人工构造测试素材",
+                "confidence": 0.8089555899302164,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  98.0,
+                  50.0,
+                  320.0,
+                  77.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0002",
+                "text": "活动标题：实验室招募说明会",
+                "confidence": 0.83175499524389,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  82.0,
+                  165.0,
+                  754.0,
+                  214.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0003",
+                "text": "2026年8月8日星期六15:00",
+                "confidence": 0.8478154242038727,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  83.0,
+                  276.0,
+                  756.0,
+                  324.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0004",
+                "text": "地点：理科楼A201",
+                "confidence": 0.8643537001176314,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  78.0,
+                  385.0,
+                  525.0,
+                  441.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0005",
+                "text": "报名截止：2026年8月7日20:00",
+                "confidence": 0.8776801288127899,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  499.0,
+                  845.0,
+                  548.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0006",
+                "text": "截止动作：完成实验室报名",
+                "confidence": 0.8907842957056485,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  612.0,
+                  700.0,
+                  661.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0007",
+                "text": "仅用于GlanceFlow测试，并非真实学校通知",
+                "confidence": 0.9215528154373169,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  80.0,
+                  847.0,
+                  563.0,
+                  874.0
+                ]
+              }
+            ],
+            "extraction_version": "deterministic-v1",
+            "metadata": {
+              "ocr_provider": "rapidocr-onnxruntime",
+              "ocr_provider_version": "1.2.3",
+              "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+            }
+          }
+        },
+        "preflight_result": {
+          "transaction_id": "GF-TX-DEMO-NORMAL",
+          "passed": true,
+          "duplicate_result": {
+            "is_duplicate": false,
+            "matching_events": [],
+            "comparison_basis": [],
+            "message": "未发现重复日程。"
+          },
+          "conflict_result": {
+            "has_conflict": false,
+            "conflicting_events": [],
+            "overlap_minutes": 0,
+            "message": "未发现时间冲突。"
+          },
+          "requires_conflict_confirmation": false,
+          "planned_requests": [
+            {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            }
+          ],
+          "messages": [
+            "未发现重复日程。",
+            "未发现时间冲突。"
+          ]
+        },
+        "user_confirmation": {
+          "confirmed": true,
+          "confirmed_at": "2026-08-01T04:02:20.601840Z",
+          "confirmed_title": "实验室招募说明会",
+          "confirmed_event_start": "2026-08-08T15:00:00+08:00",
+          "confirmed_location": "理科楼A201",
+          "confirmed_deadline": "2026-08-07T20:00:00+08:00",
+          "accepted_conflict": false,
+          "confirmation_source": "calendar-demo-structured-confirmation"
+        },
+        "status": "UNDONE",
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-NORMAL",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "created_event_ids": [
+          "mem-event-0001",
+          "mem-event-0002"
+        ],
+        "readback_snapshots": [
+          {
+            "event_id": "mem-event-0001",
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.603999+08:00"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.604084+08:00"
+          }
+        ],
+        "verification_results": [
+          {
+            "event_id": "mem-event-0001",
+            "passed": true,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": true,
+                "expected": "实验室招募说明会",
+                "actual": "实验室招募说明会"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-08T15:00:00+08:00",
+                "actual": "2026-08-08T15:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-08T16:00:00+08:00",
+                "actual": "2026-08-08T16:00:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "理科楼A201",
+                "actual": "理科楼A201"
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-NORMAL",
+                "actual": "GF-TX-DEMO-NORMAL"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "MAIN_EVENT",
+                "actual": "MAIN_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "MAIN_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0001",
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "MAIN_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.603999+08:00"
+            },
+            "mismatch_fields": [],
+            "message": "回读关键字段全部一致。"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "passed": true,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": true,
+                "expected": "【截止】完成实验室报名",
+                "actual": "【截止】完成实验室报名"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-07T20:00:00+08:00",
+                "actual": "2026-08-07T20:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-07T20:15:00+08:00",
+                "actual": "2026-08-07T20:15:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "",
+                "actual": ""
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-NORMAL",
+                "actual": "GF-TX-DEMO-NORMAL"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "DEADLINE_EVENT",
+                "actual": "DEADLINE_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-NORMAL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0002",
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-NORMAL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.604084+08:00"
+            },
+            "mismatch_fields": [],
+            "message": "回读关键字段全部一致。"
+          }
+        ],
+        "rollback_results": [],
+        "undo_results": [
+          {
+            "event_id": "mem-event-0002",
+            "delete_succeeded": true,
+            "absence_verified": true,
+            "error_message": null
+          },
+          {
+            "event_id": "mem-event-0001",
+            "delete_succeeded": true,
+            "absence_verified": true,
+            "error_message": null
+          }
+        ],
+        "created_at": "2026-08-01T04:02:20.601840Z",
+        "updated_at": "2026-08-01T04:02:20.605633Z",
+        "audit_events": [
+          {
+            "occurred_at": "2026-08-01T04:02:20.602117Z",
+            "action": "TRANSACTION_PLANNED",
+            "message": "已从验证草案生成不可变执行请求。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.602289Z",
+            "action": "PREFLIGHT_PASSED",
+            "message": "重复与冲突预检完成。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.602300Z",
+            "action": "WAITING_CONFIRMATION",
+            "message": "等待结构化用户确认。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.603267Z",
+            "action": "USER_CONFIRMED",
+            "message": "用户确认内容与计划请求完全一致。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.603976Z",
+            "action": "CREATE_STARTED",
+            "message": "开始原子化创建日程包。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604067Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "event_role": "MAIN_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604140Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "event_role": "DEADLINE_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604149Z",
+            "action": "READBACK_STARTED",
+            "message": "开始根据真实 event_id 回读验证。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604302Z",
+            "action": "READBACK_VERIFIED",
+            "message": "回读关键字段全部一致。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "mismatch_fields": []
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604421Z",
+            "action": "READBACK_VERIFIED",
+            "message": "回读关键字段全部一致。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "mismatch_fields": []
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.604447Z",
+            "action": "TRANSACTION_VERIFIED",
+            "message": "日程包全部创建且回读一致。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.605569Z",
+            "action": "UNDO_STARTED",
+            "message": "按事务记录中的 event_id 精准撤销。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.605633Z",
+            "action": "UNDO_COMPLETED",
+            "message": "事务关联事件已全部撤销。",
+            "details": {
+              "remaining_event_ids": []
+            }
+          }
+        ]
+      },
+      "final_event_ids": []
+    },
+    "conflict_not_accepted": {
+      "preflight": {
+        "transaction_id": "GF-TX-DEMO-CONFLICT",
+        "passed": true,
+        "duplicate_result": {
+          "is_duplicate": false,
+          "matching_events": [],
+          "comparison_basis": [],
+          "message": "未发现重复日程。"
+        },
+        "conflict_result": {
+          "has_conflict": true,
+          "conflicting_events": [
+            {
+              "event_id": "mem-event-0001",
+              "title": "线性代数",
+              "start_time": "2026-08-07T14:30:00+08:00",
+              "end_time": "2026-08-07T15:30:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "教学楼101",
+              "description": "用户已有事件；演示程序不会修改它。",
+              "private_metadata": {
+                "notice_package_id": "external-course",
+                "transaction_id": "external-course",
+                "event_role": "MAIN_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.606986+08:00"
+            }
+          ],
+          "overlap_minutes": 30,
+          "message": "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
+        },
+        "requires_conflict_confirmation": true,
+        "planned_requests": [
+          {
+            "title": "创新创业竞赛宣讲",
+            "start_time": "2026-08-07T14:00:00+08:00",
+            "end_time": "2026-08-07T15:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "科技馆报告厅",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0001 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0001",
+              "transaction_id": "GF-TX-DEMO-CONFLICT",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0001",
+            "transaction_id": "GF-TX-DEMO-CONFLICT",
+            "event_role": "MAIN_EVENT"
+          }
+        ],
+        "messages": [
+          "未发现重复日程。",
+          "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
+        ]
+      },
+      "confirmation_error": "存在冲突，需要 accepted_conflict=True 的二次确认。",
+      "transaction": {
+        "transaction_id": "GF-TX-DEMO-CONFLICT",
+        "notice_package_id": "GF-PKG-0001",
+        "source_draft_snapshot": {
+          "notice_package_id": "GF-PKG-0001",
+          "notice_type": "EVENT_NOTICE",
+          "captured_at": "2026-08-01T09:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "source_frame_id": "frame-01_valid_event",
+          "main_event": {
+            "title": "创新创业竞赛宣讲",
+            "event_start": "2026-08-07T14:00:00+08:00",
+            "location": "科技馆报告厅",
+            "title_evidence": {
+              "evidence_line_ids": [
+                "frame-01_valid_event-ocr-0002"
+              ],
+              "confidence": 0.8118454473359245
+            },
+            "time_evidence": {
+              "evidence_line_ids": [
+                "frame-01_valid_event-ocr-0003"
+              ],
+              "confidence": 0.8441038727760315
+            },
+            "location_evidence": {
+              "evidence_line_ids": [
+                "frame-01_valid_event-ocr-0004"
+              ],
+              "confidence": 0.8927146315574646
+            },
+            "raw_date_text": "2026年8月7日",
+            "raw_weekday_text": "星期五",
+            "unresolved_time_expression": null
+          },
+          "deadline_action": null,
+          "evidence_lines": [
+            {
+              "line_id": "frame-01_valid_event-ocr-0001",
+              "text": "人工构造测试素材",
+              "confidence": 0.8069677684042189,
+              "source_frame_id": "frame-01_valid_event",
+              "bbox": [
+                98.0,
+                50.0,
+                320.0,
+                77.0
+              ]
+            },
+            {
+              "line_id": "frame-01_valid_event-ocr-0002",
+              "text": "活动标题：创新创业竞赛宣讲",
+              "confidence": 0.8118454473359245,
+              "source_frame_id": "frame-01_valid_event",
+              "bbox": [
+                82.0,
+                165.0,
+                754.0,
+                214.0
+              ]
+            },
+            {
+              "line_id": "frame-01_valid_event-ocr-0003",
+              "text": "2026年8月7日星期五14:00",
+              "confidence": 0.8441038727760315,
+              "source_frame_id": "frame-01_valid_event",
+              "bbox": [
+                83.0,
+                276.0,
+                756.0,
+                325.0
+              ]
+            },
+            {
+              "line_id": "frame-01_valid_event-ocr-0004",
+              "text": "地点：科技馆报告厅",
+              "confidence": 0.8927146315574646,
+              "source_frame_id": "frame-01_valid_event",
+              "bbox": [
+                77.0,
+                384.0,
+                548.0,
+                443.0
+              ]
+            },
+            {
+              "line_id": "frame-01_valid_event-ocr-0005",
+              "text": "仅用于GlanceFlow测试，并非真实学校通知",
+              "confidence": 0.9020856237411499,
+              "source_frame_id": "frame-01_valid_event",
+              "bbox": [
+                81.0,
+                847.0,
+                563.0,
+                874.0
+              ]
+            }
+          ],
+          "extraction_version": "deterministic-v1",
+          "metadata": {
+            "ocr_provider": "rapidocr-onnxruntime",
+            "ocr_provider_version": "1.2.3",
+            "source_image": "data\\synthetic_posters\\01_valid_event.png"
+          }
+        },
+        "safety_decision_snapshot": {
+          "status": "READY_TO_CONFIRM",
+          "can_proceed_to_confirmation": true,
+          "rule_results": [
+            {
+              "rule_id": "GF-FIELD-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动标题完整。",
+              "affected_fields": [
+                "main_event.title"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-FIELD-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动地点完整。",
+              "affected_fields": [
+                "main_event.location"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "采集时间包含时区。",
+              "affected_fields": [
+                "captured_at"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间包含时区。",
+              "affected_fields": [
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间晚于采集时间。",
+              "affected_fields": [
+                "captured_at",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-004",
+              "passed": true,
+              "severity": "INFO",
+              "message": "原始日期、星期与活动时间一致。",
+              "affected_fields": [
+                "main_event.raw_date_text",
+                "main_event.raw_weekday_text",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-01_valid_event-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-005",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在未解析时间表达。",
+              "affected_fields": [
+                "main_event.unresolved_time_expression"
+              ],
+              "evidence_line_ids": [
+                "frame-01_valid_event-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型不要求截止事项。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在需要排序校验的截止时间。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心字段均绑定证据行。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有引用的证据行均真实存在。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "核心证据均来自当前源帧。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-CONFIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心证据置信度达到阈值。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-NOTICE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型与字段组合一致。",
+              "affected_fields": [
+                "notice_type",
+                "deadline_action"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DUPLICATE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "未发现标题与开始时间均相同的通知。",
+              "affected_fields": [
+                "main_event.title",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            }
+          ],
+          "blocking_reasons": [],
+          "required_user_inputs": [],
+          "recapture_reasons": [],
+          "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+          "draft_snapshot": {
+            "notice_package_id": "GF-PKG-0001",
+            "notice_type": "EVENT_NOTICE",
+            "captured_at": "2026-08-01T09:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "source_frame_id": "frame-01_valid_event",
+            "main_event": {
+              "title": "创新创业竞赛宣讲",
+              "event_start": "2026-08-07T14:00:00+08:00",
+              "location": "科技馆报告厅",
+              "title_evidence": {
+                "evidence_line_ids": [
+                  "frame-01_valid_event-ocr-0002"
+                ],
+                "confidence": 0.8118454473359245
+              },
+              "time_evidence": {
+                "evidence_line_ids": [
+                  "frame-01_valid_event-ocr-0003"
+                ],
+                "confidence": 0.8441038727760315
+              },
+              "location_evidence": {
+                "evidence_line_ids": [
+                  "frame-01_valid_event-ocr-0004"
+                ],
+                "confidence": 0.8927146315574646
+              },
+              "raw_date_text": "2026年8月7日",
+              "raw_weekday_text": "星期五",
+              "unresolved_time_expression": null
+            },
+            "deadline_action": null,
+            "evidence_lines": [
+              {
+                "line_id": "frame-01_valid_event-ocr-0001",
+                "text": "人工构造测试素材",
+                "confidence": 0.8069677684042189,
+                "source_frame_id": "frame-01_valid_event",
+                "bbox": [
+                  98.0,
+                  50.0,
+                  320.0,
+                  77.0
+                ]
+              },
+              {
+                "line_id": "frame-01_valid_event-ocr-0002",
+                "text": "活动标题：创新创业竞赛宣讲",
+                "confidence": 0.8118454473359245,
+                "source_frame_id": "frame-01_valid_event",
+                "bbox": [
+                  82.0,
+                  165.0,
+                  754.0,
+                  214.0
+                ]
+              },
+              {
+                "line_id": "frame-01_valid_event-ocr-0003",
+                "text": "2026年8月7日星期五14:00",
+                "confidence": 0.8441038727760315,
+                "source_frame_id": "frame-01_valid_event",
+                "bbox": [
+                  83.0,
+                  276.0,
+                  756.0,
+                  325.0
+                ]
+              },
+              {
+                "line_id": "frame-01_valid_event-ocr-0004",
+                "text": "地点：科技馆报告厅",
+                "confidence": 0.8927146315574646,
+                "source_frame_id": "frame-01_valid_event",
+                "bbox": [
+                  77.0,
+                  384.0,
+                  548.0,
+                  443.0
+                ]
+              },
+              {
+                "line_id": "frame-01_valid_event-ocr-0005",
+                "text": "仅用于GlanceFlow测试，并非真实学校通知",
+                "confidence": 0.9020856237411499,
+                "source_frame_id": "frame-01_valid_event",
+                "bbox": [
+                  81.0,
+                  847.0,
+                  563.0,
+                  874.0
+                ]
+              }
+            ],
+            "extraction_version": "deterministic-v1",
+            "metadata": {
+              "ocr_provider": "rapidocr-onnxruntime",
+              "ocr_provider_version": "1.2.3",
+              "source_image": "data\\synthetic_posters\\01_valid_event.png"
+            }
+          }
+        },
+        "preflight_result": {
+          "transaction_id": "GF-TX-DEMO-CONFLICT",
+          "passed": true,
+          "duplicate_result": {
+            "is_duplicate": false,
+            "matching_events": [],
+            "comparison_basis": [],
+            "message": "未发现重复日程。"
+          },
+          "conflict_result": {
+            "has_conflict": true,
+            "conflicting_events": [
+              {
+                "event_id": "mem-event-0001",
+                "title": "线性代数",
+                "start_time": "2026-08-07T14:30:00+08:00",
+                "end_time": "2026-08-07T15:30:00+08:00",
+                "timezone": "Asia/Shanghai",
+                "location": "教学楼101",
+                "description": "用户已有事件；演示程序不会修改它。",
+                "private_metadata": {
+                  "notice_package_id": "external-course",
+                  "transaction_id": "external-course",
+                  "event_role": "MAIN_EVENT"
+                },
+                "provider_name": "memory-calendar",
+                "provider_updated_at": "2026-08-01T12:02:20.606986+08:00"
+              }
+            ],
+            "overlap_minutes": 30,
+            "message": "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
+          },
+          "requires_conflict_confirmation": true,
+          "planned_requests": [
+            {
+              "title": "创新创业竞赛宣讲",
+              "start_time": "2026-08-07T14:00:00+08:00",
+              "end_time": "2026-08-07T15:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "科技馆报告厅",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0001 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0001",
+                "transaction_id": "GF-TX-DEMO-CONFLICT",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0001",
+              "transaction_id": "GF-TX-DEMO-CONFLICT",
+              "event_role": "MAIN_EVENT"
+            }
+          ],
+          "messages": [
+            "未发现重复日程。",
+            "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
+          ]
+        },
+        "user_confirmation": {
+          "confirmed": true,
+          "confirmed_at": "2026-08-01T04:02:20.607096Z",
+          "confirmed_title": "创新创业竞赛宣讲",
+          "confirmed_event_start": "2026-08-07T14:00:00+08:00",
+          "confirmed_location": "科技馆报告厅",
+          "confirmed_deadline": null,
+          "accepted_conflict": false,
+          "confirmation_source": "calendar-demo-structured-confirmation"
+        },
+        "status": "WAITING_CONFIRMATION",
+        "planned_requests": [
+          {
+            "title": "创新创业竞赛宣讲",
+            "start_time": "2026-08-07T14:00:00+08:00",
+            "end_time": "2026-08-07T15:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "科技馆报告厅",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0001 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0001",
+              "transaction_id": "GF-TX-DEMO-CONFLICT",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0001",
+            "transaction_id": "GF-TX-DEMO-CONFLICT",
+            "event_role": "MAIN_EVENT"
+          }
+        ],
+        "created_event_ids": [],
+        "readback_snapshots": [],
+        "verification_results": [],
+        "rollback_results": [],
+        "undo_results": [],
+        "created_at": "2026-08-01T04:02:20.607096Z",
+        "updated_at": "2026-08-01T04:02:20.608272Z",
+        "audit_events": [
+          {
+            "occurred_at": "2026-08-01T04:02:20.607233Z",
+            "action": "TRANSACTION_PLANNED",
+            "message": "已从验证草案生成不可变执行请求。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.607470Z",
+            "action": "PREFLIGHT_PASSED",
+            "message": "重复与冲突预检完成。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.607479Z",
+            "action": "WAITING_CONFIRMATION",
+            "message": "等待结构化用户确认。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.608272Z",
+            "action": "CONFLICT_NOT_ACCEPTED",
+            "message": "存在冲突但用户未二次明确接受。",
+            "details": {}
+          }
+        ]
+      },
+      "final_event_ids": [
+        "mem-event-0001"
+      ]
+    },
+    "second_create_failed": {
+      "preflight": {
+        "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+        "passed": true,
+        "duplicate_result": {
+          "is_duplicate": false,
+          "matching_events": [],
+          "comparison_basis": [],
+          "message": "未发现重复日程。"
+        },
+        "conflict_result": {
+          "has_conflict": false,
+          "conflicting_events": [],
+          "overlap_minutes": 0,
+          "message": "未发现时间冲突。"
+        },
+        "requires_conflict_confirmation": false,
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "messages": [
+          "未发现重复日程。",
+          "未发现时间冲突。"
+        ]
+      },
+      "transaction": {
+        "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+        "notice_package_id": "GF-PKG-0002",
+        "source_draft_snapshot": {
+          "notice_package_id": "GF-PKG-0002",
+          "notice_type": "EVENT_WITH_DEADLINE",
+          "captured_at": "2026-08-01T09:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "source_frame_id": "frame-02_event_with_deadline",
+          "main_event": {
+            "title": "实验室招募说明会",
+            "event_start": "2026-08-08T15:00:00+08:00",
+            "location": "理科楼A201",
+            "title_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0002"
+              ],
+              "confidence": 0.83175499524389
+            },
+            "time_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "confidence": 0.8478154242038727
+            },
+            "location_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0004"
+              ],
+              "confidence": 0.8643537001176314
+            },
+            "raw_date_text": "2026年8月8日",
+            "raw_weekday_text": "星期六",
+            "unresolved_time_expression": null
+          },
+          "deadline_action": {
+            "deadline": "2026-08-07T20:00:00+08:00",
+            "action": "完成实验室报名",
+            "role": "REGISTRATION",
+            "deadline_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "confidence": 0.8776801288127899
+            },
+            "action_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "confidence": 0.8907842957056485
+            }
+          },
+          "evidence_lines": [
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0001",
+              "text": "人工构造测试素材",
+              "confidence": 0.8089555899302164,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                98.0,
+                50.0,
+                320.0,
+                77.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0002",
+              "text": "活动标题：实验室招募说明会",
+              "confidence": 0.83175499524389,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                82.0,
+                165.0,
+                754.0,
+                214.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0003",
+              "text": "2026年8月8日星期六15:00",
+              "confidence": 0.8478154242038727,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                83.0,
+                276.0,
+                756.0,
+                324.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0004",
+              "text": "地点：理科楼A201",
+              "confidence": 0.8643537001176314,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                78.0,
+                385.0,
+                525.0,
+                441.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0005",
+              "text": "报名截止：2026年8月7日20:00",
+              "confidence": 0.8776801288127899,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                499.0,
+                845.0,
+                548.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0006",
+              "text": "截止动作：完成实验室报名",
+              "confidence": 0.8907842957056485,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                612.0,
+                700.0,
+                661.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0007",
+              "text": "仅用于GlanceFlow测试，并非真实学校通知",
+              "confidence": 0.9215528154373169,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                80.0,
+                847.0,
+                563.0,
+                874.0
+              ]
+            }
+          ],
+          "extraction_version": "deterministic-v1",
+          "metadata": {
+            "ocr_provider": "rapidocr-onnxruntime",
+            "ocr_provider_version": "1.2.3",
+            "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+          }
+        },
+        "safety_decision_snapshot": {
+          "status": "READY_TO_CONFIRM",
+          "can_proceed_to_confirmation": true,
+          "rule_results": [
+            {
+              "rule_id": "GF-FIELD-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动标题完整。",
+              "affected_fields": [
+                "main_event.title"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-FIELD-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动地点完整。",
+              "affected_fields": [
+                "main_event.location"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "采集时间包含时区。",
+              "affected_fields": [
+                "captured_at"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间包含时区。",
+              "affected_fields": [
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间晚于采集时间。",
+              "affected_fields": [
+                "captured_at",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-004",
+              "passed": true,
+              "severity": "INFO",
+              "message": "原始日期、星期与活动时间一致。",
+              "affected_fields": [
+                "main_event.raw_date_text",
+                "main_event.raw_weekday_text",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-005",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在未解析时间表达。",
+              "affected_fields": [
+                "main_event.unresolved_time_expression"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止事项字段与证据完整。",
+              "affected_fields": [
+                "deadline_action"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005",
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止时间早于活动开始时间。",
+              "affected_fields": [
+                "deadline_action.deadline",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心字段均绑定证据行。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有引用的证据行均真实存在。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "核心证据均来自当前源帧。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-CONFIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心证据置信度达到阈值。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-NOTICE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型与字段组合一致。",
+              "affected_fields": [
+                "notice_type",
+                "deadline_action"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DUPLICATE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "未发现标题与开始时间均相同的通知。",
+              "affected_fields": [
+                "main_event.title",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            }
+          ],
+          "blocking_reasons": [],
+          "required_user_inputs": [],
+          "recapture_reasons": [],
+          "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+          "draft_snapshot": {
+            "notice_package_id": "GF-PKG-0002",
+            "notice_type": "EVENT_WITH_DEADLINE",
+            "captured_at": "2026-08-01T09:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "source_frame_id": "frame-02_event_with_deadline",
+            "main_event": {
+              "title": "实验室招募说明会",
+              "event_start": "2026-08-08T15:00:00+08:00",
+              "location": "理科楼A201",
+              "title_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0002"
+                ],
+                "confidence": 0.83175499524389
+              },
+              "time_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0003"
+                ],
+                "confidence": 0.8478154242038727
+              },
+              "location_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0004"
+                ],
+                "confidence": 0.8643537001176314
+              },
+              "raw_date_text": "2026年8月8日",
+              "raw_weekday_text": "星期六",
+              "unresolved_time_expression": null
+            },
+            "deadline_action": {
+              "deadline": "2026-08-07T20:00:00+08:00",
+              "action": "完成实验室报名",
+              "role": "REGISTRATION",
+              "deadline_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0005"
+                ],
+                "confidence": 0.8776801288127899
+              },
+              "action_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0006"
+                ],
+                "confidence": 0.8907842957056485
+              }
+            },
+            "evidence_lines": [
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0001",
+                "text": "人工构造测试素材",
+                "confidence": 0.8089555899302164,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  98.0,
+                  50.0,
+                  320.0,
+                  77.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0002",
+                "text": "活动标题：实验室招募说明会",
+                "confidence": 0.83175499524389,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  82.0,
+                  165.0,
+                  754.0,
+                  214.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0003",
+                "text": "2026年8月8日星期六15:00",
+                "confidence": 0.8478154242038727,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  83.0,
+                  276.0,
+                  756.0,
+                  324.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0004",
+                "text": "地点：理科楼A201",
+                "confidence": 0.8643537001176314,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  78.0,
+                  385.0,
+                  525.0,
+                  441.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0005",
+                "text": "报名截止：2026年8月7日20:00",
+                "confidence": 0.8776801288127899,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  499.0,
+                  845.0,
+                  548.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0006",
+                "text": "截止动作：完成实验室报名",
+                "confidence": 0.8907842957056485,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  612.0,
+                  700.0,
+                  661.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0007",
+                "text": "仅用于GlanceFlow测试，并非真实学校通知",
+                "confidence": 0.9215528154373169,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  80.0,
+                  847.0,
+                  563.0,
+                  874.0
+                ]
+              }
+            ],
+            "extraction_version": "deterministic-v1",
+            "metadata": {
+              "ocr_provider": "rapidocr-onnxruntime",
+              "ocr_provider_version": "1.2.3",
+              "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+            }
+          }
+        },
+        "preflight_result": {
+          "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+          "passed": true,
+          "duplicate_result": {
+            "is_duplicate": false,
+            "matching_events": [],
+            "comparison_basis": [],
+            "message": "未发现重复日程。"
+          },
+          "conflict_result": {
+            "has_conflict": false,
+            "conflicting_events": [],
+            "overlap_minutes": 0,
+            "message": "未发现时间冲突。"
+          },
+          "requires_conflict_confirmation": false,
+          "planned_requests": [
+            {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "MAIN_EVENT"
+            },
+            {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "DEADLINE_EVENT"
+            }
+          ],
+          "messages": [
+            "未发现重复日程。",
+            "未发现时间冲突。"
+          ]
+        },
+        "user_confirmation": {
+          "confirmed": true,
+          "confirmed_at": "2026-08-01T04:02:20.608955Z",
+          "confirmed_title": "实验室招募说明会",
+          "confirmed_event_start": "2026-08-08T15:00:00+08:00",
+          "confirmed_location": "理科楼A201",
+          "confirmed_deadline": "2026-08-07T20:00:00+08:00",
+          "accepted_conflict": false,
+          "confirmation_source": "calendar-demo-structured-confirmation"
+        },
+        "status": "ROLLED_BACK",
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-CREATE-FAIL",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "created_event_ids": [
+          "mem-event-0001"
+        ],
+        "readback_snapshots": [],
+        "verification_results": [],
+        "rollback_results": [
+          {
+            "event_id": "mem-event-0001",
+            "delete_succeeded": true,
+            "absence_verified": true,
+            "error_message": null
+          }
+        ],
+        "undo_results": [],
+        "created_at": "2026-08-01T04:02:20.608955Z",
+        "updated_at": "2026-08-01T04:02:20.610833Z",
+        "audit_events": [
+          {
+            "occurred_at": "2026-08-01T04:02:20.609111Z",
+            "action": "TRANSACTION_PLANNED",
+            "message": "已从验证草案生成不可变执行请求。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.609179Z",
+            "action": "PREFLIGHT_PASSED",
+            "message": "重复与冲突预检完成。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.609189Z",
+            "action": "WAITING_CONFIRMATION",
+            "message": "等待结构化用户确认。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610025Z",
+            "action": "USER_CONFIRMED",
+            "message": "用户确认内容与计划请求完全一致。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610694Z",
+            "action": "CREATE_STARTED",
+            "message": "开始原子化创建日程包。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610764Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "event_role": "MAIN_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610778Z",
+            "action": "CREATE_FAILED",
+            "message": "事件创建失败，启动补偿回滚。",
+            "details": {
+              "error_type": "CalendarProviderError"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610787Z",
+            "action": "ROLLBACK_STARTED",
+            "message": "删除本事务已创建的全部事件。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.610833Z",
+            "action": "ROLLBACK_COMPLETED",
+            "message": "补偿回滚完成。",
+            "details": {
+              "remaining_event_ids": []
+            }
+          }
+        ]
+      },
+      "final_event_ids": []
+    },
+    "readback_mismatch": {
+      "preflight": {
+        "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+        "passed": true,
+        "duplicate_result": {
+          "is_duplicate": false,
+          "matching_events": [],
+          "comparison_basis": [],
+          "message": "未发现重复日程。"
+        },
+        "conflict_result": {
+          "has_conflict": false,
+          "conflicting_events": [],
+          "overlap_minutes": 0,
+          "message": "未发现时间冲突。"
+        },
+        "requires_conflict_confirmation": false,
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "messages": [
+          "未发现重复日程。",
+          "未发现时间冲突。"
+        ]
+      },
+      "transaction": {
+        "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+        "notice_package_id": "GF-PKG-0002",
+        "source_draft_snapshot": {
+          "notice_package_id": "GF-PKG-0002",
+          "notice_type": "EVENT_WITH_DEADLINE",
+          "captured_at": "2026-08-01T09:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "source_frame_id": "frame-02_event_with_deadline",
+          "main_event": {
+            "title": "实验室招募说明会",
+            "event_start": "2026-08-08T15:00:00+08:00",
+            "location": "理科楼A201",
+            "title_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0002"
+              ],
+              "confidence": 0.83175499524389
+            },
+            "time_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "confidence": 0.8478154242038727
+            },
+            "location_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0004"
+              ],
+              "confidence": 0.8643537001176314
+            },
+            "raw_date_text": "2026年8月8日",
+            "raw_weekday_text": "星期六",
+            "unresolved_time_expression": null
+          },
+          "deadline_action": {
+            "deadline": "2026-08-07T20:00:00+08:00",
+            "action": "完成实验室报名",
+            "role": "REGISTRATION",
+            "deadline_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "confidence": 0.8776801288127899
+            },
+            "action_evidence": {
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "confidence": 0.8907842957056485
+            }
+          },
+          "evidence_lines": [
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0001",
+              "text": "人工构造测试素材",
+              "confidence": 0.8089555899302164,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                98.0,
+                50.0,
+                320.0,
+                77.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0002",
+              "text": "活动标题：实验室招募说明会",
+              "confidence": 0.83175499524389,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                82.0,
+                165.0,
+                754.0,
+                214.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0003",
+              "text": "2026年8月8日星期六15:00",
+              "confidence": 0.8478154242038727,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                83.0,
+                276.0,
+                756.0,
+                324.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0004",
+              "text": "地点：理科楼A201",
+              "confidence": 0.8643537001176314,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                78.0,
+                385.0,
+                525.0,
+                441.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0005",
+              "text": "报名截止：2026年8月7日20:00",
+              "confidence": 0.8776801288127899,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                499.0,
+                845.0,
+                548.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0006",
+              "text": "截止动作：完成实验室报名",
+              "confidence": 0.8907842957056485,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                81.0,
+                612.0,
+                700.0,
+                661.0
+              ]
+            },
+            {
+              "line_id": "frame-02_event_with_deadline-ocr-0007",
+              "text": "仅用于GlanceFlow测试，并非真实学校通知",
+              "confidence": 0.9215528154373169,
+              "source_frame_id": "frame-02_event_with_deadline",
+              "bbox": [
+                80.0,
+                847.0,
+                563.0,
+                874.0
+              ]
+            }
+          ],
+          "extraction_version": "deterministic-v1",
+          "metadata": {
+            "ocr_provider": "rapidocr-onnxruntime",
+            "ocr_provider_version": "1.2.3",
+            "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+          }
+        },
+        "safety_decision_snapshot": {
+          "status": "READY_TO_CONFIRM",
+          "can_proceed_to_confirmation": true,
+          "rule_results": [
+            {
+              "rule_id": "GF-FIELD-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动标题完整。",
+              "affected_fields": [
+                "main_event.title"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-FIELD-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动地点完整。",
+              "affected_fields": [
+                "main_event.location"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "采集时间包含时区。",
+              "affected_fields": [
+                "captured_at"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间包含时区。",
+              "affected_fields": [
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "活动时间晚于采集时间。",
+              "affected_fields": [
+                "captured_at",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-004",
+              "passed": true,
+              "severity": "INFO",
+              "message": "原始日期、星期与活动时间一致。",
+              "affected_fields": [
+                "main_event.raw_date_text",
+                "main_event.raw_weekday_text",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-TIME-005",
+              "passed": true,
+              "severity": "INFO",
+              "message": "不存在未解析时间表达。",
+              "affected_fields": [
+                "main_event.unresolved_time_expression"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0003"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止事项字段与证据完整。",
+              "affected_fields": [
+                "deadline_action"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005",
+                "frame-02_event_with_deadline-ocr-0006"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DEADLINE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "截止时间早于活动开始时间。",
+              "affected_fields": [
+                "deadline_action.deadline",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [
+                "frame-02_event_with_deadline-ocr-0005"
+              ],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心字段均绑定证据行。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-002",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有引用的证据行均真实存在。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-EVIDENCE-003",
+              "passed": true,
+              "severity": "INFO",
+              "message": "核心证据均来自当前源帧。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-CONFIDENCE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "所有核心证据置信度达到阈值。",
+              "affected_fields": [],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-NOTICE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "通知类型与字段组合一致。",
+              "affected_fields": [
+                "notice_type",
+                "deadline_action"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            },
+            {
+              "rule_id": "GF-DUPLICATE-001",
+              "passed": true,
+              "severity": "INFO",
+              "message": "未发现标题与开始时间均相同的通知。",
+              "affected_fields": [
+                "main_event.title",
+                "main_event.event_start"
+              ],
+              "evidence_line_ids": [],
+              "suggested_action": null
+            }
+          ],
+          "blocking_reasons": [],
+          "required_user_inputs": [],
+          "recapture_reasons": [],
+          "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+          "draft_snapshot": {
+            "notice_package_id": "GF-PKG-0002",
+            "notice_type": "EVENT_WITH_DEADLINE",
+            "captured_at": "2026-08-01T09:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "source_frame_id": "frame-02_event_with_deadline",
+            "main_event": {
+              "title": "实验室招募说明会",
+              "event_start": "2026-08-08T15:00:00+08:00",
+              "location": "理科楼A201",
+              "title_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0002"
+                ],
+                "confidence": 0.83175499524389
+              },
+              "time_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0003"
+                ],
+                "confidence": 0.8478154242038727
+              },
+              "location_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0004"
+                ],
+                "confidence": 0.8643537001176314
+              },
+              "raw_date_text": "2026年8月8日",
+              "raw_weekday_text": "星期六",
+              "unresolved_time_expression": null
+            },
+            "deadline_action": {
+              "deadline": "2026-08-07T20:00:00+08:00",
+              "action": "完成实验室报名",
+              "role": "REGISTRATION",
+              "deadline_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0005"
+                ],
+                "confidence": 0.8776801288127899
+              },
+              "action_evidence": {
+                "evidence_line_ids": [
+                  "frame-02_event_with_deadline-ocr-0006"
+                ],
+                "confidence": 0.8907842957056485
+              }
+            },
+            "evidence_lines": [
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0001",
+                "text": "人工构造测试素材",
+                "confidence": 0.8089555899302164,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  98.0,
+                  50.0,
+                  320.0,
+                  77.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0002",
+                "text": "活动标题：实验室招募说明会",
+                "confidence": 0.83175499524389,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  82.0,
+                  165.0,
+                  754.0,
+                  214.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0003",
+                "text": "2026年8月8日星期六15:00",
+                "confidence": 0.8478154242038727,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  83.0,
+                  276.0,
+                  756.0,
+                  324.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0004",
+                "text": "地点：理科楼A201",
+                "confidence": 0.8643537001176314,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  78.0,
+                  385.0,
+                  525.0,
+                  441.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0005",
+                "text": "报名截止：2026年8月7日20:00",
+                "confidence": 0.8776801288127899,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  499.0,
+                  845.0,
+                  548.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0006",
+                "text": "截止动作：完成实验室报名",
+                "confidence": 0.8907842957056485,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  81.0,
+                  612.0,
+                  700.0,
+                  661.0
+                ]
+              },
+              {
+                "line_id": "frame-02_event_with_deadline-ocr-0007",
+                "text": "仅用于GlanceFlow测试，并非真实学校通知",
+                "confidence": 0.9215528154373169,
+                "source_frame_id": "frame-02_event_with_deadline",
+                "bbox": [
+                  80.0,
+                  847.0,
+                  563.0,
+                  874.0
+                ]
+              }
+            ],
+            "extraction_version": "deterministic-v1",
+            "metadata": {
+              "ocr_provider": "rapidocr-onnxruntime",
+              "ocr_provider_version": "1.2.3",
+              "source_image": "data\\synthetic_posters\\02_event_with_deadline.png"
+            }
+          }
+        },
+        "preflight_result": {
+          "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+          "passed": true,
+          "duplicate_result": {
+            "is_duplicate": false,
+            "matching_events": [],
+            "comparison_basis": [],
+            "message": "未发现重复日程。"
+          },
+          "conflict_result": {
+            "has_conflict": false,
+            "conflicting_events": [],
+            "overlap_minutes": 0,
+            "message": "未发现时间冲突。"
+          },
+          "requires_conflict_confirmation": false,
+          "planned_requests": [
+            {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "MAIN_EVENT"
+            },
+            {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "DEADLINE_EVENT"
+            }
+          ],
+          "messages": [
+            "未发现重复日程。",
+            "未发现时间冲突。"
+          ]
+        },
+        "user_confirmation": {
+          "confirmed": true,
+          "confirmed_at": "2026-08-01T04:02:20.611637Z",
+          "confirmed_title": "实验室招募说明会",
+          "confirmed_event_start": "2026-08-08T15:00:00+08:00",
+          "confirmed_location": "理科楼A201",
+          "confirmed_deadline": "2026-08-07T20:00:00+08:00",
+          "accepted_conflict": false,
+          "confirmation_source": "calendar-demo-structured-confirmation"
+        },
+        "status": "ROLLED_BACK",
+        "planned_requests": [
+          {
+            "title": "实验室招募说明会",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "MAIN_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+            "event_role": "MAIN_EVENT"
+          },
+          {
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "notice_package_id": "GF-PKG-0002",
+            "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+            "event_role": "DEADLINE_EVENT"
+          }
+        ],
+        "created_event_ids": [
+          "mem-event-0001",
+          "mem-event-0002"
+        ],
+        "readback_snapshots": [
+          {
+            "event_id": "mem-event-0001",
+            "title": "供应商回读错误标题",
+            "start_time": "2026-08-08T15:00:00+08:00",
+            "end_time": "2026-08-08T16:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": "理科楼A201",
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "MAIN_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.613680+08:00"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "title": "【截止】完成实验室报名",
+            "start_time": "2026-08-07T20:00:00+08:00",
+            "end_time": "2026-08-07T20:15:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "location": null,
+            "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+            "private_metadata": {
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "provider_name": "memory-calendar",
+            "provider_updated_at": "2026-08-01T12:02:20.613746+08:00"
+          }
+        ],
+        "verification_results": [
+          {
+            "event_id": "mem-event-0001",
+            "passed": false,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": false,
+                "expected": "实验室招募说明会",
+                "actual": "供应商回读错误标题"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-08T15:00:00+08:00",
+                "actual": "2026-08-08T15:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-08T16:00:00+08:00",
+                "actual": "2026-08-08T16:00:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "理科楼A201",
+                "actual": "理科楼A201"
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-READBACK-MISMATCH",
+                "actual": "GF-TX-DEMO-READBACK-MISMATCH"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "MAIN_EVENT",
+                "actual": "MAIN_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "实验室招募说明会",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "MAIN_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "MAIN_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0001",
+              "title": "供应商回读错误标题",
+              "start_time": "2026-08-08T15:00:00+08:00",
+              "end_time": "2026-08-08T16:00:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": "理科楼A201",
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。结束时间采用 60 分钟工程默认时长，并非海报识别结果。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "MAIN_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.613680+08:00"
+            },
+            "mismatch_fields": [
+              "title"
+            ],
+            "message": "回读字段不一致：title"
+          },
+          {
+            "event_id": "mem-event-0002",
+            "passed": true,
+            "field_results": [
+              {
+                "field_name": "title",
+                "passed": true,
+                "expected": "【截止】完成实验室报名",
+                "actual": "【截止】完成实验室报名"
+              },
+              {
+                "field_name": "start_time",
+                "passed": true,
+                "expected": "2026-08-07T20:00:00+08:00",
+                "actual": "2026-08-07T20:00:00+08:00"
+              },
+              {
+                "field_name": "end_time",
+                "passed": true,
+                "expected": "2026-08-07T20:15:00+08:00",
+                "actual": "2026-08-07T20:15:00+08:00"
+              },
+              {
+                "field_name": "timezone",
+                "passed": true,
+                "expected": "Asia/Shanghai",
+                "actual": "Asia/Shanghai"
+              },
+              {
+                "field_name": "location",
+                "passed": true,
+                "expected": "",
+                "actual": ""
+              },
+              {
+                "field_name": "notice_package_id",
+                "passed": true,
+                "expected": "GF-PKG-0002",
+                "actual": "GF-PKG-0002"
+              },
+              {
+                "field_name": "transaction_id",
+                "passed": true,
+                "expected": "GF-TX-DEMO-READBACK-MISMATCH",
+                "actual": "GF-TX-DEMO-READBACK-MISMATCH"
+              },
+              {
+                "field_name": "event_role",
+                "passed": true,
+                "expected": "DEADLINE_EVENT",
+                "actual": "DEADLINE_EVENT"
+              }
+            ],
+            "expected_snapshot": {
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "notice_package_id": "GF-PKG-0002",
+              "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+              "event_role": "DEADLINE_EVENT"
+            },
+            "actual_snapshot": {
+              "event_id": "mem-event-0002",
+              "title": "【截止】完成实验室报名",
+              "start_time": "2026-08-07T20:00:00+08:00",
+              "end_time": "2026-08-07T20:15:00+08:00",
+              "timezone": "Asia/Shanghai",
+              "location": null,
+              "description": "由 GlanceFlow 从通知包 GF-PKG-0002 创建。提醒时长采用 15 分钟工程默认值。",
+              "private_metadata": {
+                "notice_package_id": "GF-PKG-0002",
+                "transaction_id": "GF-TX-DEMO-READBACK-MISMATCH",
+                "event_role": "DEADLINE_EVENT"
+              },
+              "provider_name": "memory-calendar",
+              "provider_updated_at": "2026-08-01T12:02:20.613746+08:00"
+            },
+            "mismatch_fields": [],
+            "message": "回读关键字段全部一致。"
+          }
+        ],
+        "rollback_results": [
+          {
+            "event_id": "mem-event-0002",
+            "delete_succeeded": true,
+            "absence_verified": true,
+            "error_message": null
+          },
+          {
+            "event_id": "mem-event-0001",
+            "delete_succeeded": true,
+            "absence_verified": true,
+            "error_message": null
+          }
+        ],
+        "undo_results": [],
+        "created_at": "2026-08-01T04:02:20.611637Z",
+        "updated_at": "2026-08-01T04:02:20.614123Z",
+        "audit_events": [
+          {
+            "occurred_at": "2026-08-01T04:02:20.612115Z",
+            "action": "TRANSACTION_PLANNED",
+            "message": "已从验证草案生成不可变执行请求。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.612181Z",
+            "action": "PREFLIGHT_PASSED",
+            "message": "重复与冲突预检完成。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.612189Z",
+            "action": "WAITING_CONFIRMATION",
+            "message": "等待结构化用户确认。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613005Z",
+            "action": "USER_CONFIRMED",
+            "message": "用户确认内容与计划请求完全一致。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613657Z",
+            "action": "CREATE_STARTED",
+            "message": "开始原子化创建日程包。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613735Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0001",
+              "event_role": "MAIN_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613797Z",
+            "action": "EVENT_CREATED",
+            "message": "事件创建返回稳定 event_id。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "event_role": "DEADLINE_EVENT"
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613804Z",
+            "action": "READBACK_STARTED",
+            "message": "开始根据真实 event_id 回读验证。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.613969Z",
+            "action": "READBACK_MISMATCH",
+            "message": "回读字段不一致：title",
+            "details": {
+              "event_id": "mem-event-0001",
+              "mismatch_fields": [
+                "title"
+              ]
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.614079Z",
+            "action": "READBACK_VERIFIED",
+            "message": "回读关键字段全部一致。",
+            "details": {
+              "event_id": "mem-event-0002",
+              "mismatch_fields": []
+            }
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.614089Z",
+            "action": "ROLLBACK_STARTED",
+            "message": "删除本事务已创建的全部事件。",
+            "details": {}
+          },
+          {
+            "occurred_at": "2026-08-01T04:02:20.614123Z",
+            "action": "ROLLBACK_COMPLETED",
+            "message": "补偿回滚完成。",
+            "details": {
+              "remaining_event_ids": []
+            }
+          }
+        ]
+      },
+      "final_event_ids": []
+    }
+  }
+}

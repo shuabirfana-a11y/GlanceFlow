@@ -1,8 +1,8 @@
 # 见程 GlanceFlow
 
-见程是面向校园线下高价值时限通知的第一视角可信行动编译智能体。本仓库当前实现 Stage 1 的结构化日程与行动安全门，以及 Stage 2 的本地 OCR 证据链、图像质量门和确定性字段抽取。
+见程是面向校园线下高价值时限通知的第一视角可信行动编译智能体。本仓库实现 Stage 1 行动安全门、Stage 2 本地 OCR 证据链，以及 Stage 3 可信日历事务层。
 
-当前版本不包含视频、语音、大模型 API、日历写入、OAuth、HUD、网页前端和数据库。任何未通过质量门、抽取约束与安全门的候选都不能进入确认，更不能触发外部操作。
+Stage 3 默认使用隔离的内存日历，支持预检、结构化确认、原子创建、event_id 回读、补偿回滚和精准撤销。Google Calendar 适配器已经实现并通过假服务契约测试，但当前没有测试凭据，因此没有进行或声称真实 Google 调用。
 
 ## Windows 环境安装
 
@@ -50,6 +50,35 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 --captured-at 2026-08-01T09:00:00+08:00
 ```
 
+运行可信日历事务演示：
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.cli calendar-demo
+```
+
+演示从 Stage 2 合法图片结果加载草案，真实执行内存日历正常双事件事务与撤销、冲突未接受、第二事件失败回滚、回读不一致回滚，并写入 `outputs\stage3_results.json`。
+
+## 日历事务保证
+
+- 只有 `READY_TO_CONFIRM` 且安全门允许确认的草案能进入预检。
+- 用户确认记录标题、开始时间、地点和可选截止时间；字段变化使确认失效。
+- 冲突不自动改时间，必须再次设置 `accepted_conflict=True`。
+- 主活动与截止事件使用不同角色和幂等键，任一创建或回读失败都会补偿删除已创建部分。
+- 回读严格比较标题、实际时刻、时区、地点、通知包 ID、事务 ID 和事件角色。
+- 撤销只使用事务记录中的 event_id，不按标题搜索。
+- 主活动默认60分钟、截止提醒默认15分钟；这是初赛工程规则，不是 OCR 提取结果。
+
+## Google Calendar 安全边界
+
+适配器使用官方 `google-api-python-client`。仅在同时设置以下环境变量时才可构造真实客户端：
+
+```text
+GLANCEFLOW_GOOGLE_CREDENTIALS=<本地未跟踪凭据文件>
+GLANCEFLOW_GOOGLE_CALENDAR_ID=<专用测试日历ID>
+```
+
+Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，凭据、token 和本地密钥均被 `.gitignore` 排除。当前环境未提供这两个变量，故只完成适配器代码和契约测试。
+
 ## 安全门状态
 
 | 状态 | 含义 | 允许确认 |
@@ -67,7 +96,7 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-测试覆盖原31项 Stage 1 行为，以及 OCR 异常、真实 bbox、唯一 line_id、中文路径、质量阈值、字段证据绑定、十张图片端到端状态和两种图片 CLI 模式。
+测试覆盖原67项 Stage 1/2 行为，以及内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约和 Stage 3 CLI。
 
 ## 代码入口
 
@@ -80,5 +109,7 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 - `src\glanceflow\extraction\`：确定性字段抽取和证据链接。
 - `src\glanceflow\pipeline.py`：图片到安全状态的统一管线。
 - `data\generate_synthetic_posters.py`：固定种子的人工素材生成脚本。
+- `src\glanceflow\calendar\`：厂商无关模型、端口、内存/Google提供器、预检、验证、回滚和事务状态机。
+- `src\glanceflow\application\`：可信调度服务与内存演示编排。
 
-十张图片均为程序生成的人工测试素材，不代表任何真实学校通知；脚本只引用本机微软雅黑，不复制字体文件。下一阶段仅计划定义真实日历事务端口、幂等键、回读和补偿接口，默认仍使用内存假实现测试，不在本阶段接入 Google Calendar。
+十张图片均为程序生成的人工测试素材，不代表任何真实学校通知。下一阶段可定义第一视角短视频帧输入、明确语音触发和只读 HUD 展示接口，但不得绕过现有质量门、安全门和日历确认事务。

@@ -3,6 +3,10 @@ from copy import deepcopy
 import pytest
 
 from glanceflow.domain.models import NoticePackageDraft
+from glanceflow.application.scheduling_service import TrustedSchedulingService
+from glanceflow.calendar.memory_provider import MemoryCalendarProvider
+from glanceflow.calendar.models import EventRole, UserConfirmation
+from glanceflow.safety.gate import evaluate_notice
 
 
 def base_payload(*, with_deadline: bool = False) -> dict:
@@ -64,3 +68,39 @@ def draft_factory(payload_factory):
 
     return factory
 
+
+@pytest.fixture
+def scheduling_factory(draft_factory):
+    def factory(*, with_deadline=False, provider=None, transaction_id="GF-TX-TEST-0001"):
+        draft = draft_factory(with_deadline=with_deadline)
+        decision = evaluate_notice(draft)
+        calendar = provider or MemoryCalendarProvider()
+        service = TrustedSchedulingService(calendar)
+        preflight = service.preflight(draft, decision, transaction_id=transaction_id)
+        return service, calendar, draft, decision, preflight
+
+    return factory
+
+
+@pytest.fixture
+def confirmation_factory():
+    def factory(record, *, confirmed=True, accepted_conflict=False, **changes):
+        main = next(request for request in record.planned_requests if request.event_role is EventRole.MAIN_EVENT)
+        deadline = next(
+            (request for request in record.planned_requests if request.event_role is EventRole.DEADLINE_EVENT),
+            None,
+        )
+        data = {
+            "confirmed": confirmed,
+            "confirmed_at": "2026-08-01T09:01:00+08:00",
+            "confirmed_title": main.title,
+            "confirmed_event_start": main.start_time,
+            "confirmed_location": main.location,
+            "confirmed_deadline": deadline.start_time if deadline else None,
+            "accepted_conflict": accepted_conflict,
+            "confirmation_source": "pytest-structured-confirmation",
+        }
+        data.update(changes)
+        return UserConfirmation.model_validate(data)
+
+    return factory

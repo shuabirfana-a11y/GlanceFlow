@@ -13,6 +13,7 @@ from glanceflow.domain.models import NoticePackageDraft
 from glanceflow.config import DEFAULT_TIMEZONE, SUPPORTED_IMAGE_EXTENSIONS
 from glanceflow.ocr.provider import RapidOcrProvider
 from glanceflow.pipeline import ImagePipelineResult, process_image
+from glanceflow.application.demo import run_calendar_demo
 from glanceflow.safety.gate import evaluate_notice
 from glanceflow.safety.results import SafetyGateDecision
 
@@ -191,10 +192,47 @@ def image_main(argv: list[str]) -> int:
     return 0
 
 
+def calendar_demo_main(argv: list[str]) -> int:
+    parser = argparse.ArgumentParser(description="GlanceFlow Stage 3可信日历事务演示")
+    parser.add_argument("command", choices=["calendar-demo"])
+    parser.add_argument(
+        "--stage2-results",
+        type=Path,
+        default=Path("outputs") / "stage2_results.json",
+        help="Stage 2批量结果JSON",
+    )
+    args = parser.parse_args(argv)
+    if not args.stage2_results.is_file():
+        print(f"错误：Stage 2结果不存在：{args.stage2_results}", file=sys.stderr)
+        return 2
+    try:
+        result = run_calendar_demo(args.stage2_results)
+    except (OSError, ValueError, ValidationError) as exc:
+        print(f"错误：日历演示失败：{exc}", file=sys.stderr)
+        return 2
+    output_path = Path("outputs") / "stage3_results.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("可信日历事务演示：")
+    for name, scenario in result["scenarios"].items():
+        transaction = scenario.get("undone_transaction") or scenario["transaction"]
+        print(f"  {name}: {transaction['status']}")
+        print(f"    final_event_ids={scenario['final_event_ids']}")
+        if scenario.get("confirmation_error"):
+            print(f"    confirmation_error={scenario['confirmation_error']}")
+        for audit in transaction["audit_events"]:
+            print(f"    [{audit['action']}] {audit['message']}")
+    print("Google Calendar真实调用：未执行（无专用测试凭据）")
+    print(f"结果已保存：{output_path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     raw_argv = list(sys.argv[1:] if argv is None else argv)
     if raw_argv and raw_argv[0] == "extract-image":
         return image_main(raw_argv)
+    if raw_argv and raw_argv[0] == "calendar-demo":
+        return calendar_demo_main(raw_argv)
     args = build_parser().parse_args(raw_argv)
     input_path: Path = args.input
     if not input_path.exists():
