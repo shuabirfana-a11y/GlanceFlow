@@ -1,0 +1,2220 @@
+[
+  {
+    "source_file": "examples\\01_valid_event.json",
+    "decision": {
+      "status": "READY_TO_CONFIRM",
+      "can_proceed_to_confirmation": true,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0001",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-001",
+        "main_event": {
+          "title": "创新创业竞赛宣讲",
+          "event_start": "2026-08-07T14:00:00+08:00",
+          "location": "科技馆报告厅",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.98
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.97
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.96
+          },
+          "raw_date_text": "2026年8月7日",
+          "raw_weekday_text": "星期五",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "创新创业竞赛宣讲",
+            "confidence": 0.98,
+            "source_frame_id": "frame-001",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "2026年8月7日 星期五 14:00",
+            "confidence": 0.97,
+            "source_frame_id": "frame-001",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "地点：科技馆报告厅",
+            "confidence": 0.96,
+            "source_frame_id": "frame-001",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "合法线下活动"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\02_valid_event_with_deadline.json",
+    "decision": {
+      "status": "READY_TO_CONFIRM",
+      "can_proceed_to_confirmation": true,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "截止事项字段与证据完整。",
+          "affected_fields": [
+            "deadline_action"
+          ],
+          "evidence_line_ids": [
+            "ocr-04",
+            "ocr-05"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "截止时间早于活动开始时间。",
+          "affected_fields": [
+            "deadline_action.deadline",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-04"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：15 条通过，0 条未通过；状态 READY_TO_CONFIRM。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0002",
+        "notice_type": "EVENT_WITH_DEADLINE",
+        "captured_at": "2026-08-01T09:05:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-002",
+        "main_event": {
+          "title": "实验室招募说明会",
+          "event_start": "2026-08-08T15:00:00+08:00",
+          "location": "理科楼 A201",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.98
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.96
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.95
+          },
+          "raw_date_text": "2026年8月8日",
+          "raw_weekday_text": "星期六",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": {
+          "deadline": "2026-08-07T20:00:00+08:00",
+          "action": "提交实验室申请",
+          "role": "APPLICATION",
+          "deadline_evidence": {
+            "evidence_line_ids": [
+              "ocr-04"
+            ],
+            "confidence": 0.94
+          },
+          "action_evidence": {
+            "evidence_line_ids": [
+              "ocr-05"
+            ],
+            "confidence": 0.93
+          }
+        },
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "实验室招募说明会",
+            "confidence": 0.98,
+            "source_frame_id": "frame-002",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "2026年8月8日 星期六 15:00",
+            "confidence": 0.96,
+            "source_frame_id": "frame-002",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "理科楼 A201",
+            "confidence": 0.95,
+            "source_frame_id": "frame-002",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-04",
+            "text": "申请截止 8月7日20:00",
+            "confidence": 0.94,
+            "source_frame_id": "frame-002",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-05",
+            "text": "提交实验室申请",
+            "confidence": 0.93,
+            "source_frame_id": "frame-002",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "合法活动加报名截止"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\03_missing_location.json",
+    "decision": {
+      "status": "NEED_USER_INPUT",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": false,
+          "severity": "WARNING",
+          "message": "活动地点缺失。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": "请补充活动地点。"
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [],
+      "required_user_inputs": [
+        "请补充活动地点。"
+      ],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 NEED_USER_INPUT。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0003",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:10:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-003",
+        "main_event": {
+          "title": "学术写作讲座",
+          "event_start": "2026-08-09T10:00:00+08:00",
+          "location": "",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.96
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.95
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.91
+          },
+          "raw_date_text": "2026年8月9日",
+          "raw_weekday_text": "星期日",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "学术写作讲座",
+            "confidence": 0.96,
+            "source_frame_id": "frame-003",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "8月9日 星期日 10:00",
+            "confidence": 0.95,
+            "source_frame_id": "frame-003",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "地点待通知",
+            "confidence": 0.91,
+            "source_frame_id": "frame-003",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "缺少地点"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\04_weekday_contradiction.json",
+    "decision": {
+      "status": "CONTRADICTION_BLOCKED",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": false,
+          "severity": "BLOCKING",
+          "message": "原始日期、星期或结构化活动日期不一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": "禁止自动猜测，请人工核对原通知日期和星期。"
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [
+        "禁止自动猜测，请人工核对原通知日期和星期。"
+      ],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 CONTRADICTION_BLOCKED。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0004",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:15:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-004",
+        "main_event": {
+          "title": "机器人竞赛培训",
+          "event_start": "2026-08-10T14:00:00+08:00",
+          "location": "工程训练中心",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.97
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.96
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.95
+          },
+          "raw_date_text": "2026年8月10日",
+          "raw_weekday_text": "星期二",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "机器人竞赛培训",
+            "confidence": 0.97,
+            "source_frame_id": "frame-004",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "2026年8月10日 星期二 14:00",
+            "confidence": 0.96,
+            "source_frame_id": "frame-004",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "工程训练中心",
+            "confidence": 0.95,
+            "source_frame_id": "frame-004",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "日期与星期矛盾"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\05_unresolved_time.json",
+    "decision": {
+      "status": "NEED_USER_INPUT",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未同时提供原始日期和星期，无需一致性检查。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": false,
+          "severity": "WARNING",
+          "message": "存在未解析时间表达：周五下午",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": "请明确活动的具体日期和时间。"
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [],
+      "required_user_inputs": [
+        "请明确活动的具体日期和时间。"
+      ],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 NEED_USER_INPUT。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0005",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:20:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-005",
+        "main_event": {
+          "title": "摄影社交流活动",
+          "event_start": "2026-08-11T12:00:00+08:00",
+          "location": "大学生活动中心",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.96
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.92
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.94
+          },
+          "raw_date_text": null,
+          "raw_weekday_text": null,
+          "unresolved_time_expression": "周五下午"
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "摄影社交流活动",
+            "confidence": 0.96,
+            "source_frame_id": "frame-005",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "周五下午",
+            "confidence": 0.92,
+            "source_frame_id": "frame-005",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "大学生活动中心",
+            "confidence": 0.94,
+            "source_frame_id": "frame-005",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "只有周五下午",
+          "placeholder_time_requires_confirmation": true
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\06_expired_event.json",
+    "decision": {
+      "status": "CONTRADICTION_BLOCKED",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": false,
+          "severity": "BLOCKING",
+          "message": "活动时间已过期或无法安全比较。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": "核对通知是否仍然有效以及活动时间。"
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [
+        "核对通知是否仍然有效以及活动时间。"
+      ],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 CONTRADICTION_BLOCKED。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0006",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:25:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-006",
+        "main_event": {
+          "title": "旧海报讲座",
+          "event_start": "2026-07-31T14:00:00+08:00",
+          "location": "图书馆报告厅",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.96
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.95
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.94
+          },
+          "raw_date_text": "2026年7月31日",
+          "raw_weekday_text": "星期五",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "旧海报讲座",
+            "confidence": 0.96,
+            "source_frame_id": "frame-006",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "7月31日 星期五 14:00",
+            "confidence": 0.95,
+            "source_frame_id": "frame-006",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "图书馆报告厅",
+            "confidence": 0.94,
+            "source_frame_id": "frame-006",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "活动已过期"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\07_deadline_after_event.json",
+    "decision": {
+      "status": "CONTRADICTION_BLOCKED",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "截止事项字段与证据完整。",
+          "affected_fields": [
+            "deadline_action"
+          ],
+          "evidence_line_ids": [
+            "ocr-04",
+            "ocr-05"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": false,
+          "severity": "BLOCKING",
+          "message": "截止时间不早于活动开始时间。",
+          "affected_fields": [
+            "deadline_action.deadline",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-04"
+          ],
+          "suggested_action": "核对截止时间；本阶段不自动应用签到或入场例外。"
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [
+        "核对截止时间；本阶段不自动应用签到或入场例外。"
+      ],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 CONTRADICTION_BLOCKED。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0007",
+        "notice_type": "EVENT_WITH_DEADLINE",
+        "captured_at": "2026-08-01T09:30:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-007",
+        "main_event": {
+          "title": "创业训练营",
+          "event_start": "2026-08-13T09:00:00+08:00",
+          "location": "创新大楼 301",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.97
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.96
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.95
+          },
+          "raw_date_text": "2026年8月13日",
+          "raw_weekday_text": "星期四",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": {
+          "deadline": "2026-08-14T20:00:00+08:00",
+          "action": "完成训练营报名",
+          "role": "REGISTRATION",
+          "deadline_evidence": {
+            "evidence_line_ids": [
+              "ocr-04"
+            ],
+            "confidence": 0.94
+          },
+          "action_evidence": {
+            "evidence_line_ids": [
+              "ocr-05"
+            ],
+            "confidence": 0.93
+          }
+        },
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "创业训练营",
+            "confidence": 0.97,
+            "source_frame_id": "frame-007",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "8月13日 星期四 09:00",
+            "confidence": 0.96,
+            "source_frame_id": "frame-007",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "创新大楼 301",
+            "confidence": 0.95,
+            "source_frame_id": "frame-007",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-04",
+            "text": "报名截止 8月14日20:00",
+            "confidence": 0.94,
+            "source_frame_id": "frame-007",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-05",
+            "text": "完成训练营报名",
+            "confidence": 0.93,
+            "source_frame_id": "frame-007",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "截止时间晚于活动时间"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\08_low_confidence.json",
+    "decision": {
+      "status": "RECAPTURE_REQUIRED",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": false,
+          "severity": "ERROR",
+          "message": "核心证据置信度低于 0.75。",
+          "affected_fields": [
+            "main_event.event_start",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": "请靠近通知并重新采集清晰画面。"
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "未发现标题与开始时间均相同的通知。",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        }
+      ],
+      "blocking_reasons": [],
+      "required_user_inputs": [],
+      "recapture_reasons": [
+        "请靠近通知并重新采集清晰画面。"
+      ],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 RECAPTURE_REQUIRED。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0008",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:35:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-008",
+        "main_event": {
+          "title": "生涯规划工作坊",
+          "event_start": "2026-08-14T14:00:00+08:00",
+          "location": "就业中心 205",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.96
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.62
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.93
+          },
+          "raw_date_text": "2026年8月14日",
+          "raw_weekday_text": "星期五",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "生涯规划工作坊",
+            "confidence": 0.96,
+            "source_frame_id": "frame-008",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "8月14日 星期五 14:00",
+            "confidence": 0.62,
+            "source_frame_id": "frame-008",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "就业中心 205",
+            "confidence": 0.93,
+            "source_frame_id": "frame-008",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "核心证据置信度过低"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "examples\\09_duplicate_notification.json",
+    "decision": {
+      "status": "CONTRADICTION_BLOCKED",
+      "can_proceed_to_confirmation": false,
+      "rule_results": [
+        {
+          "rule_id": "GF-FIELD-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动标题完整。",
+          "affected_fields": [
+            "main_event.title"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-FIELD-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动地点完整。",
+          "affected_fields": [
+            "main_event.location"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "采集时间包含时区。",
+          "affected_fields": [
+            "captured_at"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间包含时区。",
+          "affected_fields": [
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "活动时间晚于采集时间。",
+          "affected_fields": [
+            "captured_at",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-004",
+          "passed": true,
+          "severity": "INFO",
+          "message": "原始日期、星期与活动时间一致。",
+          "affected_fields": [
+            "main_event.raw_date_text",
+            "main_event.raw_weekday_text",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-TIME-005",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在未解析时间表达。",
+          "affected_fields": [
+            "main_event.unresolved_time_expression"
+          ],
+          "evidence_line_ids": [
+            "ocr-02"
+          ],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型不要求截止事项。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DEADLINE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "不存在需要排序校验的截止时间。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心字段均绑定证据行。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-002",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有引用的证据行均真实存在。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-EVIDENCE-003",
+          "passed": true,
+          "severity": "INFO",
+          "message": "核心证据均来自当前源帧。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-CONFIDENCE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "所有核心证据置信度达到阈值。",
+          "affected_fields": [],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-NOTICE-001",
+          "passed": true,
+          "severity": "INFO",
+          "message": "通知类型与字段组合一致。",
+          "affected_fields": [
+            "notice_type",
+            "deadline_action"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": null
+        },
+        {
+          "rule_id": "GF-DUPLICATE-001",
+          "passed": false,
+          "severity": "BLOCKING",
+          "message": "疑似重复通知：GF-PKG-0001",
+          "affected_fields": [
+            "main_event.title",
+            "main_event.event_start"
+          ],
+          "evidence_line_ids": [],
+          "suggested_action": "检查已有草案，避免重复创建。"
+        }
+      ],
+      "blocking_reasons": [
+        "检查已有草案，避免重复创建。"
+      ],
+      "required_user_inputs": [],
+      "recapture_reasons": [],
+      "summary": "安全门完成 15 条规则：14 条通过，1 条未通过；状态 CONTRADICTION_BLOCKED。",
+      "draft_snapshot": {
+        "notice_package_id": "GF-PKG-0009",
+        "notice_type": "EVENT_NOTICE",
+        "captured_at": "2026-08-01T09:40:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "source_frame_id": "frame-009",
+        "main_event": {
+          "title": "创新创业竞赛 宣讲",
+          "event_start": "2026-08-07T14:00:00+08:00",
+          "location": "科技馆报告厅",
+          "title_evidence": {
+            "evidence_line_ids": [
+              "ocr-01"
+            ],
+            "confidence": 0.98
+          },
+          "time_evidence": {
+            "evidence_line_ids": [
+              "ocr-02"
+            ],
+            "confidence": 0.97
+          },
+          "location_evidence": {
+            "evidence_line_ids": [
+              "ocr-03"
+            ],
+            "confidence": 0.96
+          },
+          "raw_date_text": "2026年8月7日",
+          "raw_weekday_text": "星期五",
+          "unresolved_time_expression": null
+        },
+        "deadline_action": null,
+        "evidence_lines": [
+          {
+            "line_id": "ocr-01",
+            "text": "创新创业竞赛 宣讲",
+            "confidence": 0.98,
+            "source_frame_id": "frame-009",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-02",
+            "text": "2026年8月7日 星期五 14:00",
+            "confidence": 0.97,
+            "source_frame_id": "frame-009",
+            "bbox": null
+          },
+          {
+            "line_id": "ocr-03",
+            "text": "地点：科技馆报告厅",
+            "confidence": 0.96,
+            "source_frame_id": "frame-009",
+            "bbox": null
+          }
+        ],
+        "extraction_version": "stage1-manual-v1",
+        "metadata": {
+          "scenario": "重复通知"
+        }
+      }
+    }
+  }
+]

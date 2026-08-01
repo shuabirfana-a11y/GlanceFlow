@@ -1,0 +1,28 @@
+from enum import StrEnum
+
+
+class NoticeType(StrEnum):
+    EVENT_NOTICE = "EVENT_NOTICE"
+    EVENT_WITH_DEADLINE = "EVENT_WITH_DEADLINE"
+
+
+class SafetyGateStatus(StrEnum):
+    READY_TO_CONFIRM = "READY_TO_CONFIRM"
+    NEED_USER_INPUT = "NEED_USER_INPUT"
+    CONTRADICTION_BLOCKED = "CONTRADICTION_BLOCKED"
+    RECAPTURE_REQUIRED = "RECAPTURE_REQUIRED"
+
+
+class ValidationSeverity(StrEnum):
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    BLOCKING = "BLOCKING"
+
+
+class DeadlineRole(StrEnum):
+    REGISTRATION = "REGISTRATION"
+    APPLICATION = "APPLICATION"
+    CHECK_IN = "CHECK_IN"
+    ENTRY = "ENTRY"
+

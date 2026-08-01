@@ -1,0 +1,22 @@
+{
+  "notice_package_id": "GF-PKG-0007", "notice_type": "EVENT_WITH_DEADLINE",
+  "captured_at": "2026-08-01T09:30:00+08:00", "timezone": "Asia/Shanghai", "source_frame_id": "frame-007",
+  "main_event": {
+    "title": "创业训练营", "event_start": "2026-08-13T09:00:00+08:00", "location": "创新大楼 301",
+    "title_evidence": {"evidence_line_ids": ["ocr-01"], "confidence": 0.97}, "time_evidence": {"evidence_line_ids": ["ocr-02"], "confidence": 0.96}, "location_evidence": {"evidence_line_ids": ["ocr-03"], "confidence": 0.95},
+    "raw_date_text": "2026年8月13日", "raw_weekday_text": "星期四", "unresolved_time_expression": null
+  },
+  "deadline_action": {
+    "deadline": "2026-08-14T20:00:00+08:00", "action": "完成训练营报名", "role": "REGISTRATION",
+    "deadline_evidence": {"evidence_line_ids": ["ocr-04"], "confidence": 0.94}, "action_evidence": {"evidence_line_ids": ["ocr-05"], "confidence": 0.93}
+  },
+  "evidence_lines": [
+    {"line_id": "ocr-01", "text": "创业训练营", "confidence": 0.97, "source_frame_id": "frame-007", "bbox": null},
+    {"line_id": "ocr-02", "text": "8月13日 星期四 09:00", "confidence": 0.96, "source_frame_id": "frame-007", "bbox": null},
+    {"line_id": "ocr-03", "text": "创新大楼 301", "confidence": 0.95, "source_frame_id": "frame-007", "bbox": null},
+    {"line_id": "ocr-04", "text": "报名截止 8月14日20:00", "confidence": 0.94, "source_frame_id": "frame-007", "bbox": null},
+    {"line_id": "ocr-05", "text": "完成训练营报名", "confidence": 0.93, "source_frame_id": "frame-007", "bbox": null}
+  ],
+  "extraction_version": "stage1-manual-v1", "metadata": {"scenario": "截止时间晚于活动时间"}
+}
+

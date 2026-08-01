@@ -1,0 +1,17 @@
+{
+  "notice_package_id": "GF-PKG-0008", "notice_type": "EVENT_NOTICE",
+  "captured_at": "2026-08-01T09:35:00+08:00", "timezone": "Asia/Shanghai", "source_frame_id": "frame-008",
+  "main_event": {
+    "title": "生涯规划工作坊", "event_start": "2026-08-14T14:00:00+08:00", "location": "就业中心 205",
+    "title_evidence": {"evidence_line_ids": ["ocr-01"], "confidence": 0.96}, "time_evidence": {"evidence_line_ids": ["ocr-02"], "confidence": 0.62}, "location_evidence": {"evidence_line_ids": ["ocr-03"], "confidence": 0.93},
+    "raw_date_text": "2026年8月14日", "raw_weekday_text": "星期五", "unresolved_time_expression": null
+  },
+  "deadline_action": null,
+  "evidence_lines": [
+    {"line_id": "ocr-01", "text": "生涯规划工作坊", "confidence": 0.96, "source_frame_id": "frame-008", "bbox": null},
+    {"line_id": "ocr-02", "text": "8月14日 星期五 14:00", "confidence": 0.62, "source_frame_id": "frame-008", "bbox": null},
+    {"line_id": "ocr-03", "text": "就业中心 205", "confidence": 0.93, "source_frame_id": "frame-008", "bbox": null}
+  ],
+  "extraction_version": "stage1-manual-v1", "metadata": {"scenario": "核心证据置信度过低"}
+}
+

@@ -1,0 +1,17 @@
+{
+  "notice_package_id": "GF-PKG-0004", "notice_type": "EVENT_NOTICE",
+  "captured_at": "2026-08-01T09:15:00+08:00", "timezone": "Asia/Shanghai", "source_frame_id": "frame-004",
+  "main_event": {
+    "title": "机器人竞赛培训", "event_start": "2026-08-10T14:00:00+08:00", "location": "工程训练中心",
+    "title_evidence": {"evidence_line_ids": ["ocr-01"], "confidence": 0.97}, "time_evidence": {"evidence_line_ids": ["ocr-02"], "confidence": 0.96}, "location_evidence": {"evidence_line_ids": ["ocr-03"], "confidence": 0.95},
+    "raw_date_text": "2026年8月10日", "raw_weekday_text": "星期二", "unresolved_time_expression": null
+  },
+  "deadline_action": null,
+  "evidence_lines": [
+    {"line_id": "ocr-01", "text": "机器人竞赛培训", "confidence": 0.97, "source_frame_id": "frame-004", "bbox": null},
+    {"line_id": "ocr-02", "text": "2026年8月10日 星期二 14:00", "confidence": 0.96, "source_frame_id": "frame-004", "bbox": null},
+    {"line_id": "ocr-03", "text": "工程训练中心", "confidence": 0.95, "source_frame_id": "frame-004", "bbox": null}
+  ],
+  "extraction_version": "stage1-manual-v1", "metadata": {"scenario": "日期与星期矛盾"}
+}
+
