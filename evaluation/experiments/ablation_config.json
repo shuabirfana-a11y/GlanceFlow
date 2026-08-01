@@ -1,0 +1,14 @@
+{
+  "adapter_only": true,
+  "production_core_modified": false,
+  "ablations": [
+    "no_image_quality_gate",
+    "no_evidence_confidence_rule",
+    "no_weekday_consistency",
+    "no_duplicate_detection",
+    "no_conflict_preflight",
+    "no_readback_verification",
+    "no_atomic_rollback"
+  ],
+  "note": "开关只存在于 glanceflow.evaluation.runners 的实验适配层。"
+}

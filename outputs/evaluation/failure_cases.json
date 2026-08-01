@@ -1,0 +1,585 @@
+{
+  "metadata": {
+    "generated_at": "2026-08-01T05:26:26.743071+00:00",
+    "dataset_id": "glanceflow-stage5-synthetic-v1",
+    "sample_count": 46,
+    "sample_ids": [
+      "GF-EVAL-001",
+      "GF-EVAL-002",
+      "GF-EVAL-003",
+      "GF-EVAL-004",
+      "GF-EVAL-005",
+      "GF-EVAL-006",
+      "GF-EVAL-007",
+      "GF-EVAL-008",
+      "GF-EVAL-009",
+      "GF-EVAL-010",
+      "GF-EVAL-011",
+      "GF-EVAL-012",
+      "GF-EVAL-013",
+      "GF-EVAL-014",
+      "GF-EVAL-015",
+      "GF-EVAL-016",
+      "GF-EVAL-017",
+      "GF-EVAL-018",
+      "GF-EVAL-019",
+      "GF-EVAL-020",
+      "GF-EVAL-021",
+      "GF-EVAL-022",
+      "GF-EVAL-023",
+      "GF-EVAL-024",
+      "GF-EVAL-025",
+      "GF-EVAL-026",
+      "GF-EVAL-027",
+      "GF-EVAL-028",
+      "GF-EVAL-029",
+      "GF-EVAL-030",
+      "GF-EVAL-031",
+      "GF-EVAL-032",
+      "GF-EVAL-033",
+      "GF-EVAL-034",
+      "GF-EVAL-035",
+      "GF-EVAL-036",
+      "GF-EVAL-037",
+      "GF-EVAL-038",
+      "GF-EVAL-039",
+      "GF-EVAL-040",
+      "GF-EVAL-041",
+      "GF-EVAL-042",
+      "GF-EVAL-043",
+      "GF-EVAL-044",
+      "GF-EVAL-045",
+      "GF-EVAL-046"
+    ],
+    "environment": "Windows 11, Python 3.13.9, local CPU simulator",
+    "real_glasses": false,
+    "real_google_calendar_calls": false
+  },
+  "case_count": 10,
+  "cases": [
+    {
+      "case_id": "FAIL-01",
+      "sample_id": "GF-EVAL-039",
+      "representative_type": "OCR错字与低置信度",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-039.png",
+      "ocr_result": [
+        {
+          "text": "创商创业竞美宣计",
+          "confidence": 0.570321669181188
+        },
+        {
+          "text": "标题：",
+          "confidence": 0.5983294695615768
+        },
+        {
+          "text": "2026年8月7日星五14:00",
+          "confidence": 0.83569857302834
+        },
+        {
+          "text": "地点：科技馆报告厅",
+          "confidence": 0.7521587163209915
+        }
+      ],
+      "extracted_fields": {
+        "title": "创商创业竞美宣计",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null,
+        "safety_status": "RECAPTURE_REQUIRED",
+        "is_executable": false
+      },
+      "safety_status": "RECAPTURE_REQUIRED",
+      "executed": false,
+      "error_layer": "safety_gate",
+      "failure_reasons": [
+        "请靠近通知并重新采集清晰画面。"
+      ],
+      "current_system_handling": "拒绝执行并要求重新采集。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "在更大规模、经同意的数据上标定质量与置信度阈值；不在本阶段更换 OCR 模型。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-02",
+      "sample_id": "GF-EVAL-033",
+      "representative_type": "时间角色混淆",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-033.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.885869648721483
+        },
+        {
+          "text": "活动标题：创业训练营",
+          "confidence": 0.8033513264222578
+        },
+        {
+          "text": "2026年8月13日星期四09:00",
+          "confidence": 0.916227334424069
+        },
+        {
+          "text": "地点：创新大楼301",
+          "confidence": 0.9049325639551337
+        },
+        {
+          "text": "报名截止：2026年8月14日20:00",
+          "confidence": 0.8223892194884164
+        },
+        {
+          "text": "截止动作：完成训练营报名",
+          "confidence": 0.881702170922206
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9074042534828186
+        }
+      ],
+      "extracted_fields": {
+        "title": "创业训练营",
+        "event_start": "2026-08-13T09:00:00+08:00",
+        "location": "创新大楼301",
+        "deadline": "2026-08-14T20:00:00+08:00"
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_WITH_DEADLINE",
+        "title": "创业训练营",
+        "event_start": "2026-08-13T09:00:00+08:00",
+        "location": "创新大楼301",
+        "deadline": "2026-08-14T20:00:00+08:00",
+        "safety_status": "CONTRADICTION_BLOCKED",
+        "is_executable": false
+      },
+      "safety_status": "CONTRADICTION_BLOCKED",
+      "executed": false,
+      "error_layer": "safety_gate",
+      "failure_reasons": [
+        "核对截止时间；本阶段不自动应用签到或入场例外。"
+      ],
+      "current_system_handling": "安全门阻断，不允许进入确认。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "扩充截止/签到/入场角色标注，在规则覆盖前继续阻断。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-03",
+      "sample_id": "GF-EVAL-019",
+      "representative_type": "日期星期矛盾",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-019.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.807609134250217
+        },
+        {
+          "text": "活动标题：机器人竞赛培训",
+          "confidence": 0.7898445610816662
+        },
+        {
+          "text": "2026年8月10日星期二14:00",
+          "confidence": 0.8871696967827646
+        },
+        {
+          "text": "地点：综合实验大厅",
+          "confidence": 0.8480728030204773
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9280247068405152
+        }
+      ],
+      "extracted_fields": {
+        "title": "机器人竞赛培训",
+        "event_start": "2026-08-10T14:00:00+08:00",
+        "location": "综合实验大厅",
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "机器人竞赛培训",
+        "event_start": "2026-08-10T14:00:00+08:00",
+        "location": "综合实验大厅",
+        "deadline": null,
+        "safety_status": "CONTRADICTION_BLOCKED",
+        "is_executable": false
+      },
+      "safety_status": "CONTRADICTION_BLOCKED",
+      "executed": false,
+      "error_layer": "safety_gate",
+      "failure_reasons": [
+        "禁止自动猜测，请人工核对原通知日期和星期。"
+      ],
+      "current_system_handling": "安全门阻断，不允许进入确认。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "保持确定性一致性检查，并在 HUD 同时展示原始日期和星期。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-04",
+      "sample_id": "GF-EVAL-038",
+      "representative_type": "模糊画面",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-038.png",
+      "ocr_result": [],
+      "extracted_fields": null,
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "模糊画面讲座",
+        "event_start": "2026-08-15T14:00:00+08:00",
+        "location": "综合楼报告厅",
+        "deadline": null,
+        "safety_status": "RECAPTURE_REQUIRED",
+        "is_executable": false
+      },
+      "safety_status": "RECAPTURE_REQUIRED",
+      "executed": false,
+      "error_layer": "quality_or_frame_selection",
+      "failure_reasons": [
+        "图片明显模糊。",
+        "OCR未识别到有效文本。"
+      ],
+      "current_system_handling": "拒绝执行并要求重新采集。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "改进采集姿态提示；低质量仍要求重拍。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-05",
+      "sample_id": "GF-EVAL-035",
+      "representative_type": "多时间歧义",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-035.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.828715099228753
+        },
+        {
+          "text": "活动标题：多场次交流会",
+          "confidence": 0.8744092335303625
+        },
+        {
+          "text": "2026年8月16日星期日10:00",
+          "confidence": 0.8879730544592205
+        },
+        {
+          "text": "2026年8月17日星期一15:00",
+          "confidence": 0.8782155952955547
+        },
+        {
+          "text": "地点：国际交流中心",
+          "confidence": 0.8968183815479278
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.912568519115448
+        }
+      ],
+      "extracted_fields": null,
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "多场次交流会",
+        "event_start": null,
+        "location": "国际交流中心",
+        "deadline": null,
+        "safety_status": "CONTRADICTION_BLOCKED",
+        "is_executable": false
+      },
+      "safety_status": "CONTRADICTION_BLOCKED",
+      "executed": false,
+      "error_layer": "extraction",
+      "failure_reasons": [
+        "发现多个无法区分的活动日期时间。"
+      ],
+      "current_system_handling": "安全门阻断，不允许进入确认。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "未来增加多场次交互选择；当前不自动猜测。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-06",
+      "sample_id": "GF-EVAL-027",
+      "representative_type": "地点缺失",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-027.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.8761498332023621
+        },
+        {
+          "text": "活动标题：学术写作讲座",
+          "confidence": 0.8605077415704727
+        },
+        {
+          "text": "2026年8月12日星期三10:00",
+          "confidence": 0.8989926953064767
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9254020619392395
+        }
+      ],
+      "extracted_fields": {
+        "title": "学术写作讲座",
+        "event_start": "2026-08-12T10:00:00+08:00",
+        "location": null,
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "学术写作讲座",
+        "event_start": "2026-08-12T10:00:00+08:00",
+        "location": null,
+        "deadline": null,
+        "safety_status": "NEED_USER_INPUT",
+        "is_executable": false
+      },
+      "safety_status": "NEED_USER_INPUT",
+      "executed": false,
+      "error_layer": "safety_gate",
+      "failure_reasons": [
+        "请补充活动地点。",
+        "为缺失字段补充可追溯的证据行。"
+      ],
+      "current_system_handling": "拒绝执行并要求补充信息。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "允许用户显式补充地点，但不得由模型臆测。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-07",
+      "sample_id": "GF-EVAL-041",
+      "representative_type": "重复通知",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-041.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.8858620127042135
+        },
+        {
+          "text": "活动标题：创新创业竞赛宣讲",
+          "confidence": 0.8783283063343593
+        },
+        {
+          "text": "2026年8月7日星期五14:00",
+          "confidence": 0.8580505781703525
+        },
+        {
+          "text": "地点：科技馆报告厅",
+          "confidence": 0.8862270414829254
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9032807779312134
+        }
+      ],
+      "extracted_fields": {
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null,
+        "safety_status": "CONTRADICTION_BLOCKED",
+        "is_executable": false
+      },
+      "safety_status": "CONTRADICTION_BLOCKED",
+      "executed": false,
+      "error_layer": "safety_gate",
+      "failure_reasons": [
+        "检查已有草案，避免重复创建。"
+      ],
+      "current_system_handling": "安全门阻断，不允许进入确认。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "保留通知级与日历级双重重复检查。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-08",
+      "sample_id": "GF-EVAL-043",
+      "representative_type": "日程冲突",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-043.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.8858620127042135
+        },
+        {
+          "text": "活动标题：创新创业竞赛宣讲",
+          "confidence": 0.8783283063343593
+        },
+        {
+          "text": "2026年8月7日星期五14:00",
+          "confidence": 0.8580505781703525
+        },
+        {
+          "text": "地点：科技馆报告厅",
+          "confidence": 0.8862270414829254
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9032807779312134
+        }
+      ],
+      "extracted_fields": {
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null,
+        "safety_status": "READY_TO_CONFIRM",
+        "is_executable": false
+      },
+      "safety_status": "READY_TO_CONFIRM",
+      "executed": false,
+      "error_layer": "preflight",
+      "failure_reasons": [
+        "未发现重复日程。",
+        "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
+      ],
+      "current_system_handling": "在日历预检阶段停止，未创建新事件。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "保留二次明确确认，不自动改时间。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-09",
+      "sample_id": "GF-EVAL-045",
+      "representative_type": "回读异常",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-045.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.8069677684042189
+        },
+        {
+          "text": "活动标题：创新创业竞赛宣讲",
+          "confidence": 0.8118454473359245
+        },
+        {
+          "text": "2026年8月7日星期五14:00",
+          "confidence": 0.8441038727760315
+        },
+        {
+          "text": "地点：科技馆报告厅",
+          "confidence": 0.8927146315574646
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9020856237411499
+        }
+      ],
+      "extracted_fields": {
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_NOTICE",
+        "title": "创新创业竞赛宣讲",
+        "event_start": "2026-08-07T14:00:00+08:00",
+        "location": "科技馆报告厅",
+        "deadline": null,
+        "safety_status": "READY_TO_CONFIRM",
+        "is_executable": true
+      },
+      "safety_status": "READY_TO_CONFIRM",
+      "executed": false,
+      "error_layer": "calendar_transaction",
+      "failure_reasons": [
+        "事务未通过回读或创建，已按策略回滚。"
+      ],
+      "current_system_handling": "检测到创建或回读异常，执行补偿回滚。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "保留 event_id 回读；后续真实测试日历验证供应商边界。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    },
+    {
+      "case_id": "FAIL-10",
+      "sample_id": "GF-EVAL-046",
+      "representative_type": "事务回滚",
+      "input_type": "IMAGE",
+      "input_path": "evaluation\\dataset\\images\\GF-EVAL-046.png",
+      "ocr_result": [
+        {
+          "text": "人工构造测试素材",
+          "confidence": 0.8089555899302164
+        },
+        {
+          "text": "活动标题：实验室招募说明会",
+          "confidence": 0.83175499524389
+        },
+        {
+          "text": "2026年8月8日星期六15:00",
+          "confidence": 0.8478154242038727
+        },
+        {
+          "text": "地点：理科楼A201",
+          "confidence": 0.8643537001176314
+        },
+        {
+          "text": "报名截止：2026年8月7日20:00",
+          "confidence": 0.8776801288127899
+        },
+        {
+          "text": "截止动作：完成实验室报名",
+          "confidence": 0.8907842957056485
+        },
+        {
+          "text": "仅用于GlanceFlow测试，并非真实学校通知",
+          "confidence": 0.9215528154373169
+        }
+      ],
+      "extracted_fields": {
+        "title": "实验室招募说明会",
+        "event_start": "2026-08-08T15:00:00+08:00",
+        "location": "理科楼A201",
+        "deadline": "2026-08-07T20:00:00+08:00"
+      },
+      "ground_truth": {
+        "notice_type": "EVENT_WITH_DEADLINE",
+        "title": "实验室招募说明会",
+        "event_start": "2026-08-08T15:00:00+08:00",
+        "location": "理科楼A201",
+        "deadline": "2026-08-07T20:00:00+08:00",
+        "safety_status": "READY_TO_CONFIRM",
+        "is_executable": true
+      },
+      "safety_status": "READY_TO_CONFIRM",
+      "executed": false,
+      "error_layer": "calendar_transaction",
+      "failure_reasons": [
+        "事务未通过回读或创建，已按策略回滚。"
+      ],
+      "current_system_handling": "检测到创建或回读异常，执行补偿回滚。",
+      "outcome_matches_protocol": true,
+      "improvement_direction": "记录并告警补偿失败；当前内存试验已验证成功回滚。",
+      "trace_source": "由本次统一评测入口真实运行产生。"
+    }
+  ]
+}

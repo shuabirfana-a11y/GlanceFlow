@@ -1,0 +1,26 @@
+{
+  "sample_id": "GF-EVAL-034",
+  "input_path": "evaluation/dataset/images/GF-EVAL-034.png",
+  "media_type": "IMAGE",
+  "source_type": "ARTIFICIAL_POSTER",
+  "category": "invalid_deadline_order",
+  "expected_notice_type": "EVENT_WITH_DEADLINE",
+  "expected_title": "创业训练营",
+  "expected_event_start": "2026-08-13T09:00:00+08:00",
+  "expected_location": "创新大楼301",
+  "expected_deadline": "2026-08-14T20:00:00+08:00",
+  "expected_safety_status": "CONTRADICTION_BLOCKED",
+  "expected_failure_reason": "DEADLINE_AFTER_EVENT",
+  "is_executable": false,
+  "scenario_tags": [
+    "invalid_deadline_order",
+    "deadline_error",
+    "image",
+    "none",
+    "none"
+  ],
+  "synthetic": true,
+  "annotation_notes": "由固定种子脚本从人工测试海报生成；不是实拍校园数据。",
+  "existing_context": "NONE",
+  "fault_plan": "NONE"
+}

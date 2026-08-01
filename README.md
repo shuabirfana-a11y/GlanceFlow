@@ -6,6 +6,8 @@ Stage 3 默认使用隔离的内存日历，支持预检、结构化确认、原
 
 Stage 4 是“眼镜工作流模拟”，不是已经部署到真实眼镜设备。它以本地短视频或浏览器短时相机采集模拟第一视角输入，只在明确的“帮我安排”指令后采集约 3 秒，自动选帧并复用既有 OCR、安全门和可信日历事务。默认日历仍为内存实现。
 
+Stage 5 不增加业务功能，只提供固定种子评测数据集、三系统同集对比、七项消融、指标与图表生成、失败案例分析、用户测试模板和初赛技术材料。所有结果来自程序运行，不手填成绩。
+
 ## Windows 环境安装
 
 ```powershell
@@ -78,6 +80,17 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 
 模拟器只接受四类确定性指令：`帮我安排`、`确认`、`取消`、`撤销上一步`（及代码内列出的少量固定同义词）。未知表达或低置信度结果不触发状态变化和外部写入。
 
+生成并运行完整 Stage 5 评测：
+
+```powershell
+.\.venv\Scripts\python.exe evaluation\scripts\generate_dataset.py
+.\.venv\Scripts\python.exe -m glanceflow.evaluation.run_all
+```
+
+评测使用 46 个固定种子人工案例，输出到 `outputs\evaluation\`。三个系统共享同一输入与 OCR 观测；Baseline A 是简单正则直接写入，Baseline B 是正式抽取器但无安全门，Full System 使用完整可信闭环。七项消融只在 `glanceflow.evaluation` 实验适配层生效。
+
+错误执行率的分母是实际执行包数，分母为零时显示 `N/A`；有效覆盖率和误拒率以应执行通知为分母，因此全部拒绝不会获得虚假高分。耗时只代表当前 Windows 本地 CPU 模拟器。
+
 ## Stage 4 隐私与安全边界
 
 - 不持续录音或录像；没有明确的安排指令就不开始采集。
@@ -127,7 +140,7 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-测试覆盖 Stage 1/2 行为、内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约，以及 Stage 4 语音、抽帧、自动选帧、隐私删除、状态机、运动门禁、失败回滚和浏览器 API。
+测试覆盖 Stage 1/2 行为、内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约、Stage 4 交互，以及 Stage 5 清单、指标、零分母、同集对比、消融隔离、图表、输出追溯和用户测试真实性门禁。
 
 ## 代码入口
 
@@ -146,5 +159,9 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 - `src\glanceflow\application\glanceflow_service.py`：串接眼镜模拟输入与既有可信日历事务的唯一编排层。
 - `src\glanceflow\simulator\`：FastAPI 本地接口和原生 HTML/CSS/JS 模拟器。
 - `data\generate_synthetic_videos.py`：固定种子的八段合成短视频生成器。
+- `evaluation\dataset\`：46 例人工构造评测素材、逐例标注和统一清单。
+- `src\glanceflow\evaluation\`：基线、消融、指标、可靠性试验、报告和图表生成。
+- `outputs\evaluation\`：自动生成的 JSON、CSV、Markdown、scorecard 和七张图。
+- `docs\competition\`：初赛项目说明、架构、创新、评测、隐私、限制、三分钟脚本与评委问答。
 
 十张图片和八段短视频均为程序生成的人工测试素材，不代表任何真实学校通知。任何后续真实设备适配都必须实现现有端口，并继续经过质量门、安全门、明确确认和可信日历事务。

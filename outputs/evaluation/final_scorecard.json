@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-08-01T05:26:26.743071+00:00",
+  "source": "programmatic_stage5_evaluation",
+  "erroneous_execution_rate": {
+    "value": 0.0,
+    "numerator": 0,
+    "denominator": 15,
+    "display": "0.00%"
+  },
+  "valid_coverage_rate": {
+    "value": 0.75,
+    "numerator": 15,
+    "denominator": 20,
+    "display": "75.00%"
+  },
+  "false_rejection_rate": {
+    "value": 0.25,
+    "numerator": 5,
+    "denominator": 20,
+    "display": "25.00%"
+  },
+  "package_complete_accuracy": {
+    "value": 0.75,
+    "numerator": 15,
+    "denominator": 20,
+    "display": "75.00%"
+  },
+  "readback_consistency_rate": {
+    "value": 0.9375,
+    "numerator": 15,
+    "denominator": 16,
+    "display": "93.75%"
+  },
+  "rollback_success_rate": {
+    "value": 1.0,
+    "numerator": 2,
+    "denominator": 2,
+    "display": "100.00%"
+  },
+  "undo_success_rate": {
+    "value": 1.0,
+    "numerator": 1,
+    "denominator": 1,
+    "display": "100.00%"
+  },
+  "median_end_to_end_latency_ms": 622.124,
+  "sample_count": 46,
+  "environment": "Windows 11, Python 3.13.9, local CPU simulator",
+  "real_glasses": false
+}

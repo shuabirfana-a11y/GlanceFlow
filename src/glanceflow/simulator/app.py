@@ -5,6 +5,7 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+from glanceflow import __version__
 from glanceflow.application.glanceflow_service import GlanceFlowSessionService
 from glanceflow.application.scheduling_service import TrustedSchedulingService
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider
@@ -28,7 +29,7 @@ def create_default_service() -> GlanceFlowSessionService:
 
 def create_app(service: GlanceFlowSessionService | None = None) -> FastAPI:
     instance = service or create_default_service()
-    app = FastAPI(title="见程 GlanceFlow 本地眼镜交互模拟器", version="0.4.0")
+    app = FastAPI(title="见程 GlanceFlow 本地眼镜交互模拟器", version=__version__)
     app.state.glanceflow_service = instance
     app.include_router(build_router(instance, Path("work") / "uploads"))
     app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="simulator")

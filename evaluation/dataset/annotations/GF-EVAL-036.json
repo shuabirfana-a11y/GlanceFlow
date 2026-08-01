@@ -1,0 +1,26 @@
+{
+  "sample_id": "GF-EVAL-036",
+  "input_path": "evaluation/dataset/images/GF-EVAL-036.png",
+  "media_type": "IMAGE",
+  "source_type": "ARTIFICIAL_POSTER",
+  "category": "multiple_time_ambiguity",
+  "expected_notice_type": "EVENT_NOTICE",
+  "expected_title": "多场次交流会",
+  "expected_event_start": null,
+  "expected_location": "国际交流中心",
+  "expected_deadline": null,
+  "expected_safety_status": "CONTRADICTION_BLOCKED",
+  "expected_failure_reason": "MULTIPLE_EVENT_TIMES",
+  "is_executable": false,
+  "scenario_tags": [
+    "multiple_time_ambiguity",
+    "ambiguous",
+    "image",
+    "none",
+    "none"
+  ],
+  "synthetic": true,
+  "annotation_notes": "由固定种子脚本从人工测试海报生成；不是实拍校园数据。",
+  "existing_context": "NONE",
+  "fault_plan": "NONE"
+}

@@ -1,0 +1,26 @@
+{
+  "sample_id": "GF-EVAL-039",
+  "input_path": "evaluation/dataset/images/GF-EVAL-039.png",
+  "media_type": "IMAGE",
+  "source_type": "ARTIFICIAL_POSTER",
+  "category": "low_quality",
+  "expected_notice_type": "EVENT_NOTICE",
+  "expected_title": "创新创业竞赛宣讲",
+  "expected_event_start": "2026-08-07T14:00:00+08:00",
+  "expected_location": "科技馆报告厅",
+  "expected_deadline": null,
+  "expected_safety_status": "RECAPTURE_REQUIRED",
+  "expected_failure_reason": "LOW_EVIDENCE_CONFIDENCE",
+  "is_executable": false,
+  "scenario_tags": [
+    "low_quality",
+    "low_confidence",
+    "image",
+    "none",
+    "none"
+  ],
+  "synthetic": true,
+  "annotation_notes": "由固定种子脚本从人工测试海报生成；不是实拍校园数据。",
+  "existing_context": "NONE",
+  "fault_plan": "NONE"
+}

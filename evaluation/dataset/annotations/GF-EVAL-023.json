@@ -1,0 +1,26 @@
+{
+  "sample_id": "GF-EVAL-023",
+  "input_path": "evaluation/dataset/images/GF-EVAL-023.png",
+  "media_type": "IMAGE",
+  "source_type": "ARTIFICIAL_POSTER",
+  "category": "ambiguous_time_expression",
+  "expected_notice_type": "EVENT_NOTICE",
+  "expected_title": "摄影社交流活动",
+  "expected_event_start": null,
+  "expected_location": "大学生活动中心",
+  "expected_deadline": null,
+  "expected_safety_status": "NEED_USER_INPUT",
+  "expected_failure_reason": "UNRESOLVED_TIME",
+  "is_executable": false,
+  "scenario_tags": [
+    "ambiguous_time_expression",
+    "unresolved",
+    "image",
+    "none",
+    "none"
+  ],
+  "synthetic": true,
+  "annotation_notes": "由固定种子脚本从人工测试海报生成；不是实拍校园数据。",
+  "existing_context": "NONE",
+  "fault_plan": "NONE"
+}

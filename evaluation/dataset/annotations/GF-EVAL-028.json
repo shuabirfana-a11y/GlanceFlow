@@ -1,0 +1,26 @@
+{
+  "sample_id": "GF-EVAL-028",
+  "input_path": "evaluation/dataset/images/GF-EVAL-028.png",
+  "media_type": "IMAGE",
+  "source_type": "ARTIFICIAL_POSTER",
+  "category": "missing_location",
+  "expected_notice_type": "EVENT_NOTICE",
+  "expected_title": "学术写作讲座",
+  "expected_event_start": "2026-08-12T10:00:00+08:00",
+  "expected_location": null,
+  "expected_deadline": null,
+  "expected_safety_status": "NEED_USER_INPUT",
+  "expected_failure_reason": "MISSING_LOCATION",
+  "is_executable": false,
+  "scenario_tags": [
+    "missing_location",
+    "missing_location",
+    "image",
+    "none",
+    "none"
+  ],
+  "synthetic": true,
+  "annotation_notes": "由固定种子脚本从人工测试海报生成；不是实拍校园数据。",
+  "existing_context": "NONE",
+  "fault_plan": "NONE"
+}

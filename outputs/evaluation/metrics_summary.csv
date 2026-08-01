@@ -1,0 +1,11 @@
+﻿system_id,sample_count,erroneous_execution_rate,erroneous_execution_numerator,erroneous_execution_denominator,valid_coverage_rate,false_rejection_rate,package_complete_accuracy,safety_macro_f1,failure_case_count
+baseline_a_regex_direct,46,0.5833333333333334,21,36,0.75,0.25,0.75,0.39553752535496955,24
+baseline_b_extractor_no_safety,46,0.5714285714285714,20,35,0.75,0.25,0.75,0.6763157894736842,20
+full_system,46,0.0,0,15,0.75,0.25,0.75,0.9135254988913526,5
+no_image_quality_gate,46,0.0625,1,16,0.75,0.25,0.75,0.8761904761904762,6
+no_evidence_confidence_rule,46,0.21052631578947367,4,19,0.75,0.25,0.75,0.9587301587301587,6
+no_weekday_consistency,46,0.21052631578947367,4,19,0.75,0.25,0.75,0.8474747474747475,9
+no_duplicate_detection,46,0.11764705882352941,2,17,0.75,0.25,0.75,0.881915081042988,7
+no_conflict_preflight,46,0.11764705882352941,2,17,0.75,0.25,0.75,0.9135254988913526,7
+no_readback_verification,46,0.0625,1,16,0.75,0.25,0.75,0.9135254988913526,5
+no_atomic_rollback,46,0.11764705882352941,2,17,0.75,0.25,0.75,0.9135254988913526,5
