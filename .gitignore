@@ -10,10 +10,15 @@ work/
 *.temp
 .env
 .env.*
-!.env.example
 *.key
 *.pem
 credentials*.json
+client_secret*.json
 secrets*.json
 token*.json
 google-calendar-credentials*.json
+temp/
+tmp/
+*.log
+.DS_Store
+Thumbs.db
