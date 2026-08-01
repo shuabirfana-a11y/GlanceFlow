@@ -50,9 +50,9 @@ evaluate_notice(
 
 它执行全部规则、不修改输入，并通过固定优先级生成唯一最终状态。仅 `READY_TO_CONFIRM` 的 `can_proceed_to_confirmation` 为 `true`。
 
-## Stage 2 OCR 接口边界
+## Stage 2 OCR 证据链（已实现）
 
-下一阶段可以增加 `OcrProvider` 协议和提取适配器，但必须遵守：
+Stage 2 增加了 `OcrProvider` 协议和确定性提取适配器，并遵守：
 
 - OCR 适配器只输出原始 `EvidenceLine`，坐标由 OCR 结果维护；
 - 语义提取只引用已有 `line_id`，不得生成像素坐标；
@@ -60,3 +60,26 @@ evaluate_notice(
 - 产出的草案必须由 Pydantic 校验并经过现有 `evaluate_notice`；
 - 模糊帧、无效引用和低置信度继续由安全门拒绝。
 
+### 本地 OCR 方案
+
+- `rapidocr-onnxruntime 1.2.3`，Apache-2.0；
+- `onnxruntime 1.28.0`，MIT；
+- CPU 本地运行，支持中文并返回文本片段、置信度和真实四点框；
+- provider 将四点框转换为包含范围 bbox，但不由抽取器生成或修改坐标；
+- `OcrResult` 强制 line_id 唯一、来源帧一致、bbox 非空且不越界。
+
+### 图像质量门
+
+集中阈值位于 `config.py`。当前最小尺寸为 640x400，拉普拉斯方差阈值为 80.0；这些是工程初始值，不是实验最优值。检查包括存在性、格式、解码、分辨率、全黑、明显模糊和 OCR 无文本。
+
+### 确定性抽取
+
+抽取器只支持显式标题/地点标签、完整年月日与 24 小时时间、星期，以及“报名截止/申请截止”和显式截止动作。OCR 片段可依据真实 bbox 组合为视觉行，但字段引用仍保存每个原始 line_id。相对时间不补默认时刻，多活动时间直接返回结构化阻断结果。
+
+### 统一管线
+
+`process_image(...)` 顺序执行质量门、OCR、抽取、Pydantic 和原安全门。质量或 OCR 失败返回 `RECAPTURE_REQUIRED`；无法确定具体时间返回结构化 `NEED_USER_INPUT`；多时间歧义返回 `CONTRADICTION_BLOCKED`。只有产生合法草案后才执行 Stage 1 全部规则。
+
+## Stage 3 日历事务接口边界（未实现）
+
+下一阶段应先定义 `CalendarPort`、创建请求/回读快照、幂等键、事务日志和补偿删除结果，使用内存假实现验证原子语义。真实 Google Calendar、OAuth、凭据管理和外部写入需单独授权后再接入。

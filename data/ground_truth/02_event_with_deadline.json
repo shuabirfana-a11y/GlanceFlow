@@ -1,0 +1,23 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "02_event_with_deadline.png",
+  "name": "02_event_with_deadline",
+  "lines": [
+    "活动标题：实验室招募说明会",
+    "2026年8月8日 星期六 15:00",
+    "地点：理科楼A201",
+    "报名截止：2026年8月7日 20:00",
+    "截止动作：完成实验室报名"
+  ],
+  "expected_status": "READY_TO_CONFIRM",
+  "expected": {
+    "title": "实验室招募说明会",
+    "event_start": "2026-08-08T15:00:00+08:00",
+    "deadline": "2026-08-07T20:00:00+08:00"
+  }
+}

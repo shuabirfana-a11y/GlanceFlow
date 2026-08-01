@@ -1,0 +1,18 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "10_ambiguous_times.png",
+  "name": "10_ambiguous_times",
+  "lines": [
+    "活动标题：多场次交流会",
+    "2026年8月16日 星期日 10:00",
+    "2026年8月17日 星期一 15:00",
+    "地点：国际交流中心"
+  ],
+  "expected_status": "CONTRADICTION_BLOCKED",
+  "expected_issue_id": "GF-EXTRACT-TIME-AMBIGUOUS"
+}

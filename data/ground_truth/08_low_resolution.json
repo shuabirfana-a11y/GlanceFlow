@@ -1,0 +1,17 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "08_low_resolution.png",
+  "name": "08_low_resolution",
+  "lines": [
+    "活动标题：低分辨率通知",
+    "2026年8月14日 星期五 14:00",
+    "地点：就业中心205"
+  ],
+  "expected_status": "RECAPTURE_REQUIRED",
+  "expected_quality_check": "GF-IMG-RESOLUTION"
+}

@@ -7,13 +7,23 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = PROJECT_ROOT / "examples"
+POSTERS = PROJECT_ROOT / "data" / "synthetic_posters"
 
 
-def run_cli(input_path: Path, cwd: Path) -> subprocess.CompletedProcess[str]:
+def run_cli(
+    input_path: Path,
+    cwd: Path,
+    extra_args: list[str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     environment = os.environ.copy()
     environment["PYTHONIOENCODING"] = "utf-8"
+    command = [sys.executable, "-m", "glanceflow.cli"]
+    if extra_args:
+        command.extend([extra_args[0], str(input_path), *extra_args[1:]])
+    else:
+        command.append(str(input_path))
     return subprocess.run(
-        [sys.executable, "-m", "glanceflow.cli", str(input_path)],
+        command,
         cwd=cwd,
         text=True,
         encoding="utf-8",
@@ -58,3 +68,34 @@ def test_batch_output_json_is_generated(tmp_path):
         if not rule["passed"]
     }
     assert "GF-DUPLICATE-001" in duplicate_failures
+
+
+def test_cli_image_single_file(tmp_path):
+    result = run_cli(
+        POSTERS / "01_valid_event.png",
+        tmp_path,
+        extra_args=["extract-image", "--captured-at", "2026-08-01T09:00:00+08:00"],
+    )
+    assert result.returncode == 0, result.stderr
+    assert "frame-01_valid_event-ocr-0002" in result.stdout
+    assert "字段证据绑定" in result.stdout
+    assert "GF-TIME-004" in result.stdout
+    assert "最终安全状态：READY_TO_CONFIRM" in result.stdout
+
+
+def test_cli_image_directory_and_stage2_output(tmp_path):
+    result = run_cli(
+        POSTERS,
+        tmp_path,
+        extra_args=["extract-image", "--captured-at", "2026-08-01T09:00:00+08:00"],
+    )
+    assert result.returncode == 0, result.stderr
+    output_path = tmp_path / "outputs" / "stage2_results.json"
+    assert output_path.is_file()
+    data = json.loads(output_path.read_text(encoding="utf-8"))
+    assert len(data) == 10
+    statuses = {Path(item["source_file"]).name: item["result"]["final_status"] for item in data}
+    assert statuses["01_valid_event.png"] == "READY_TO_CONFIRM"
+    assert statuses["04_unresolved_time.png"] == "NEED_USER_INPUT"
+    assert statuses["09_blurred_image.png"] == "RECAPTURE_REQUIRED"
+    assert statuses["10_ambiguous_times.png"] == "CONTRADICTION_BLOCKED"

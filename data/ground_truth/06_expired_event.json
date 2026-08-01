@@ -1,0 +1,17 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "06_expired_event.png",
+  "name": "06_expired_event",
+  "lines": [
+    "活动标题：旧海报讲座",
+    "2026年7月31日 星期五 14:00",
+    "地点：图书馆报告厅"
+  ],
+  "expected_status": "CONTRADICTION_BLOCKED",
+  "expected_rule_id": "GF-TIME-003"
+}

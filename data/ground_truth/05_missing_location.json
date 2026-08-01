@@ -1,0 +1,16 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "05_missing_location.png",
+  "name": "05_missing_location",
+  "lines": [
+    "活动标题：学术写作讲座",
+    "2026年8月12日 星期三 10:00"
+  ],
+  "expected_status": "NEED_USER_INPUT",
+  "expected_rule_id": "GF-FIELD-002"
+}

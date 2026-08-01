@@ -1,0 +1,17 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "03_weekday_contradiction.png",
+  "name": "03_weekday_contradiction",
+  "lines": [
+    "活动标题：机器人竞赛培训",
+    "2026年8月10日 星期二 14:00",
+    "地点：综合实验大厅"
+  ],
+  "expected_status": "CONTRADICTION_BLOCKED",
+  "expected_rule_id": "GF-TIME-004"
+}

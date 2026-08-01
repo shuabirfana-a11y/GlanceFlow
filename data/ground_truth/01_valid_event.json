@@ -1,0 +1,21 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "01_valid_event.png",
+  "name": "01_valid_event",
+  "lines": [
+    "活动标题：创新创业竞赛宣讲",
+    "2026年8月7日 星期五 14:00",
+    "地点：科技馆报告厅"
+  ],
+  "expected_status": "READY_TO_CONFIRM",
+  "expected": {
+    "title": "创新创业竞赛宣讲",
+    "event_start": "2026-08-07T14:00:00+08:00",
+    "location": "科技馆报告厅"
+  }
+}

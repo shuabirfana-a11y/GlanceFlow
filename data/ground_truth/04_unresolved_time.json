@@ -1,0 +1,17 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "04_unresolved_time.png",
+  "name": "04_unresolved_time",
+  "lines": [
+    "活动标题：摄影社交流活动",
+    "活动时间：周五下午",
+    "地点：大学生活动中心"
+  ],
+  "expected_status": "NEED_USER_INPUT",
+  "expected_issue_id": "GF-EXTRACT-TIME-MISSING"
+}

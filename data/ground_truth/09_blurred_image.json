@@ -1,0 +1,17 @@
+{
+  "artificial_test_material": true,
+  "not_a_real_school_notice": true,
+  "random_seed": 20260801,
+  "font_reference": "C:\\Windows\\Fonts\\msyhbd.ttc",
+  "captured_at": "2026-08-01T09:00:00+08:00",
+  "timezone": "Asia/Shanghai",
+  "image_file": "09_blurred_image.png",
+  "name": "09_blurred_image",
+  "lines": [
+    "活动标题：模糊画面讲座",
+    "2026年8月15日 星期六 14:00",
+    "地点：综合楼报告厅"
+  ],
+  "expected_status": "RECAPTURE_REQUIRED",
+  "expected_quality_check": "GF-IMG-SHARPNESS"
+}

@@ -282,7 +282,9 @@ def rule_confidence_001(draft: NoticePackageDraft, _: list[NoticePackageDraft]) 
     known = {line.line_id: line for line in draft.evidence_lines}
     low: list[tuple[str, str]] = []
     for field, item in _core_evidence(draft):
-        if item.confidence < CORE_EVIDENCE_MIN_CONFIDENCE:
+        # An absent evidence binding is handled by GF-EVIDENCE-001 as user
+        # input; confidence only has meaning when evidence actually exists.
+        if item.evidence_line_ids and item.confidence < CORE_EVIDENCE_MIN_CONFIDENCE:
             low.append((field, "字段置信度"))
         for line_id in item.evidence_line_ids:
             line = known.get(line_id)
@@ -359,4 +361,3 @@ ALL_RULES = (
     rule_notice_001,
     rule_duplicate_001,
 )
-
