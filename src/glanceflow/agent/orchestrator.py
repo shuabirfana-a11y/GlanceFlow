@@ -58,10 +58,16 @@ class GlanceFlowAgent:
         session = self._session(session_id)
         before = confirmation_digest(session.observation, session.risk_level) if session.confirmation_snapshot else None
         if isinstance(observation, AgentObservation):
+            if observation.session_state is not session.observation.session_state:
+                raise AgentOrchestrationError("observe cannot change agent state; use the centralized state machine")
             updated = observation
         else:
+            requested_state = observation.get("session_state")
+            if requested_state is not None and AgentSessionState(requested_state) is not session.observation.session_state:
+                raise AgentOrchestrationError("observe cannot change agent state; use the centralized state machine")
             payload = session.observation.model_dump(mode="python")
             payload.update(observation)
+            payload["session_state"] = session.observation.session_state
             payload["timestamp"] = payload.get("timestamp") or datetime.now(timezone.utc)
             updated = AgentObservation.model_validate(payload)
         session.observation = updated

@@ -15,7 +15,15 @@ SENSITIVE_KEYS = {"api_key", "access_token", "refresh_token", "oauth_token", "cr
 
 def _redact(value: Any) -> Any:
     if isinstance(value, dict):
-        return {key: ("[REDACTED]" if key.lower() in SENSITIVE_KEYS else _redact(item)) for key, item in value.items()}
+        return {
+            key: (
+                "[REDACTED]"
+                if key.lower() in SENSITIVE_KEYS
+                or any(marker in key.lower() for marker in ("secret", "token", "credential", "password"))
+                else _redact(item)
+            )
+            for key, item in value.items()
+        }
     if isinstance(value, list):
         return [_redact(item) for item in value]
     return value
@@ -72,4 +80,43 @@ class DecisionTrace(AgentModel):
 
 
 def result_for_trace(result: ToolExecutionResult | None) -> dict[str, Any] | None:
-    return _redact(result.model_dump(mode="json")) if result else None
+    if result is None:
+        return None
+    data = result.output.get("data", {}) if isinstance(result.output, dict) else {}
+    summary: dict[str, Any] = {"verified": bool(result.output.get("verified"))}
+    for key in (
+        "status",
+        "transaction_id",
+        "frame_id",
+        "requires_recapture",
+        "mismatch_fields",
+        "remaining_event_ids",
+        "created_event_ids",
+        "event_ids",
+    ):
+        if key in data:
+            summary[key] = data[key]
+    rollback_results = data.get("rollback_results") or []
+    if rollback_results:
+        summary["rollback_attempted"] = True
+        summary["rollback_residual_event_ids"] = [
+            item.get("event_id") for item in rollback_results if not item.get("absence_verified")
+        ]
+    verification_results = data.get("verification_results") or []
+    if verification_results:
+        summary["verification_mismatch_fields"] = sorted({
+            field
+            for item in verification_results
+            for field in item.get("mismatch_fields", [])
+        })
+    return _redact({
+        "tool_call_id": result.tool_call_id,
+        "tool_name": result.tool_name,
+        "success": result.success,
+        "error_type": result.error_type,
+        "error_message": result.error_message,
+        "retryable": result.retryable,
+        "side_effect_occurred": result.side_effect_occurred,
+        "duration_ms": result.duration_ms,
+        "output_summary": summary,
+    })

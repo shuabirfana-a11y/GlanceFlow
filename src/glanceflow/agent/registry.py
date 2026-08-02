@@ -81,8 +81,8 @@ class AgentToolRegistry:
             return result.model_copy(update={"side_effect_occurred": exc.side_effect_occurred})
         except TimeoutError:
             return self._failure(name, started_at, clock, "TIMEOUT", "工具调用超时，结果状态未知。", retryable=contract.side_effect_level is SideEffectLevel.READ_ONLY)
-        except Exception as exc:
-            return self._failure(name, started_at, clock, type(exc).__name__, "工具执行失败；内部提供方信息已隐藏。", retryable=contract.side_effect_level is SideEffectLevel.READ_ONLY)
+        except Exception:
+            return self._failure(name, started_at, clock, "TOOL_EXECUTION_ERROR", "工具执行失败；内部提供方信息已隐藏。", retryable=contract.side_effect_level is SideEffectLevel.READ_ONLY)
         completed = datetime.now(timezone.utc)
         return ToolExecutionResult(
             tool_name=name,

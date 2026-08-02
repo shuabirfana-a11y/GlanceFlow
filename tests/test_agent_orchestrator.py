@@ -44,6 +44,8 @@ def test_sessions_are_isolated_and_cancelled_session_cannot_execute():
     agent, runtime, goal = make_agent()
     second = goal.model_copy(update={"goal_id": "GF-GOAL-SECOND", "session_id": "session-second"})
     agent.start_goal(second)
+    with pytest.raises(AgentOrchestrationError):
+        agent.observe(goal.session_id, {"session_state": "EXECUTING"})
     agent.cancel(goal.session_id)
     assert agent.get_state(goal.session_id).observation.session_state is AgentSessionState.CANCELLED
     assert agent.get_state(second.session_id).observation.session_state is AgentSessionState.IDLE

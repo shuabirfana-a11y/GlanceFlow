@@ -1,9 +1,9 @@
 {
   "session_id": "session-AG-014",
-  "goal_id": "GF-GOAL-e689015cd7264890bbbf41616f73b944",
+  "goal_id": "GF-GOAL-201472b43d0f44caa647673e0cd62cb4",
   "steps": [
     {
-      "occurred_at": "2026-08-02T09:58:14.629463Z",
+      "occurred_at": "2026-08-02T10:27:38.384871Z",
       "current_state": "IDLE",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -17,23 +17,17 @@
       "evidence_line_ids": [],
       "tool_call": "capture_frames",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-d394b903d423448496e219590924f6d0",
+        "tool_call_id": "GF-TOOL-856d7a47907d44178b45243c91a59166",
         "tool_name": "capture_frames",
         "success": true,
-        "output": {
-          "data": {
-            "captured": true,
-            "raw_video_deleted": true
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.629390Z",
-        "completed_at": "2026-08-02T09:58:14.629412Z",
-        "duration_ms": 0.0259000007645227
+        "duration_ms": 0.026400000024295878,
+        "output_summary": {
+          "verified": true
+        }
       },
       "next_state": "SELECTING_FRAME",
       "side_effect_occurred": false,
@@ -41,7 +35,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.629946Z",
+      "occurred_at": "2026-08-02T10:27:38.385340Z",
       "current_state": "SELECTING_FRAME",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -55,23 +49,19 @@
       "evidence_line_ids": [],
       "tool_call": "select_best_frame",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-9894d28f5d2f497ca3dd97100c2a6808",
+        "tool_call_id": "GF-TOOL-e503603452324c779c95dd5b9472ddbd",
         "tool_name": "select_best_frame",
         "success": true,
-        "output": {
-          "data": {
-            "frame_id": "frame-agent-eval",
-            "requires_recapture": false
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.629876Z",
-        "completed_at": "2026-08-02T09:58:14.629897Z",
-        "duration_ms": 0.025600000299164094
+        "duration_ms": 0.02559999995810358,
+        "output_summary": {
+          "verified": true,
+          "frame_id": "frame-agent-eval",
+          "requires_recapture": false
+        }
       },
       "next_state": "READING",
       "side_effect_occurred": false,
@@ -79,7 +69,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.630408Z",
+      "occurred_at": "2026-08-02T10:27:38.385826Z",
       "current_state": "READING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -93,17 +83,17 @@
       "evidence_line_ids": [],
       "tool_call": "recognize_text",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-4a20e97369bc4d1e86b6c0807b931ff3",
+        "tool_call_id": "GF-TOOL-8a906dff92f3429e80674158596add37",
         "tool_name": "recognize_text",
         "success": false,
-        "output": {},
         "error_type": "OCR_TEMPORARY",
         "error_message": "本地 OCR 暂时失败。",
         "retryable": true,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.630317Z",
-        "completed_at": "2026-08-02T09:58:14.630340Z",
-        "duration_ms": 0.0227999998969608
+        "duration_ms": 0.02519999998185085,
+        "output_summary": {
+          "verified": false
+        }
       },
       "next_state": "READING",
       "side_effect_occurred": false,
@@ -111,7 +101,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.630855Z",
+      "occurred_at": "2026-08-02T10:27:38.386286Z",
       "current_state": "READING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -125,24 +115,17 @@
       "evidence_line_ids": [],
       "tool_call": "recognize_text",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-41ef5cd01cf34148bc96bd758f8b2f3f",
+        "tool_call_id": "GF-TOOL-f165162255c1411ab117c8f5487e66da",
         "tool_name": "recognize_text",
         "success": true,
-        "output": {
-          "data": {
-            "success": true,
-            "line_count": 3,
-            "mean_confidence": 0.96
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.630772Z",
-        "completed_at": "2026-08-02T09:58:14.630803Z",
-        "duration_ms": 0.03670000023703324
+        "duration_ms": 0.02599999993435631,
+        "output_summary": {
+          "verified": true
+        }
       },
       "next_state": "EXTRACTING",
       "side_effect_occurred": false,
@@ -150,7 +133,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.631326Z",
+      "occurred_at": "2026-08-02T10:27:38.386774Z",
       "current_state": "EXTRACTING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -167,39 +150,17 @@
       ],
       "tool_call": "extract_notice_draft",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-a6b0a5beaa1d40c8a75465db53f8cf5e",
+        "tool_call_id": "GF-TOOL-a09ba76d2e51494c948240c612c5c169",
         "tool_name": "extract_notice_draft",
         "success": true,
-        "output": {
-          "data": {
-            "notice_draft": {
-              "notice_package_id": "GF-PKG-014",
-              "main_event": {
-                "title": "创新创业竞赛宣讲",
-                "event_start": "2026-08-07T14:00:00+08:00",
-                "location": "科技馆报告厅"
-              },
-              "deadline_action": null,
-              "evidence_lines": [
-                {
-                  "line_id": "agent-eval-line-1"
-                },
-                {
-                  "line_id": "agent-eval-line-2"
-                }
-              ]
-            },
-            "unresolved_fields": []
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.631242Z",
-        "completed_at": "2026-08-02T09:58:14.631268Z",
-        "duration_ms": 0.03470000046945643
+        "duration_ms": 0.03449999996973929,
+        "output_summary": {
+          "verified": true
+        }
       },
       "next_state": "VALIDATING",
       "side_effect_occurred": false,
@@ -207,7 +168,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.631868Z",
+      "occurred_at": "2026-08-02T10:27:38.387367Z",
       "current_state": "VALIDATING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -224,23 +185,18 @@
       ],
       "tool_call": "evaluate_safety",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-258f16ce993548ebb452e1ba8c5ca0d3",
+        "tool_call_id": "GF-TOOL-1e2747bc9d9548f2ba8614ff80c0fe52",
         "tool_name": "evaluate_safety",
         "success": true,
-        "output": {
-          "data": {
-            "status": "READY_TO_CONFIRM",
-            "can_proceed_to_confirmation": true
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.631799Z",
-        "completed_at": "2026-08-02T09:58:14.631819Z",
-        "duration_ms": 0.024399999347224366
+        "duration_ms": 0.025400000026820635,
+        "output_summary": {
+          "verified": true,
+          "status": "READY_TO_CONFIRM"
+        }
       },
       "next_state": "PREFLIGHTING",
       "side_effect_occurred": false,
@@ -248,7 +204,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.632399Z",
+      "occurred_at": "2026-08-02T10:27:38.387937Z",
       "current_state": "PREFLIGHTING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -265,31 +221,18 @@
       ],
       "tool_call": "run_action_preflight",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-58f494242c7944ec941b16eb6ba81690",
+        "tool_call_id": "GF-TOOL-92d6aad351154f81aacdcdf40464d7cd",
         "tool_name": "run_action_preflight",
         "success": true,
-        "output": {
-          "data": {
-            "transaction_id": "GF-TX-AG-014",
-            "passed": true,
-            "duplicate_result": {
-              "is_duplicate": false
-            },
-            "conflict_result": {
-              "has_conflict": false,
-              "overlap_minutes": 0
-            },
-            "requires_conflict_confirmation": false
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.632319Z",
-        "completed_at": "2026-08-02T09:58:14.632344Z",
-        "duration_ms": 0.031200000194075983
+        "duration_ms": 0.031600000056641875,
+        "output_summary": {
+          "verified": true,
+          "transaction_id": "GF-TX-AG-014"
+        }
       },
       "next_state": "WAIT_CONFIRM",
       "side_effect_occurred": false,
@@ -297,7 +240,7 @@
       "public_rationale": "根据当前状态选择下一项白名单能力。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.633638Z",
+      "occurred_at": "2026-08-02T10:27:38.389143Z",
       "current_state": "WAIT_CONFIRM",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -316,26 +259,22 @@
       ],
       "tool_call": "create_calendar_transaction",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-99d2b37fda754ae8bc8b638491d4f14d",
+        "tool_call_id": "GF-TOOL-ac6c7a39f98446d7b67a7c2abbd080d4",
         "tool_name": "create_calendar_transaction",
         "success": true,
-        "output": {
-          "data": {
-            "transaction_id": "GF-TX-AG-014",
-            "status": "CREATED",
-            "event_ids": [
-              "main-event"
-            ]
-          },
-          "verified": false
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": true,
-        "started_at": "2026-08-02T09:58:14.633538Z",
-        "completed_at": "2026-08-02T09:58:14.633568Z",
-        "duration_ms": 0.03470000046945643
+        "duration_ms": 0.032899999951041536,
+        "output_summary": {
+          "verified": false,
+          "status": "CREATED",
+          "transaction_id": "GF-TX-AG-014",
+          "event_ids": [
+            "main-event"
+          ]
+        }
       },
       "next_state": "VERIFYING",
       "side_effect_occurred": true,
@@ -343,7 +282,7 @@
       "public_rationale": "确认快照与当前草稿、风险和冲突状态一致，可以执行事务。"
     },
     {
-      "occurred_at": "2026-08-02T09:58:14.634269Z",
+      "occurred_at": "2026-08-02T10:27:38.389798Z",
       "current_state": "VERIFYING",
       "current_goal": "SCHEDULE_CURRENT_NOTICE",
       "available_actions": [
@@ -360,26 +299,22 @@
       ],
       "tool_call": "verify_calendar_transaction",
       "tool_result": {
-        "tool_call_id": "GF-TOOL-3f7b3c562fb14fa2a51ba350cbbb0950",
+        "tool_call_id": "GF-TOOL-f211374b177a4fcb9952c8a5ff5aa61e",
         "tool_name": "verify_calendar_transaction",
         "success": true,
-        "output": {
-          "data": {
-            "transaction_id": "GF-TX-AG-014",
-            "status": "VERIFIED",
-            "event_ids": [
-              "main-event"
-            ]
-          },
-          "verified": true
-        },
         "error_type": null,
         "error_message": null,
         "retryable": false,
         "side_effect_occurred": false,
-        "started_at": "2026-08-02T09:58:14.634190Z",
-        "completed_at": "2026-08-02T09:58:14.634215Z",
-        "duration_ms": 0.02930000027845381
+        "duration_ms": 0.02779999999802385,
+        "output_summary": {
+          "verified": true,
+          "status": "VERIFIED",
+          "transaction_id": "GF-TX-AG-014",
+          "event_ids": [
+            "main-event"
+          ]
+        }
       },
       "next_state": "SUCCESS",
       "side_effect_occurred": false,
