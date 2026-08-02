@@ -1,0 +1,596 @@
+{
+  "system_id": "full_system",
+  "sample_count": 46,
+  "source": "dataset manifest plus freshly generated Full System result records",
+  "metrics": {
+    "erroneous_execution_rate": {
+      "formula": "erroneously executed packages / all actually executed packages",
+      "numerator": 0,
+      "denominator": 15,
+      "numerator_sample_ids": [],
+      "denominator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-012",
+        "GF-EVAL-014",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018"
+      ],
+      "value": 0.0,
+      "display": "0.00%"
+    },
+    "valid_coverage_rate": {
+      "formula": "correctly executed packages / all notices labeled is_executable=true",
+      "numerator": 15,
+      "denominator": 20,
+      "numerator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-012",
+        "GF-EVAL-014",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018"
+      ],
+      "denominator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-011",
+        "GF-EVAL-012",
+        "GF-EVAL-013",
+        "GF-EVAL-014",
+        "GF-EVAL-015",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018",
+        "GF-EVAL-045",
+        "GF-EVAL-046"
+      ],
+      "value": 0.75,
+      "display": "75.00%"
+    },
+    "false_rejection_rate": {
+      "formula": "executable notices not correctly executed / all notices labeled is_executable=true",
+      "numerator": 5,
+      "denominator": 20,
+      "numerator_sample_ids": [
+        "GF-EVAL-011",
+        "GF-EVAL-013",
+        "GF-EVAL-015",
+        "GF-EVAL-045",
+        "GF-EVAL-046"
+      ],
+      "denominator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-011",
+        "GF-EVAL-012",
+        "GF-EVAL-013",
+        "GF-EVAL-014",
+        "GF-EVAL-015",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018",
+        "GF-EVAL-045",
+        "GF-EVAL-046"
+      ],
+      "value": 0.25,
+      "display": "25.00%"
+    },
+    "package_complete_accuracy": {
+      "formula": "completely correct packages / all notices labeled is_executable=true",
+      "numerator": 15,
+      "denominator": 20,
+      "numerator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-012",
+        "GF-EVAL-014",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018"
+      ],
+      "denominator_sample_ids": [
+        "GF-EVAL-001",
+        "GF-EVAL-002",
+        "GF-EVAL-003",
+        "GF-EVAL-004",
+        "GF-EVAL-005",
+        "GF-EVAL-006",
+        "GF-EVAL-007",
+        "GF-EVAL-008",
+        "GF-EVAL-009",
+        "GF-EVAL-010",
+        "GF-EVAL-011",
+        "GF-EVAL-012",
+        "GF-EVAL-013",
+        "GF-EVAL-014",
+        "GF-EVAL-015",
+        "GF-EVAL-016",
+        "GF-EVAL-017",
+        "GF-EVAL-018",
+        "GF-EVAL-045",
+        "GF-EVAL-046"
+      ],
+      "value": 0.75,
+      "display": "75.00%"
+    },
+    "safety_macro_f1": {
+      "formula": "sum(F1 for the four safety states) / 4",
+      "numerator": 3.6541019955654104,
+      "denominator": 4,
+      "component_labels": [
+        "READY_TO_CONFIRM",
+        "NEED_USER_INPUT",
+        "CONTRADICTION_BLOCKED",
+        "RECAPTURE_REQUIRED"
+      ],
+      "component_values": [
+        0.9268292682926829,
+        1.0,
+        1.0,
+        0.7272727272727273
+      ],
+      "value": 0.9135254988913526,
+      "per_class": {
+        "READY_TO_CONFIRM": {
+          "tp": 19,
+          "fp": 0,
+          "fn": 3,
+          "tp_sample_ids": [
+            "GF-EVAL-001",
+            "GF-EVAL-002",
+            "GF-EVAL-003",
+            "GF-EVAL-004",
+            "GF-EVAL-005",
+            "GF-EVAL-006",
+            "GF-EVAL-007",
+            "GF-EVAL-008",
+            "GF-EVAL-009",
+            "GF-EVAL-010",
+            "GF-EVAL-012",
+            "GF-EVAL-014",
+            "GF-EVAL-016",
+            "GF-EVAL-017",
+            "GF-EVAL-018",
+            "GF-EVAL-043",
+            "GF-EVAL-044",
+            "GF-EVAL-045",
+            "GF-EVAL-046"
+          ],
+          "fp_sample_ids": [],
+          "fn_sample_ids": [
+            "GF-EVAL-011",
+            "GF-EVAL-013",
+            "GF-EVAL-015"
+          ],
+          "precision_formula": "TP / (TP + FP)",
+          "precision_numerator": 19,
+          "precision_denominator": 19,
+          "precision_denominator_sample_ids": [
+            "GF-EVAL-001",
+            "GF-EVAL-002",
+            "GF-EVAL-003",
+            "GF-EVAL-004",
+            "GF-EVAL-005",
+            "GF-EVAL-006",
+            "GF-EVAL-007",
+            "GF-EVAL-008",
+            "GF-EVAL-009",
+            "GF-EVAL-010",
+            "GF-EVAL-012",
+            "GF-EVAL-014",
+            "GF-EVAL-016",
+            "GF-EVAL-017",
+            "GF-EVAL-018",
+            "GF-EVAL-043",
+            "GF-EVAL-044",
+            "GF-EVAL-045",
+            "GF-EVAL-046"
+          ],
+          "precision": 1.0,
+          "recall_formula": "TP / (TP + FN)",
+          "recall_numerator": 19,
+          "recall_denominator": 22,
+          "recall_denominator_sample_ids": [
+            "GF-EVAL-001",
+            "GF-EVAL-002",
+            "GF-EVAL-003",
+            "GF-EVAL-004",
+            "GF-EVAL-005",
+            "GF-EVAL-006",
+            "GF-EVAL-007",
+            "GF-EVAL-008",
+            "GF-EVAL-009",
+            "GF-EVAL-010",
+            "GF-EVAL-012",
+            "GF-EVAL-014",
+            "GF-EVAL-016",
+            "GF-EVAL-017",
+            "GF-EVAL-018",
+            "GF-EVAL-043",
+            "GF-EVAL-044",
+            "GF-EVAL-045",
+            "GF-EVAL-046",
+            "GF-EVAL-011",
+            "GF-EVAL-013",
+            "GF-EVAL-015"
+          ],
+          "recall": 0.8636363636363636,
+          "f1_formula": "2 * precision * recall / (precision + recall)",
+          "f1": 0.9268292682926829
+        },
+        "NEED_USER_INPUT": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tp_sample_ids": [
+            "GF-EVAL-023",
+            "GF-EVAL-024",
+            "GF-EVAL-025",
+            "GF-EVAL-026",
+            "GF-EVAL-027",
+            "GF-EVAL-028",
+            "GF-EVAL-029"
+          ],
+          "fp_sample_ids": [],
+          "fn_sample_ids": [],
+          "precision_formula": "TP / (TP + FP)",
+          "precision_numerator": 7,
+          "precision_denominator": 7,
+          "precision_denominator_sample_ids": [
+            "GF-EVAL-023",
+            "GF-EVAL-024",
+            "GF-EVAL-025",
+            "GF-EVAL-026",
+            "GF-EVAL-027",
+            "GF-EVAL-028",
+            "GF-EVAL-029"
+          ],
+          "precision": 1.0,
+          "recall_formula": "TP / (TP + FN)",
+          "recall_numerator": 7,
+          "recall_denominator": 7,
+          "recall_denominator_sample_ids": [
+            "GF-EVAL-023",
+            "GF-EVAL-024",
+            "GF-EVAL-025",
+            "GF-EVAL-026",
+            "GF-EVAL-027",
+            "GF-EVAL-028",
+            "GF-EVAL-029"
+          ],
+          "recall": 1.0,
+          "f1_formula": "2 * precision * recall / (precision + recall)",
+          "f1": 1.0
+        },
+        "CONTRADICTION_BLOCKED": {
+          "tp": 13,
+          "fp": 0,
+          "fn": 0,
+          "tp_sample_ids": [
+            "GF-EVAL-019",
+            "GF-EVAL-020",
+            "GF-EVAL-021",
+            "GF-EVAL-022",
+            "GF-EVAL-030",
+            "GF-EVAL-031",
+            "GF-EVAL-032",
+            "GF-EVAL-033",
+            "GF-EVAL-034",
+            "GF-EVAL-035",
+            "GF-EVAL-036",
+            "GF-EVAL-041",
+            "GF-EVAL-042"
+          ],
+          "fp_sample_ids": [],
+          "fn_sample_ids": [],
+          "precision_formula": "TP / (TP + FP)",
+          "precision_numerator": 13,
+          "precision_denominator": 13,
+          "precision_denominator_sample_ids": [
+            "GF-EVAL-019",
+            "GF-EVAL-020",
+            "GF-EVAL-021",
+            "GF-EVAL-022",
+            "GF-EVAL-030",
+            "GF-EVAL-031",
+            "GF-EVAL-032",
+            "GF-EVAL-033",
+            "GF-EVAL-034",
+            "GF-EVAL-035",
+            "GF-EVAL-036",
+            "GF-EVAL-041",
+            "GF-EVAL-042"
+          ],
+          "precision": 1.0,
+          "recall_formula": "TP / (TP + FN)",
+          "recall_numerator": 13,
+          "recall_denominator": 13,
+          "recall_denominator_sample_ids": [
+            "GF-EVAL-019",
+            "GF-EVAL-020",
+            "GF-EVAL-021",
+            "GF-EVAL-022",
+            "GF-EVAL-030",
+            "GF-EVAL-031",
+            "GF-EVAL-032",
+            "GF-EVAL-033",
+            "GF-EVAL-034",
+            "GF-EVAL-035",
+            "GF-EVAL-036",
+            "GF-EVAL-041",
+            "GF-EVAL-042"
+          ],
+          "recall": 1.0,
+          "f1_formula": "2 * precision * recall / (precision + recall)",
+          "f1": 1.0
+        },
+        "RECAPTURE_REQUIRED": {
+          "tp": 4,
+          "fp": 3,
+          "fn": 0,
+          "tp_sample_ids": [
+            "GF-EVAL-037",
+            "GF-EVAL-038",
+            "GF-EVAL-039",
+            "GF-EVAL-040"
+          ],
+          "fp_sample_ids": [
+            "GF-EVAL-011",
+            "GF-EVAL-013",
+            "GF-EVAL-015"
+          ],
+          "fn_sample_ids": [],
+          "precision_formula": "TP / (TP + FP)",
+          "precision_numerator": 4,
+          "precision_denominator": 7,
+          "precision_denominator_sample_ids": [
+            "GF-EVAL-037",
+            "GF-EVAL-038",
+            "GF-EVAL-039",
+            "GF-EVAL-040",
+            "GF-EVAL-011",
+            "GF-EVAL-013",
+            "GF-EVAL-015"
+          ],
+          "precision": 0.5714285714285714,
+          "recall_formula": "TP / (TP + FN)",
+          "recall_numerator": 4,
+          "recall_denominator": 4,
+          "recall_denominator_sample_ids": [
+            "GF-EVAL-037",
+            "GF-EVAL-038",
+            "GF-EVAL-039",
+            "GF-EVAL-040"
+          ],
+          "recall": 1.0,
+          "f1_formula": "2 * precision * recall / (precision + recall)",
+          "f1": 0.7272727272727273
+        }
+      }
+    }
+  },
+  "confusion_matrix": {
+    "READY_TO_CONFIRM": {
+      "READY_TO_CONFIRM": {
+        "count": 19,
+        "sample_ids": [
+          "GF-EVAL-001",
+          "GF-EVAL-002",
+          "GF-EVAL-003",
+          "GF-EVAL-004",
+          "GF-EVAL-005",
+          "GF-EVAL-006",
+          "GF-EVAL-007",
+          "GF-EVAL-008",
+          "GF-EVAL-009",
+          "GF-EVAL-010",
+          "GF-EVAL-012",
+          "GF-EVAL-014",
+          "GF-EVAL-016",
+          "GF-EVAL-017",
+          "GF-EVAL-018",
+          "GF-EVAL-043",
+          "GF-EVAL-044",
+          "GF-EVAL-045",
+          "GF-EVAL-046"
+        ]
+      },
+      "NEED_USER_INPUT": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "CONTRADICTION_BLOCKED": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "RECAPTURE_REQUIRED": {
+        "count": 3,
+        "sample_ids": [
+          "GF-EVAL-011",
+          "GF-EVAL-013",
+          "GF-EVAL-015"
+        ]
+      }
+    },
+    "NEED_USER_INPUT": {
+      "READY_TO_CONFIRM": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "NEED_USER_INPUT": {
+        "count": 7,
+        "sample_ids": [
+          "GF-EVAL-023",
+          "GF-EVAL-024",
+          "GF-EVAL-025",
+          "GF-EVAL-026",
+          "GF-EVAL-027",
+          "GF-EVAL-028",
+          "GF-EVAL-029"
+        ]
+      },
+      "CONTRADICTION_BLOCKED": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "RECAPTURE_REQUIRED": {
+        "count": 0,
+        "sample_ids": []
+      }
+    },
+    "CONTRADICTION_BLOCKED": {
+      "READY_TO_CONFIRM": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "NEED_USER_INPUT": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "CONTRADICTION_BLOCKED": {
+        "count": 13,
+        "sample_ids": [
+          "GF-EVAL-019",
+          "GF-EVAL-020",
+          "GF-EVAL-021",
+          "GF-EVAL-022",
+          "GF-EVAL-030",
+          "GF-EVAL-031",
+          "GF-EVAL-032",
+          "GF-EVAL-033",
+          "GF-EVAL-034",
+          "GF-EVAL-035",
+          "GF-EVAL-036",
+          "GF-EVAL-041",
+          "GF-EVAL-042"
+        ]
+      },
+      "RECAPTURE_REQUIRED": {
+        "count": 0,
+        "sample_ids": []
+      }
+    },
+    "RECAPTURE_REQUIRED": {
+      "READY_TO_CONFIRM": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "NEED_USER_INPUT": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "CONTRADICTION_BLOCKED": {
+        "count": 0,
+        "sample_ids": []
+      },
+      "RECAPTURE_REQUIRED": {
+        "count": 4,
+        "sample_ids": [
+          "GF-EVAL-037",
+          "GF-EVAL-038",
+          "GF-EVAL-039",
+          "GF-EVAL-040"
+        ]
+      }
+    }
+  },
+  "coverage_conclusion": {
+    "expected_ready_count": 22,
+    "expected_ready_sample_ids": [
+      "GF-EVAL-001",
+      "GF-EVAL-002",
+      "GF-EVAL-003",
+      "GF-EVAL-004",
+      "GF-EVAL-005",
+      "GF-EVAL-006",
+      "GF-EVAL-007",
+      "GF-EVAL-008",
+      "GF-EVAL-009",
+      "GF-EVAL-010",
+      "GF-EVAL-011",
+      "GF-EVAL-012",
+      "GF-EVAL-013",
+      "GF-EVAL-014",
+      "GF-EVAL-015",
+      "GF-EVAL-016",
+      "GF-EVAL-017",
+      "GF-EVAL-018",
+      "GF-EVAL-043",
+      "GF-EVAL-044",
+      "GF-EVAL-045",
+      "GF-EVAL-046"
+    ],
+    "ready_predicted_ready_count": 19,
+    "ready_predicted_ready_sample_ids": [
+      "GF-EVAL-001",
+      "GF-EVAL-002",
+      "GF-EVAL-003",
+      "GF-EVAL-004",
+      "GF-EVAL-005",
+      "GF-EVAL-006",
+      "GF-EVAL-007",
+      "GF-EVAL-008",
+      "GF-EVAL-009",
+      "GF-EVAL-010",
+      "GF-EVAL-012",
+      "GF-EVAL-014",
+      "GF-EVAL-016",
+      "GF-EVAL-017",
+      "GF-EVAL-018",
+      "GF-EVAL-043",
+      "GF-EVAL-044",
+      "GF-EVAL-045",
+      "GF-EVAL-046"
+    ],
+    "ready_state_recall": 0.8636363636363636,
+    "non_executable_conflict_wait_count": 2,
+    "non_executable_conflict_wait_sample_ids": [
+      "GF-EVAL-043",
+      "GF-EVAL-044"
+    ],
+    "conclusion": "Valid coverage remains 15/20 = 75.00%. The separate 19/22 = 86.36% figure is READY_TO_CONFIRM state recall, not execution coverage; two READY labels are conflict cases that intentionally wait for secondary confirmation and have is_executable=false in this protocol."
+  }
+}

@@ -2,7 +2,7 @@
 
 见程是面向校园线下高价值时限通知的第一视角可信行动编译智能体。本仓库实现 Stage 1 行动安全门、Stage 2 本地 OCR 证据链、Stage 3 可信日历事务层，以及 Stage 4 本地第一视角眼镜交互模拟器。
 
-Stage 3 默认使用隔离的内存日历，支持预检、结构化确认、原子创建、event_id 回读、补偿回滚和精准撤销。Google Calendar 适配器已经实现并通过假服务契约测试，但当前没有测试凭据，因此没有进行或声称真实 Google 调用。
+Stage 3 默认使用隔离的内存日历，支持 Action Preflight｜行动预检、结构化确认、原子创建、event_id 回读、补偿回滚和精准撤销。Google Calendar 适配器已经实现并通过假服务契约测试，但当前没有测试凭据，因此没有进行或声称真实 Google 调用。
 
 Stage 4 是“眼镜工作流模拟”，不是已经部署到真实眼镜设备。它以本地短视频或浏览器短时相机采集模拟第一视角输入，只在明确的“帮我安排”指令后采集约 3 秒，自动选帧并复用既有 OCR、安全门和可信日历事务。默认日历仍为内存实现。
 
@@ -104,7 +104,7 @@ Stage 2 使用本地 CPU 方案 `rapidocr-onnxruntime 1.2.3`，默认模型随�
 
 ## 日历事务保证
 
-- 只有 `READY_TO_CONFIRM` 且安全门允许确认的草案能进入预检。
+- 只有 `READY_TO_CONFIRM` 且安全门允许确认的草案能进入 Action Preflight｜行动预检。
 - 用户确认记录标题、开始时间、地点和可选截止时间；字段变化使确认失效。
 - 冲突不自动改时间，必须再次设置 `accepted_conflict=True`。
 - 主活动与截止事件使用不同角色和幂等键，任一创建或回读失败都会补偿删除已创建部分。
@@ -153,7 +153,7 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 - `src\glanceflow\extraction\`：确定性字段抽取和证据链接。
 - `src\glanceflow\pipeline.py`：图片到安全状态的统一管线。
 - `data\generate_synthetic_posters.py`：固定种子的人工素材生成脚本。
-- `src\glanceflow\calendar\`：厂商无关模型、端口、内存/Google提供器、预检、验证、回滚和事务状态机。
+- `src\glanceflow\calendar\`：厂商无关模型、端口、内存/Google提供器、Action Preflight｜行动预检、验证、回滚和事务状态机。
 - `src\glanceflow\application\`：可信调度服务与内存演示编排。
 - `src\glanceflow\wearable\`：采集端口、自动选帧、语音、姿态、HUD 与会话模型。
 - `src\glanceflow\application\glanceflow_service.py`：串接眼镜模拟输入与既有可信日历事务的唯一编排层。

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T05:26:26.743071+00:00",
+  "generated_at": "2026-08-02T09:17:43.563430+00:00",
   "source": "programmatic_stage5_evaluation",
   "erroneous_execution_rate": {
     "value": 0.0,
@@ -29,21 +29,22 @@
     "value": 0.9375,
     "numerator": 15,
     "denominator": 16,
-    "display": "93.75%"
+    "display": "15/16 trials"
   },
   "rollback_success_rate": {
     "value": 1.0,
     "numerator": 2,
     "denominator": 2,
-    "display": "100.00%"
+    "display": "2/2 trials"
   },
   "undo_success_rate": {
     "value": 1.0,
     "numerator": 1,
     "denominator": 1,
-    "display": "100.00%"
+    "display": "1/1 trials"
   },
-  "median_end_to_end_latency_ms": 622.124,
+  "image_median_end_to_end_latency_ms": 569.082,
+  "video_median_end_to_end_latency_ms": 4326.519,
   "sample_count": 46,
   "environment": "Windows 11, Python 3.13.9, local CPU simulator",
   "real_glasses": false

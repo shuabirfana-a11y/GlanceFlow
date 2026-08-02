@@ -7,6 +7,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from glanceflow.evaluation.audit import build_metric_audit, metric_audit_csv_rows, metric_audit_markdown
 from glanceflow.evaluation.charts import generate_figures
 from glanceflow.evaluation.dataset import load_manifest
 from glanceflow.evaluation.metrics import compute_system_metrics, group_results, latency_statistics
@@ -50,7 +51,11 @@ def run_all() -> dict:
     ablation_metrics = [compute_system_metrics(grouped_ablation[config.ablation_id], annotations) for config in ABLATIONS]
     system_metric_data = [item.model_dump(mode="json") for item in system_metrics]
     ablation_metric_data = [item.model_dump(mode="json") for item in ablation_metrics]
-    latency_rows = [row for key in ("baseline_a_regex_direct", "baseline_b_extractor_no_safety", "full_system") for row in latency_statistics(grouped_core[key])]
+    latency_rows = [
+        row
+        for key in ("baseline_a_regex_direct", "baseline_b_extractor_no_safety", "full_system")
+        for row in latency_statistics(grouped_core[key], annotations)
+    ]
     reliability = run_reliability_trials(full, observations)
     failures = select_failure_cases(all_core, annotations)
 
@@ -88,6 +93,10 @@ def run_all() -> dict:
         confusion_rows.append({"actual_status": actual, **predictions})
     _write_csv(OUTPUT / "confusion_matrix.csv", confusion_rows)
     _write_json(OUTPUT / "failure_cases.json", {"metadata": metadata, "case_count": len(failures), "cases": failures})
+    metric_audit = build_metric_audit(full, annotations)
+    _write_json(OUTPUT / "metric_audit.json", metric_audit)
+    _write_csv(OUTPUT / "metric_audit.csv", metric_audit_csv_rows(metric_audit))
+    (OUTPUT / "metric_audit.md").write_text(metric_audit_markdown(metric_audit), encoding="utf-8")
 
     figures = generate_figures(OUTPUT / "figures", system_metric_data, ablation_metric_data, full_metrics["confusion_matrix"], latency_rows, failures, reliability, manifest.sample_count)
     false_rejections = [item for item in full if item.false_rejection]
@@ -103,7 +112,14 @@ def run_all() -> dict:
     competition_path = Path("docs/competition/evaluation-results.md")
     competition_path.parent.mkdir(parents=True, exist_ok=True)
     competition_path.write_text(competition_report, encoding="utf-8")
-    total_latency = next(row for row in latency_rows if row["system_id"] == "full_system" and row["stage"] == "total_ms")
+    image_total_latency = next(
+        row for row in latency_rows
+        if row["system_id"] == "full_system" and row["input_type"] == "IMAGE" and row["stage"] == "total_ms"
+    )
+    video_total_latency = next(
+        row for row in latency_rows
+        if row["system_id"] == "full_system" and row["input_type"] == "VIDEO" and row["stage"] == "total_ms"
+    )
     scorecard = {
         "generated_at": metadata["generated_at"], "source": "programmatic_stage5_evaluation",
         "erroneous_execution_rate": full_metrics["erroneous_execution_rate"],
@@ -113,7 +129,8 @@ def run_all() -> dict:
         "readback_consistency_rate": reliability["readback_consistency_rate"],
         "rollback_success_rate": reliability["rollback_success_rate"],
         "undo_success_rate": reliability["undo_success_rate"],
-        "median_end_to_end_latency_ms": round(total_latency["median_ms"], 3),
+        "image_median_end_to_end_latency_ms": round(image_total_latency["median_ms"], 3),
+        "video_median_end_to_end_latency_ms": round(video_total_latency["median_ms"], 3),
         "sample_count": manifest.sample_count,
         "environment": metadata["environment"], "real_glasses": False,
     }

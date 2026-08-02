@@ -7,7 +7,7 @@
   → 本地 OCR 证据链
   → 结构化通知草案
   → Safety Gate 四状态决策
-  → 日历重复/冲突 Preflight
+  → Action Preflight｜行动预检（重复与冲突检查）
   → HUD 结构化确认
   → 原子事务执行
   → event_id 回读验证

@@ -1,5 +1,6 @@
 import csv
 import json
+import runpy
 from pathlib import Path
 
 from glanceflow.evaluation.charts import generate_figures
@@ -55,11 +56,12 @@ def test_each_ablation_has_observable_effect_on_real_results():
 
 
 def test_csv_and_json_outputs_are_parseable():
-    for name in ("full_system_results.json","baseline_results.json","ablation_results.json","failure_cases.json","final_scorecard.json"):
+    for name in ("full_system_results.json","baseline_results.json","ablation_results.json","failure_cases.json","final_scorecard.json","metric_audit.json"):
         assert json.loads((OUTPUT/name).read_text(encoding="utf-8"))
-    for name in ("metrics_summary.csv","latency_summary.csv","confusion_matrix.csv"):
+    for name in ("metrics_summary.csv","latency_summary.csv","confusion_matrix.csv","metric_audit.csv"):
         with (OUTPUT/name).open(encoding="utf-8-sig",newline="") as handle:
             assert list(csv.DictReader(handle))
+    assert (OUTPUT/"metric_audit.md").read_text(encoding="utf-8").startswith("# GlanceFlow")
 
 
 def test_failure_cases_trace_to_real_run_results():
@@ -89,6 +91,8 @@ def test_final_scorecard_references_full_system_metrics():
     reliability=json.loads((OUTPUT/"full_system_results.json").read_text(encoding="utf-8"))["reliability"]
     assert score["rollback_success_rate"] == reliability["rollback_success_rate"]
     assert score["real_glasses"] is False
+    assert score["image_median_end_to_end_latency_ms"] > 0
+    assert score["video_median_end_to_end_latency_ms"] > 0
 
 
 def test_chart_generator_creates_all_seven_files(tmp_path):
@@ -98,8 +102,27 @@ def test_chart_generator_creates_all_seven_files(tmp_path):
     ablations=[metric(config.ablation_id) for config in ABLATIONS]
     statuses=["READY_TO_CONFIRM","NEED_USER_INPUT","CONTRADICTION_BLOCKED","RECAPTURE_REQUIRED"]
     confusion={actual:{predicted:int(actual==predicted) for predicted in statuses} for actual in statuses}
-    latency=[{"system_id":"full_system","stage":stage,"median_ms":1,"p90_ms":2} for stage in ("frame_capture_ms","frame_selection_ms","ocr_ms","extraction_ms","safety_gate_ms","calendar_transaction_ms","total_ms")]
+    latency=[]
+    for input_type, stages in {
+        "IMAGE":("ocr_ms","extraction_ms","safety_gate_ms","calendar_transaction_ms","total_ms"),
+        "VIDEO":("frame_capture_ms","frame_selection_ms","ocr_ms","extraction_ms","safety_gate_ms","calendar_transaction_ms","total_ms"),
+    }.items():
+        latency.extend({"system_id":"full_system","input_type":input_type,"stage":stage,"effective_sample_count":2,"median_ms":1,"p90_ms":2} for stage in stages)
     reliability={key:rate(1) for key in ("readback_consistency_rate","rollback_success_rate","undo_success_rate")}
     paths=generate_figures(tmp_path,systems,ablations,confusion,latency,[{"error_layer":"quality"}],reliability,46)
     assert len(paths) == 7
     assert all(path.is_file() and path.stat().st_size > 0 for path in paths)
+
+
+def test_user_study_and_real_data_materials_do_not_fabricate_results():
+    study=Path("evaluation/user_study")
+    expected={"recruitment_notice.md","consent_form.md","test_protocol.md","questionnaire.md","record_template.csv","analysis_script.py","README.md"}
+    assert expected <= {path.name for path in study.iterdir()}
+    namespace=runpy.run_path(study/"analysis_script.py")
+    analysis=namespace["analyze"](study/"record_template.csv")
+    assert analysis["status"] == "尚未执行"
+    assert analysis["participants"] == 0 and analysis["results_available"] is False
+    real_data=Path("evaluation/real_data")
+    assert {"collection_protocol.md","privacy_checklist.md","annotation_template.json","manifest_template.csv"} <= {path.name for path in real_data.iterdir()}
+    annotation=json.loads((real_data/"annotation_template.json").read_text(encoding="utf-8"))
+    assert annotation["privacy_review"]["approved"] is False
