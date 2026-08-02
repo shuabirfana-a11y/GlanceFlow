@@ -46,6 +46,10 @@ button:hover, .upload:hover { border-color:#6d9b90; }
 .audit summary { cursor:pointer; }
 .audit ol { padding-left:22px; }
 .audit li { margin:5px 0; }
+.agent-debug { margin-top:18px; padding:14px 16px; border:1px solid rgba(126,244,210,.24); border-radius:14px; background:rgba(8,19,27,.72); }
+.agent-grid { display:grid; grid-template-columns:minmax(90px,140px) 1fr; gap:8px 16px; margin:14px 0 0; font-size:13px; }
+.agent-grid dt { color:#7ef4d2; }
+.agent-grid dd { margin:0; color:#dce9ed; overflow-wrap:anywhere; }
 .busy #camera, .busy .upload, .busy #send, .busy #newSession { opacity:.5; pointer-events:none; }
 @media (max-width:650px) {
   .shell { width:min(100% - 18px,920px); padding-top:15px; }

@@ -14,7 +14,7 @@ async function api(path, options = {}) {
 
 function render(data) {
   if (!data) return;
-  const {session, hud} = data;
+  const {session, hud, agent_debug: agent} = data;
   sessionId = session.session_id;
   $('hud').dataset.severity = hud.severity;
   $('hudStatus').textContent = hud.status;
@@ -25,6 +25,15 @@ function render(data) {
   const labels = {STATIONARY:'静止',MOVING:'移动中',UNKNOWN:'未知'};
   $('motionReadout').textContent = labels[session.motion_state] || labels[$('motion').value];
   $('auditList').innerHTML = session.audit_events.slice().reverse().map(e => `<li><b>${escapeHtml(e.action)}</b> · ${escapeHtml(e.message)}</li>`).join('');
+  if (agent) {
+    $('agentGoal').textContent = agent.goal;
+    $('agentState').textContent = agent.state;
+    $('agentRisk').textContent = agent.risk_level;
+    $('agentAction').textContent = agent.next_action;
+    $('agentRationale').textContent = agent.public_rationale;
+    $('agentWaiting').textContent = agent.waiting_for.join('；') || '无';
+    $('agentRecent').textContent = agent.recent_tool_result ? `${agent.recent_tool_result.action}：${agent.recent_tool_result.message}` : '无';
+  }
 }
 
 function escapeHtml(value) { const node = document.createElement('span'); node.textContent = value; return node.innerHTML; }
