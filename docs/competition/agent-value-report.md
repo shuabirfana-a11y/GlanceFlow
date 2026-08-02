@@ -22,6 +22,12 @@ Agent 没有替换现有安全组件，而是根据观察在澄清、重采、�
 
 统一结果分类：`BUSINESS_COMPLETED`、`SAFE_DEFERRED`、`SAFE_BLOCKED`、`RECOVERY_PENDING`、`WRONG_EXECUTION`、`SYSTEM_FAILED`。恢复待处理不等于恢复成功，安全阻断不等于系统失败。
 
+| 系统 | BUSINESS_COMPLETED | SAFE_DEFERRED | SAFE_BLOCKED | RECOVERY_PENDING | WRONG_EXECUTION | SYSTEM_FAILED | 合计 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Direct Execution | 5 | 3 | 0 | 0 | 11 | 1 | 20 |
+| Existing Pipeline | 6 | 6 | 5 | 1 | 1 | 1 | 20 |
+| Optimized Agent | 10 | 4 | 5 | 1 | 0 | 0 | 20 |
+
 ### Direct Execution
 
 | 指标 | 分子/分母 | 数值 | 分子场景 |

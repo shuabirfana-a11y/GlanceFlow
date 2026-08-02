@@ -1,5 +1,6 @@
 import csv
 import json
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -9,6 +10,7 @@ from glanceflow.evaluation.agent_value import (
     REPRESENTATIVE_IDS,
     SCENARIOS,
     SYSTEMS,
+    classify_outcome,
     run_agent_value_evaluation,
 )
 
@@ -100,6 +102,71 @@ def test_every_result_has_one_unified_outcome_class(value_run):
         for results in payload["systems"].values()
         for item in results
     )
+
+
+def test_six_outcome_classes_are_mutually_exclusive_complete_and_total_twenty(value_run):
+    _, payload = value_run
+    for system in SYSTEMS:
+        results = payload["systems"][system]
+        counts = payload["outcome_counts"][system]
+        assert set(counts) == set(OUTCOME_CLASSES)
+        assert sum(item["count"] for item in counts.values()) == 20
+        assert sum(len(item["scenario_ids"]) for item in counts.values()) == 20
+        assert sorted(scenario_id for item in counts.values() for scenario_id in item["scenario_ids"]) == sorted(payload["scenario_ids"])
+        assert Counter(item["outcome_class"] for item in results) == Counter(
+            {outcome: counts[outcome]["count"] for outcome in OUTCOME_CLASSES if counts[outcome]["count"]}
+        )
+
+
+def test_recovery_pending_semantics_are_system_agnostic_and_residual_is_required(value_run):
+    _, payload = value_run
+    pending = lookup(payload, "optimized_agent", "AG-018")
+    assert pending["outcome_class"] == "RECOVERY_PENDING"
+    assert pending["goal_succeeded"] is False
+    assert pending["wrong_execution"] is False
+    assert pending["residual_event_ids"] == ["main-event"]
+    for system in SYSTEMS:
+        same_evidence = {**pending, "system_id": system, "wrong_execution": True}
+        assert classify_outcome(same_evidence) == "RECOVERY_PENDING"
+        assert classify_outcome({**same_evidence, "residual_event_ids": []}) == "WRONG_EXECUTION"
+
+
+def test_json_csv_and_markdown_share_identical_outcome_counts(value_run):
+    output, payload = value_run
+    rows = list(csv.DictReader((output / "system_comparison.csv").open(encoding="utf-8-sig")))
+    for system in SYSTEMS:
+        csv_counts = Counter(row["outcome_class"] for row in rows if row["system_id"] == system)
+        json_counts = {outcome: payload["outcome_counts"][system][outcome]["count"] for outcome in OUTCOME_CLASSES}
+        assert csv_counts == Counter({key: value for key, value in json_counts.items() if value})
+
+    tracked = json.loads(Path("outputs/agent/value_analysis/system_comparison.json").read_text(encoding="utf-8"))
+    report = Path("docs/competition/agent-value-report.md").read_text(encoding="utf-8")
+    acceptance = Path("docs/handoff/stage7-final-acceptance.md").read_text(encoding="utf-8")
+    for system in SYSTEMS:
+        values = [tracked["outcome_counts"][system][outcome]["count"] for outcome in OUTCOME_CLASSES]
+        row = f"| {dict(direct_execution='Direct Execution', existing_pipeline='Existing Pipeline', optimized_agent='Optimized Agent')[system]} | {' | '.join(str(value) for value in values)} | {sum(values)} |"
+        assert row in report
+        assert row in acceptance
+
+
+def test_agent_acceptance_matrix_covers_all_scenarios_without_overblocking(value_run):
+    _, payload = value_run
+    agent = payload["systems"]["optimized_agent"]
+    counts = payload["outcome_counts"]["optimized_agent"]
+    assert [item["scenario_id"] for item in agent] == payload["scenario_ids"]
+    assert all(item["expected_behavior"] and item["final_reason"] for item in agent)
+    assert counts["BUSINESS_COMPLETED"]["count"] == 10
+    assert counts["SAFE_DEFERRED"]["count"] == 4
+    assert counts["SAFE_BLOCKED"]["count"] == 5
+    assert counts["RECOVERY_PENDING"]["count"] == 1
+    assert counts["WRONG_EXECUTION"]["count"] == 0
+    assert counts["SYSTEM_FAILED"]["count"] == 0
+    assert lookup(payload, "optimized_agent", "AG-001")["calendar_events_created"] == 1
+    assert lookup(payload, "optimized_agent", "AG-002")["calendar_events_created"] == 2
+    assert lookup(payload, "optimized_agent", "AG-009")["confirmation_required"] is True
+    assert lookup(payload, "optimized_agent", "AG-009")["confirmation_received"] is False
+    assert lookup(payload, "optimized_agent", "AG-012")["confirmation_required"] is True
+    assert lookup(payload, "optimized_agent", "AG-012")["confirmation_received"] is True
 
 
 def test_agent_zero_wrong_execution_does_not_come_from_blocking_normal_goals(value_run):
