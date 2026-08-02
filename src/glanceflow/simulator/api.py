@@ -8,6 +8,7 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.concurrency import run_in_threadpool
 
+from glanceflow.agent.debug import build_agent_debug_summary
 from glanceflow.application.glanceflow_service import GlanceFlowSessionService, SessionValidationError
 from glanceflow.wearable.models import CaptureRequest, MotionState
 
@@ -35,9 +36,11 @@ def build_router(service: GlanceFlowSessionService, upload_root: Path) -> APIRou
     router = APIRouter(prefix="/api")
 
     def response(session_id: str) -> dict:
+        session = service.get_session(session_id)
         return {
-            "session": service.get_session(session_id).model_dump(mode="json"),
+            "session": session.model_dump(mode="json"),
             "hud": service.get_hud(session_id).model_dump(mode="json"),
+            "agent_debug": build_agent_debug_summary(session),
         }
 
     @router.post("/sessions")

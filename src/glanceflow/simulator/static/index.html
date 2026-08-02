@@ -52,6 +52,17 @@
       <p id="message" role="status">这是眼镜工作流模拟，不代表已部署到真实设备。</p>
     </section>
 
+    <details class="agent-debug"><summary>Agent决策</summary>
+      <dl class="agent-grid">
+        <dt>当前Goal</dt><dd id="agentGoal">-</dd>
+        <dt>Agent状态</dt><dd id="agentState">-</dd>
+        <dt>风险等级</dt><dd id="agentRisk">-</dd>
+        <dt>下一步动作</dt><dd id="agentAction">-</dd>
+        <dt>执行依据</dt><dd id="agentRationale">-</dd>
+        <dt>等待输入</dt><dd id="agentWaiting">-</dd>
+        <dt>最近结果</dt><dd id="agentRecent">-</dd>
+      </dl>
+    </details>
     <details class="audit"><summary>查看本地审计轨迹</summary><ol id="auditList"></ol></details>
   </main>
   <script src="/app.js" defer></script>

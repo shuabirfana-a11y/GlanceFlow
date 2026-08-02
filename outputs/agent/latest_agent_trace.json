@@ -1,0 +1,325 @@
+{
+  "session_id": "session-AG-014",
+  "goal_id": "GF-GOAL-201472b43d0f44caa647673e0cd62cb4",
+  "steps": [
+    {
+      "occurred_at": "2026-08-02T10:27:38.384871Z",
+      "current_state": "IDLE",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "START_CAPTURE"
+      ],
+      "selected_action": "START_CAPTURE",
+      "policy_rules_triggered": [
+        "state.idle"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [],
+      "tool_call": "capture_frames",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-856d7a47907d44178b45243c91a59166",
+        "tool_name": "capture_frames",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.026400000024295878,
+        "output_summary": {
+          "verified": true
+        }
+      },
+      "next_state": "SELECTING_FRAME",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.385340Z",
+      "current_state": "SELECTING_FRAME",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "SELECT_FRAME"
+      ],
+      "selected_action": "SELECT_FRAME",
+      "policy_rules_triggered": [
+        "state.selecting_frame"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [],
+      "tool_call": "select_best_frame",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-e503603452324c779c95dd5b9472ddbd",
+        "tool_name": "select_best_frame",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.02559999995810358,
+        "output_summary": {
+          "verified": true,
+          "frame_id": "frame-agent-eval",
+          "requires_recapture": false
+        }
+      },
+      "next_state": "READING",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.385826Z",
+      "current_state": "READING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "RUN_OCR"
+      ],
+      "selected_action": "RUN_OCR",
+      "policy_rules_triggered": [
+        "state.reading"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [],
+      "tool_call": "recognize_text",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-8a906dff92f3429e80674158596add37",
+        "tool_name": "recognize_text",
+        "success": false,
+        "error_type": "OCR_TEMPORARY",
+        "error_message": "本地 OCR 暂时失败。",
+        "retryable": true,
+        "side_effect_occurred": false,
+        "duration_ms": 0.02519999998185085,
+        "output_summary": {
+          "verified": false
+        }
+      },
+      "next_state": "READING",
+      "side_effect_occurred": false,
+      "verification_completed": false,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.386286Z",
+      "current_state": "READING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "RUN_OCR"
+      ],
+      "selected_action": "RUN_OCR",
+      "policy_rules_triggered": [
+        "state.reading"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [],
+      "tool_call": "recognize_text",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-f165162255c1411ab117c8f5487e66da",
+        "tool_name": "recognize_text",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.02599999993435631,
+        "output_summary": {
+          "verified": true
+        }
+      },
+      "next_state": "EXTRACTING",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.386774Z",
+      "current_state": "EXTRACTING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "EXTRACT_DRAFT"
+      ],
+      "selected_action": "EXTRACT_DRAFT",
+      "policy_rules_triggered": [
+        "state.extracting"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [
+        "agent-eval-line-1",
+        "agent-eval-line-2"
+      ],
+      "tool_call": "extract_notice_draft",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-a09ba76d2e51494c948240c612c5c169",
+        "tool_name": "extract_notice_draft",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.03449999996973929,
+        "output_summary": {
+          "verified": true
+        }
+      },
+      "next_state": "VALIDATING",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.387367Z",
+      "current_state": "VALIDATING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "RUN_SAFETY_GATE"
+      ],
+      "selected_action": "RUN_SAFETY_GATE",
+      "policy_rules_triggered": [
+        "state.validating"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [
+        "agent-eval-line-1",
+        "agent-eval-line-2"
+      ],
+      "tool_call": "evaluate_safety",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-1e2747bc9d9548f2ba8614ff80c0fe52",
+        "tool_name": "evaluate_safety",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.025400000026820635,
+        "output_summary": {
+          "verified": true,
+          "status": "READY_TO_CONFIRM"
+        }
+      },
+      "next_state": "PREFLIGHTING",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.387937Z",
+      "current_state": "PREFLIGHTING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "RUN_PREFLIGHT"
+      ],
+      "selected_action": "RUN_PREFLIGHT",
+      "policy_rules_triggered": [
+        "state.preflighting"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [
+        "agent-eval-line-1",
+        "agent-eval-line-2"
+      ],
+      "tool_call": "run_action_preflight",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-92d6aad351154f81aacdcdf40464d7cd",
+        "tool_name": "run_action_preflight",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.031600000056641875,
+        "output_summary": {
+          "verified": true,
+          "transaction_id": "GF-TX-AG-014"
+        }
+      },
+      "next_state": "WAIT_CONFIRM",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.389143Z",
+      "current_state": "WAIT_CONFIRM",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "WAIT_FOR_CONFIRMATION",
+        "EXECUTE_TRANSACTION"
+      ],
+      "selected_action": "EXECUTE_TRANSACTION",
+      "policy_rules_triggered": [
+        "state.wait_confirm",
+        "confirmation_snapshot_valid"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [
+        "agent-eval-line-1",
+        "agent-eval-line-2"
+      ],
+      "tool_call": "create_calendar_transaction",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-ac6c7a39f98446d7b67a7c2abbd080d4",
+        "tool_name": "create_calendar_transaction",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": true,
+        "duration_ms": 0.032899999951041536,
+        "output_summary": {
+          "verified": false,
+          "status": "CREATED",
+          "transaction_id": "GF-TX-AG-014",
+          "event_ids": [
+            "main-event"
+          ]
+        }
+      },
+      "next_state": "VERIFYING",
+      "side_effect_occurred": true,
+      "verification_completed": false,
+      "public_rationale": "确认快照与当前草稿、风险和冲突状态一致，可以执行事务。"
+    },
+    {
+      "occurred_at": "2026-08-02T10:27:38.389798Z",
+      "current_state": "VERIFYING",
+      "current_goal": "SCHEDULE_CURRENT_NOTICE",
+      "available_actions": [
+        "VERIFY_TRANSACTION"
+      ],
+      "selected_action": "VERIFY_TRANSACTION",
+      "policy_rules_triggered": [
+        "state.verifying"
+      ],
+      "risk_level": "LOW",
+      "evidence_line_ids": [
+        "agent-eval-line-1",
+        "agent-eval-line-2"
+      ],
+      "tool_call": "verify_calendar_transaction",
+      "tool_result": {
+        "tool_call_id": "GF-TOOL-f211374b177a4fcb9952c8a5ff5aa61e",
+        "tool_name": "verify_calendar_transaction",
+        "success": true,
+        "error_type": null,
+        "error_message": null,
+        "retryable": false,
+        "side_effect_occurred": false,
+        "duration_ms": 0.02779999999802385,
+        "output_summary": {
+          "verified": true,
+          "status": "VERIFIED",
+          "transaction_id": "GF-TX-AG-014",
+          "event_ids": [
+            "main-event"
+          ]
+        }
+      },
+      "next_state": "SUCCESS",
+      "side_effect_occurred": false,
+      "verification_completed": true,
+      "public_rationale": "根据当前状态选择下一项白名单能力。"
+    }
+  ]
+}
