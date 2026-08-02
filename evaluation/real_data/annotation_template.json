@@ -1,0 +1,28 @@
+{
+  "sample_id": "GF-REAL-XXX",
+  "source_type": "PERMITTED_CAMPUS_NOTICE",
+  "permission_record_id": "REQUIRED",
+  "permission_scope": "evaluation_only",
+  "captured_at": null,
+  "media_path": null,
+  "expected_notice_type": null,
+  "expected_title": null,
+  "expected_event_start": null,
+  "expected_location": null,
+  "expected_deadline": null,
+  "expected_safety_status": null,
+  "expected_failure_reason": null,
+  "is_executable": null,
+  "privacy_review": {
+    "names_removed_or_blurred": false,
+    "phone_numbers_removed_or_blurred": false,
+    "student_ids_removed_or_blurred": false,
+    "qr_codes_removed_or_blurred": false,
+    "faces_absent_or_permitted": false,
+    "metadata_scrubbed": false,
+    "reviewer_1": null,
+    "reviewer_2": null,
+    "approved": false
+  },
+  "annotation_notes": "Do not populate without a permitted, privacy-reviewed real sample."
+}

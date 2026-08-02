@@ -9,6 +9,12 @@ from glanceflow.evaluation.runners import CAPTURED_AT, Observation, _extract
 from glanceflow.safety.gate import evaluate_notice
 
 
+def _trial_result(numerator: int, denominator: int) -> dict:
+    result = ratio(numerator, denominator).model_dump(mode="json")
+    result["display"] = f"{numerator}/{denominator} trials" if denominator else "N/A"
+    return result
+
+
 def _confirmation(service: TrustedSchedulingService, tx_id: str) -> UserConfirmation:
     record = service.get_transaction(tx_id)
     main = next(request for request in record.planned_requests if request.event_role is EventRole.MAIN_EVENT)
@@ -52,11 +58,11 @@ def run_reliability_trials(full_results: list, observations: list[Observation]) 
     duplicates = [result for result in full_results if result.duplicate_detected is not None and result.sample_id in {item.annotation.sample_id for item in observations if item.annotation.existing_context == "DUPLICATE"}]
     conflicts = [result for result in full_results if result.conflict_detected is not None and result.sample_id in {item.annotation.sample_id for item in observations if item.annotation.existing_context == "CONFLICT"}]
     return {
-        "readback_consistency_rate": ratio(sum(result.readback_verified is True for result in readbacks), len(readbacks)).model_dump(mode="json"),
-        "rollback_success_rate": ratio(sum(result.rollback_succeeded is True for result in rollbacks), len(rollbacks)).model_dump(mode="json"),
-        "undo_success_rate": ratio(int(undo_ok), 1).model_dump(mode="json"),
-        "duplicate_interception_rate": ratio(sum(result.duplicate_detected is True and not result.executed for result in duplicates), len(duplicates)).model_dump(mode="json"),
-        "conflict_detection_rate": ratio(sum(result.conflict_detected is True and not result.executed for result in conflicts), len(conflicts)).model_dump(mode="json"),
-        "idempotency_success_rate": ratio(int(idem_ok), 1).model_dump(mode="json"),
+        "readback_consistency_rate": _trial_result(sum(result.readback_verified is True for result in readbacks), len(readbacks)),
+        "rollback_success_rate": _trial_result(sum(result.rollback_succeeded is True for result in rollbacks), len(rollbacks)),
+        "undo_success_rate": _trial_result(int(undo_ok), 1),
+        "duplicate_interception_rate": _trial_result(sum(result.duplicate_detected is True and not result.executed for result in duplicates), len(duplicates)),
+        "conflict_detection_rate": _trial_result(sum(result.conflict_detected is True and not result.executed for result in conflicts), len(conflicts)),
+        "idempotency_success_rate": _trial_result(int(idem_ok), 1),
         "notes": "全部为隔离内存日历故障注入或确定性试验；未访问真实 Google Calendar。",
     }

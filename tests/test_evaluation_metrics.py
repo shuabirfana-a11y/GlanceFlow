@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from glanceflow.domain.enums import NoticeType, SafetyGateStatus
+from glanceflow.evaluation.audit import build_metric_audit
 from glanceflow.evaluation.metrics import compute_system_metrics, latency_statistics, ratio
 from glanceflow.evaluation.models import EvaluationAnnotation, MediaType, SourceType, StageLatencies, SystemResult
 
@@ -70,10 +71,36 @@ def test_confusion_matrix_and_macro_f1_are_programmatic():
 
 
 def test_latency_statistics_include_mean_median_p90_min_max():
-    rows=latency_statistics([result("GF-EVAL-001",latency=1),result("GF-EVAL-002",latency=3)])
+    annotations={
+        "GF-EVAL-001":annotation("GF-EVAL-001",executable=True),
+        "GF-EVAL-002":annotation("GF-EVAL-002",executable=True),
+    }
+    rows=latency_statistics([result("GF-EVAL-001",latency=1),result("GF-EVAL-002",latency=3)],annotations)
     total=next(row for row in rows if row["stage"] == "total_ms")
     assert total["mean_ms"] == 2
     assert total["median_ms"] == 2
     assert total["min_ms"] == 1
     assert total["max_ms"] == 3
     assert total["p90_ms"] > 2
+    assert total["input_type"] == "IMAGE"
+    assert total["effective_sample_count"] == 2
+    assert not any(row["stage"] == "safety_gate_ms" for row in rows)
+
+
+def test_metric_audit_traces_coverage_and_ready_recall_to_sample_ids():
+    annotations={
+        "GF-EVAL-001":annotation("GF-EVAL-001",executable=True),
+        "GF-EVAL-002":annotation("GF-EVAL-002",executable=True),
+        "GF-EVAL-003":annotation("GF-EVAL-003",executable=False),
+    }
+    results=[
+        result("GF-EVAL-001",executed=True,correct=True),
+        result("GF-EVAL-002",false_rejection=True,status=SafetyGateStatus.RECAPTURE_REQUIRED),
+        result("GF-EVAL-003"),
+    ]
+    audit=build_metric_audit(results,annotations)
+    coverage=audit["metrics"]["valid_coverage_rate"]
+    assert coverage["numerator"] == 1
+    assert coverage["denominator"] == 2
+    assert coverage["numerator_sample_ids"] == ["GF-EVAL-001"]
+    assert audit["confusion_matrix"]["READY_TO_CONFIRM"]["RECAPTURE_REQUIRED"]["sample_ids"] == ["GF-EVAL-002"]

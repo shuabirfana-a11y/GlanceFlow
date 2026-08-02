@@ -79,7 +79,7 @@ def _handling(result: SystemResult) -> str:
     if result.rollback_attempted:
         return "检测到创建或回读异常，执行补偿回滚。"
     if result.failure_layer == "preflight":
-        return "在日历预检阶段停止，未创建新事件。"
+        return "在 Action Preflight｜行动预检阶段停止，未创建新事件。"
     if result.predicted_safety_status.value == "RECAPTURE_REQUIRED":
         return "拒绝执行并要求重新采集。"
     if result.predicted_safety_status.value == "NEED_USER_INPUT":
@@ -122,6 +122,8 @@ def evaluation_report_markdown(
         "",
         f"Full System 的 {coverage_analysis['false_rejections']} 个误拒/未完整执行案例中，{coverage_analysis['confidence_recaptures']} 个是应执行通知因证据置信度触发重拍，{coverage_analysis['provider_faults']} 个是提供器故障注入后安全回滚。前者说明当前阈值仍需真实数据标定，后者说明覆盖率没有隐藏事务失败。",
         "",
+        "独立逐样本核验确认：有效覆盖率为正确执行 15 个 / `is_executable=true` 的 20 个 = 75.00%。真实 READY 共 22 个，其中 19 个预测为 READY；19/22 = 86.36% 是 READY 状态召回，不是执行覆盖率。两个冲突等待样本按协议不执行。完整公式、分子、分母和 sample_id 见 `metric_audit.md`。",
+        "",
         "两个基线不是故意削弱的占位实现：它们使用同一候选帧和 OCR 观测；Baseline A 运行简单标签/日期正则并直接写入，Baseline B 运行正式抽取器并模拟确认，只移除题设指定的安全和事务保护。",
         "",
         "## 七项消融",
@@ -131,16 +133,42 @@ def evaluation_report_markdown(
     ]
     for item in ablation_metrics:
         lines.append(f"| {item['system_id']} | {pct(item['erroneous_execution_rate'])} | {pct(item['valid_coverage_rate'])} | {pct(item['false_rejection_rate'])} | {pct(item['package_complete_accuracy'])} | {item['failure_case_count']} |")
+    reliability_labels = {
+        "readback_consistency_rate": "回读一致",
+        "rollback_success_rate": "补偿回滚",
+        "undo_success_rate": "精准撤销",
+        "duplicate_interception_rate": "重复拦截",
+        "conflict_detection_rate": "Action Preflight｜行动预检的冲突发现",
+        "idempotency_success_rate": "幂等重试",
+    }
     lines += ["", "## 执行可靠性", ""]
-    for key, value in reliability.items():
-        if isinstance(value, dict) and "display" in value:
-            lines.append(f"- {key}: {value['display']} ({value['numerator']}/{value['denominator']})")
-    full_total = next(row for row in latency_rows if row["system_id"] == "full_system" and row["stage"] == "total_ms")
+    for key, label in reliability_labels.items():
+        value = reliability[key]
+        lines.append(f"- {label}：当前隔离内存日历试验中 {value['numerator']}/{value['denominator']} 次满足预期。")
+    stage_labels = {
+        "frame_capture_ms": "视频抽帧", "frame_selection_ms": "自动选帧", "ocr_ms": "OCR",
+        "extraction_ms": "字段抽取", "safety_gate_ms": "安全门",
+        "calendar_transaction_ms": "日历事务", "total_ms": "端到端",
+    }
+    full_latency = [row for row in latency_rows if row["system_id"] == "full_system"]
     lines += [
         "",
-        "## 本地端到端耗时",
+        "这些小样本故障注入与确定性测试用于验证功能路径，不代表大规模统计结论，也未访问真实 Google Calendar。",
         "",
-        f"Full System：平均 {full_total['mean_ms']:.1f} ms，中位 {full_total['median_ms']:.1f} ms，P90 {full_total['p90_ms']:.1f} ms，最小 {full_total['min_ms']:.1f} ms，最大 {full_total['max_ms']:.1f} ms。视频选帧中的多帧 OCR 计入选帧耗时。",
+        "## Windows 本地 CPU 模拟器耗时",
+        "",
+        "图片与视频分开统计；每个阶段只纳入真实执行过该阶段的样本，未执行阶段的 0 ms 不参与统计。视频选帧中的多帧 OCR 计入自动选帧耗时。以下结果不代表实体眼镜性能。",
+        "",
+        "| 输入 | 阶段 | 有效样本数 | 平均 ms | 中位 ms | P90 ms | 最小 ms | 最大 ms |",
+        "|---|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    for row in full_latency:
+        lines.append(
+            f"| {row['input_type']} | {stage_labels[row['stage']]} | {row['effective_sample_count']} | "
+            f"{row['mean_ms']:.3f} | {row['median_ms']:.3f} | {row['p90_ms']:.3f} | "
+            f"{row['min_ms']:.3f} | {row['max_ms']:.3f} |"
+        )
+    lines += [
         "",
         "## 失败案例",
         "",
@@ -162,14 +190,24 @@ def final_scorecard_markdown(scorecard: dict) -> str:
         "erroneous_execution_rate":"错误执行率", "valid_coverage_rate":"有效覆盖率",
         "false_rejection_rate":"误拒率", "package_complete_accuracy":"日程包完全正确率",
         "readback_consistency_rate":"回读一致率", "rollback_success_rate":"回滚成功率",
-        "undo_success_rate":"撤销成功率", "median_end_to_end_latency_ms":"端到端中位耗时",
+        "undo_success_rate":"撤销成功率",
+        "image_median_end_to_end_latency_ms":"图片端到端中位耗时（ms）",
+        "video_median_end_to_end_latency_ms":"视频端到端中位耗时（ms）",
         "sample_count":"样本数量",
     }
     lines = ["# GlanceFlow 最终展示摘要", "", "> Windows 本地 CPU 模拟器结果；非实体眼镜、非真实 Google Calendar。", "", "| 指标 | 结果 | 分子/分母 |", "|---|---:|---:|"]
     for key, label in labels.items():
         value = scorecard[key]
         if isinstance(value, dict):
-            lines.append(f"| {label} | {value['display']} | {value.get('numerator', 'N/A')}/{value.get('denominator', 'N/A')} |")
+            if key in {"readback_consistency_rate", "rollback_success_rate", "undo_success_rate"}:
+                display = f"当前试验 {value['numerator']}/{value['denominator']} 次满足预期"
+            else:
+                display = value["display"]
+            lines.append(f"| {label} | {display} | {value.get('numerator', 'N/A')}/{value.get('denominator', 'N/A')} |")
         else:
             lines.append(f"| {label} | {value} | — |")
+    lines += [
+        "",
+        "> 可靠性项来自少量隔离内存日历故障注入或确定性测试，只用于验证功能路径，不代表大规模统计结论。耗时来自 Windows 本地 CPU 模拟器，不代表实体眼镜性能。",
+    ]
     return "\n".join(lines) + "\n"

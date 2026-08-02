@@ -6,7 +6,7 @@ from statistics import mean, median
 import numpy as np
 
 from glanceflow.domain.enums import SafetyGateStatus
-from glanceflow.evaluation.models import EvaluationAnnotation, MetricValue, StageLatencies, SystemMetrics, SystemResult
+from glanceflow.evaluation.models import EvaluationAnnotation, MediaType, MetricValue, SystemMetrics, SystemResult
 
 
 STATUSES = tuple(status.value for status in SafetyGateStatus)
@@ -58,21 +58,48 @@ def compute_system_metrics(results: list[SystemResult], annotations: dict[str, E
     )
 
 
-def latency_statistics(results: list[SystemResult]) -> list[dict]:
-    stages = tuple(StageLatencies.model_fields) if results else ()
+def latency_statistics(
+    results: list[SystemResult],
+    annotations: dict[str, EvaluationAnnotation],
+) -> list[dict]:
+    """Summarize only stages that actually ran, separated by input media."""
+    stages_by_media = {
+        MediaType.IMAGE: (
+            "ocr_ms", "extraction_ms", "safety_gate_ms",
+            "calendar_transaction_ms", "total_ms",
+        ),
+        MediaType.VIDEO: (
+            "frame_capture_ms", "frame_selection_ms", "ocr_ms", "extraction_ms",
+            "safety_gate_ms", "calendar_transaction_ms", "total_ms",
+        ),
+    }
     rows = []
-    for stage in stages:
-        values = [float(getattr(result.latencies, stage)) for result in results]
-        rows.append({
-            "system_id": results[0].system_id,
-            "stage": stage,
-            "sample_count": len(values),
-            "mean_ms": mean(values),
-            "median_ms": median(values),
-            "p90_ms": float(np.percentile(values, 90)),
-            "min_ms": min(values),
-            "max_ms": max(values),
-        })
+    for media_type, stages in stages_by_media.items():
+        media_results = [
+            result for result in results
+            if annotations[result.sample_id].media_type is media_type
+        ]
+        for stage in stages:
+            measured = [
+                (result.sample_id, float(getattr(result.latencies, stage)))
+                for result in media_results
+                if float(getattr(result.latencies, stage)) > 0
+            ]
+            if not measured:
+                continue
+            values = [value for _, value in measured]
+            rows.append({
+                "system_id": results[0].system_id,
+                "input_type": media_type.value,
+                "stage": stage,
+                "effective_sample_count": len(values),
+                "sample_ids": ";".join(sample_id for sample_id, _ in measured),
+                "mean_ms": mean(values),
+                "median_ms": median(values),
+                "p90_ms": float(np.percentile(values, 90)),
+                "min_ms": min(values),
+                "max_ms": max(values),
+            })
     return rows
 
 

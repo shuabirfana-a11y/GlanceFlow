@@ -416,7 +416,7 @@ def run_ablation(observation: Observation, config: AblationConfig) -> SystemResu
     duplicate = observation.annotation.existing_context == "DUPLICATE" and config.duplicate_detection
     conflict = observation.annotation.existing_context == "CONFLICT" and config.conflict_preflight
     if duplicate or conflict:
-        return _finalize(observation, config.ablation_id, status, fields={}, extracted_fields=_draft_fields(draft), active_event_count=0, duplicate_detected=duplicate, conflict_detected=conflict, transaction_status="WAITING_CONFIRMATION" if conflict else "CANCELLED", failure_layer="preflight", failure_reasons=["重复或冲突预检阻止当前评测协议执行。"], extraction_ms=extraction_ms, safety_ms=safety_ms)
+        return _finalize(observation, config.ablation_id, status, fields={}, extracted_fields=_draft_fields(draft), active_event_count=0, duplicate_detected=duplicate, conflict_detected=conflict, transaction_status="WAITING_CONFIRMATION" if conflict else "CANCELLED", failure_layer="preflight", failure_reasons=["Action Preflight｜行动预检发现重复或冲突，当前评测协议停止执行。"], extraction_ms=extraction_ms, safety_ms=safety_ms)
     started = perf_counter()
     active, fields, verified, rollback_attempted, rollback_succeeded, tx_status, write_reasons = _direct_write(provider, draft, f"GF-TX-ABL-{config.ablation_id}-{observation.annotation.sample_id}", verify=config.readback_verification, atomic_rollback=config.atomic_rollback)
     calendar_ms = (perf_counter() - started) * 1000

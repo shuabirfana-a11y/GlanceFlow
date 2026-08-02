@@ -1,0 +1,1 @@
+sample_id,media_path,permission_record_id,permission_scope,captured_at,privacy_review_status,reviewer_1,reviewer_2,expected_notice_type,expected_safety_status,is_executable,annotation_notes

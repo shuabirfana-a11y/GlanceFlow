@@ -75,12 +75,29 @@ def generate_figures(
         path = output_dir / filename; _finish(fig, path); paths.append(path)
 
     full_latency = [row for row in latency_rows if row["system_id"] == "full_system"]
-    stage_names = [row["stage"].replace("_ms", "") for row in full_latency]
-    medians = [row["median_ms"] for row in full_latency]
-    p90 = [row["p90_ms"] for row in full_latency]
-    fig, ax = plt.subplots(figsize=(10, 5.2)); x = np.arange(len(stage_names)); width = .36
-    ax.bar(x - width/2, medians, width, label="中位数"); ax.bar(x + width/2, p90, width, label="P90")
-    ax.set_xticks(x, stage_names, rotation=25, ha="right"); ax.set_ylabel("毫秒"); ax.set_title("Full System 各阶段本地耗时"); ax.legend(); _note(ax, sample_count)
+    fig, axes = plt.subplots(2, 1, figsize=(11, 9))
+    for ax, input_type, title in zip(
+        axes, ("IMAGE", "VIDEO"), ("图片输入", "视频输入"), strict=True,
+    ):
+        rows = [row for row in full_latency if row["input_type"] == input_type]
+        stage_names = [row["stage"].replace("_ms", "") for row in rows]
+        medians = [row["median_ms"] for row in rows]
+        p90 = [row["p90_ms"] for row in rows]
+        x = np.arange(len(stage_names))
+        ax.plot(x, medians, marker="o", linewidth=2, label="中位数")
+        ax.plot(x, p90, marker="s", linewidth=2, label="P90")
+        ax.set_xticks(x, stage_names, rotation=20, ha="right")
+        ax.set_yscale("log")
+        ax.set_ylabel("毫秒（对数刻度）")
+        ax.set_title(f"{title}：仅统计实际执行阶段")
+        ax.legend()
+        for index, row in enumerate(rows):
+            ax.annotate(
+                f"n={row['effective_sample_count']}",
+                (index, max(row["median_ms"], row["p90_ms"])),
+                xytext=(0, 6), textcoords="offset points", ha="center", fontsize=8,
+            )
+    fig.suptitle(f"Full System Windows 本地 CPU 模拟器耗时；总样本 n={sample_count}，非实体眼镜")
     path = output_dir / "05_stage_latency.png"; _finish(fig, path); paths.append(path)
 
     counts = Counter(case["error_layer"] or "outcome_mismatch" for case in failure_cases)
@@ -90,8 +107,10 @@ def generate_figures(
 
     reliability_keys = ["readback_consistency_rate", "rollback_success_rate", "undo_success_rate"]
     reliability_names = ["回读一致", "回滚成功", "撤销成功"]
-    values = [(reliability[key]["value"] or 0) * 100 for key in reliability_keys]
+    values = [reliability[key]["numerator"] for key in reliability_keys]
+    denominators = [reliability[key]["denominator"] for key in reliability_keys]
     fig, ax = plt.subplots(figsize=(7.5, 4.8)); bars = ax.bar(reliability_names, values, color=["#4d9f89", "#6998c5", "#9b7fc2"])
-    ax.bar_label(bars, fmt="%.1f%%"); ax.set_ylim(0, 110); ax.set_ylabel("百分比（%）"); ax.set_title("事务可靠性试验"); _note(ax, sample_count)
+    ax.bar_label(bars, labels=[f"{value}/{total} 次" for value, total in zip(values, denominators, strict=True)])
+    ax.set_ylim(0, max(denominators) + 2); ax.set_ylabel("满足预期的试验次数"); ax.set_title("隔离内存日历功能路径试验（非大样本统计）"); _note(ax, sample_count)
     path = output_dir / "07_transaction_reliability.png"; _finish(fig, path); paths.append(path)
     return paths

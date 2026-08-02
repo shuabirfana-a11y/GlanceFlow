@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_at": "2026-08-01T05:26:26.743071+00:00",
+    "generated_at": "2026-08-02T09:17:43.563430+00:00",
     "dataset_id": "glanceflow-stage5-synthetic-v1",
     "sample_count": 46,
     "sample_ids": [
@@ -460,7 +460,7 @@
         "未发现重复日程。",
         "发现 1 个冲突事件，共重叠 30 分钟；需要二次明确确认。"
       ],
-      "current_system_handling": "在日历预检阶段停止，未创建新事件。",
+      "current_system_handling": "在 Action Preflight｜行动预检阶段停止，未创建新事件。",
       "outcome_matches_protocol": true,
       "improvement_direction": "保留二次明确确认，不自动改时间。",
       "trace_source": "由本次统一评测入口真实运行产生。"
