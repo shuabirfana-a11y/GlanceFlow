@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from glanceflow.evaluation.agent_value import (
+    OUTCOME_CLASSES,
     REPRESENTATIVE_IDS,
     SCENARIOS,
     SYSTEMS,
@@ -52,8 +53,8 @@ def test_metric_numerators_denominators_are_recomputed(value_run):
     _, payload = value_run
     expected = {
         "direct_execution": {"wrong_execution_rate": (11, 20), "successful_goal_completion_rate": (5, 20), "recovery_success_rate": (0, 5)},
-        "existing_pipeline": {"wrong_execution_rate": (2, 20), "successful_goal_completion_rate": (6, 20), "recovery_success_rate": (2, 5)},
-        "optimized_agent": {"wrong_execution_rate": (1, 20), "successful_goal_completion_rate": (10, 20), "recovery_success_rate": (4, 5)},
+        "existing_pipeline": {"wrong_execution_rate": (1, 20), "successful_goal_completion_rate": (6, 20), "recovery_success_rate": (2, 5)},
+        "optimized_agent": {"wrong_execution_rate": (0, 20), "successful_goal_completion_rate": (10, 20), "recovery_success_rate": (4, 5)},
     }
     for system, values in expected.items():
         for metric, pair in values.items():
@@ -78,6 +79,41 @@ def test_safe_block_is_not_counted_as_wrong_execution(value_run):
         assert item["unsafe_action_blocked"] is True
         assert item["wrong_execution"] is False
         assert item["final_event_count"] == 0
+
+
+def test_incomplete_rollback_is_recovery_pending_not_wrong_execution(value_run):
+    _, payload = value_run
+    for system in ("existing_pipeline", "optimized_agent"):
+        item = lookup(payload, system, "AG-018")
+        assert item["outcome_class"] == "RECOVERY_PENDING"
+        assert item["wrong_execution"] is False
+        assert item["recovery_success"] is False
+        assert item["final_state"] == "BLOCKED"
+        assert item["residual_event_ids"] == ["main-event"]
+    assert lookup(payload, "direct_execution", "AG-018")["outcome_class"] == "WRONG_EXECUTION"
+
+
+def test_every_result_has_one_unified_outcome_class(value_run):
+    _, payload = value_run
+    assert all(
+        item["outcome_class"] in OUTCOME_CLASSES
+        for results in payload["systems"].values()
+        for item in results
+    )
+
+
+def test_agent_zero_wrong_execution_does_not_come_from_blocking_normal_goals(value_run):
+    _, payload = value_run
+    agent_metrics = payload["metrics"]["optimized_agent"]
+    assert agent_metrics["wrong_execution_rate"]["numerator"] == 0
+    assert agent_metrics["unsafe_tool_call_rate"]["numerator"] == 0
+    assert agent_metrics["confirmation_bypass_rate"]["numerator"] == 0
+    assert agent_metrics["duplicate_execution_rate"]["numerator"] == 0
+    for scenario_id, expected_events in (("AG-001", 1), ("AG-002", 2)):
+        item = lookup(payload, "optimized_agent", scenario_id)
+        assert item["outcome_class"] == "BUSINESS_COMPLETED"
+        assert item["final_state"] == "SUCCESS"
+        assert item["final_event_count"] == expected_events
 
 
 def test_protective_delay_reduces_operational_goal_completion(value_run):
