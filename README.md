@@ -183,3 +183,11 @@ Stage 8 只新增评测与用户研究基础设施，不修改 Agent 核心。�
 `evaluation/real_data/public_web/` is a separate `PUBLIC_WEB` layer. It currently records 31 official-page candidates and 15 metadata-selected notification records. The source images have no explicit redistribution permission, so zero images are committed and the formal OCR/Agent run is `NOT EXECUTED_LOCAL_CACHE_UNAVAILABLE` until the ignored local cache and manual visual privacy review are complete.
 
 This layer must be described as **Public-Web Real-World Notification Set**, never as real-campus capture. Real campus captures remain 0 and the真人 user study remains `NOT EXECUTED`.
+
+Public-Web local preparation is a separate preflight step:
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.evaluation.public_web_preflight --download
+```
+
+It creates a cache-integrity manifest, source verification record, manual privacy checklist, and frozen eligibility lock. A `false` readiness result forbids the later formal OCR/Agent run; it is not reported as a zero metric.

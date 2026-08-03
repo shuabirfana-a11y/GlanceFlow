@@ -1,21 +1,10 @@
-from __future__ import annotations
-
-from pathlib import Path
-from urllib.request import Request, urlopen
-
-from glanceflow.evaluation.public_web import load_manifest
+from glanceflow.evaluation.public_web_preflight import download_and_audit
 
 
 def main() -> int:
-    rows = load_manifest()
-    for row in rows:
-        target = Path(row.local_cache_path)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        request = Request(row.image_url, headers={"User-Agent": "GlanceFlow-Stage8-Validation/1.0"})
-        with urlopen(request, timeout=30) as response:  # no authentication or access-control bypass
-            target.write_bytes(response.read())
-        print(f"cached {row.sample_id}: {target}")
-    print("Download complete. Do not change privacy_reviewed or annotation_status until manual visual review.")
+    records = download_and_audit()
+    for record in records:
+        print(f"{record.sample_id}: {record.download_status}")
     return 0
 
 

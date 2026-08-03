@@ -67,18 +67,37 @@ class PublicWebManifestRow(StrictModel):
 class PublicWebAnnotation(StrictModel):
     sample_id: str = Field(pattern=r"^PW-\d{3}$")
     title: str | None
+    event_date: str | None
     event_start: str | None
     location: str | None
     deadline: str | None
     deadline_action: str | None
-    expected_agent_behavior: Literal[
+    timezone: str = "Asia/Shanghai"
+    contains_event: bool
+    contains_deadline: bool
+    expected_behavior: Literal[
         "BUSINESS_COMPLETED", "SAFE_DEFERRED", "SAFE_BLOCKED",
         "RECOVERY_PENDING", "WRONG_EXECUTION", "SYSTEM_FAILED",
     ]
+    scope_status: Literal["IN_SCOPE", "OUT_OF_SCOPE", "AMBIGUOUS_SCOPE"]
+    weekday_consistent: bool | None
     ground_truth_source: Literal["OFFICIAL_PAGE_TEXT"]
-    annotator: str = Field(pattern=r"^A\d{2,}$")
-    reviewer: str = Field(pattern=r"^R\d{2,}$")
+    annotation_generated_by: Literal["CODEX_ASSISTED_MANUAL_REVIEW"]
+    human_review_status: Literal["PENDING", "APPROVED", "REJECTED"]
+    annotator: str = "CODEX_ASSISTED"
+    reviewer: str | None = None
+    ground_truth_reviewed: bool = False
     ambiguity_notes: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_temporal_ground_truth(self) -> "PublicWebAnnotation":
+        if self.event_date and self.event_start and self.event_start[:10] != self.event_date:
+            raise ValueError("event_date must match event_start")
+        if self.deadline and self.event_start and self.deadline == self.event_start:
+            raise ValueError("deadline and event_start must not be conflated")
+        if self.human_review_status == "APPROVED" and not self.ground_truth_reviewed:
+            raise ValueError("Approved human review requires ground_truth_reviewed=true")
+        return self
 
 
 def _bool(value: str, field: str) -> bool:

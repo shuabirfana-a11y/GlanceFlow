@@ -66,3 +66,6 @@
 - [x] 生成不伪造零指标的 `NOT EXECUTED` 报告和合成集对比框架
 - [ ] 在本机缓存图片并逐张完成人工视觉隐私复核
 - [ ] 视觉复核通过后执行正式 Public-Web OCR/Agent validation run
+- [x] 建立本机下载完整性、SHA-256 重复检测、隐私状态和 Scope 准入门禁
+- [x] 建立负责人复核清单与 `evaluation_set.lock.json`
+- [x] 记录本轮下载被执行环境阻止，保持 `READY_FOR_PUBLIC_WEB_EVALUATION=false`
