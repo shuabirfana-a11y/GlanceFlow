@@ -211,7 +211,7 @@ def run_stage8(*, full_test_result: str = "PENDING FINAL RUN") -> dict[str, Any]
         "real_sample_count": real_payload["summary"]["sample_count"],
         "public_web_status": public_web_payload["summary"]["status"],
         "public_web_candidates_audited": public_web_payload["candidate_count"],
-        "public_web_metadata_selected": public_web_payload["summary"]["selected_sample_count"],
+        "public_web_metadata_selected": public_web_payload["selected_sample_count"],
         "public_web_samples_evaluated": public_web_payload["summary"]["sample_count"],
         "participant_count": user_summary["participants"],
         "agent_core_modified": False,

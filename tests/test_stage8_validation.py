@@ -200,8 +200,19 @@ def test_stage8_reports_absent_experiments_as_not_executed(tmp_path, monkeypatch
     monkeypatch.setattr(stage8_module, "HANDOFF", tmp_path / "stage8-handoff.md")
     monkeypatch.setattr(stage8_module, "FAILURES", tmp_path / "stage8-failures.md")
     monkeypatch.setattr(stage8_module, "STATUS", tmp_path / "stage8-status.json")
+    monkeypatch.setattr(
+        stage8_module,
+        "evaluate_public_web",
+        lambda: {
+            "candidate_count": 31,
+            "selected_sample_count": 15,
+            "summary": {"status": "NOT_EXECUTED", "sample_count": 0},
+        },
+    )
+    monkeypatch.setattr(stage8_module, "compare_public_web_vs_synthetic", lambda: {})
     status = run_stage8(full_test_result="TEST RUN")
     assert status["real_data_status"] == status["user_study_status"] == "NOT EXECUTED"
+    assert status["public_web_metadata_selected"] == 15
     handoff = stage8_module.HANDOFF.read_text(encoding="utf-8")
     failure = stage8_module.FAILURES.read_text(encoding="utf-8")
     assert handoff.count("## ") == 20

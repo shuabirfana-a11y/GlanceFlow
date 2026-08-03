@@ -1,18 +1,23 @@
 # Stage 8 Public-Web Cache & Privacy Audit
 
 - Branch: `stage8/real-data-user-validation`
-- Starting HEAD: `394835c`
 
 - TOTAL_CANDIDATES: 31
 - SELECTED: 15
 - DOWNLOADED: 13
 - DOWNLOAD_FAILED: 2
+- ORIGINAL_INTEGRITY_VALID: 13
+- ORIGINAL_INTEGRITY_FAILED: 0
+- SANITIZED_PRESENT: 12
+- SANITIZED_INTEGRITY_VALID: 12
+- SANITIZED_INTEGRITY_FAILED: 0
+- SANITIZED_DUPLICATE: 0
 - SOURCE_VALID: 15
 - SOURCE_UNAVAILABLE: 0
 - DUPLICATE: 0
 - PRIVACY_CLEAR: 1
-- PRIVACY_REDACTED: 0
-- REVIEW_REQUIRED: 14
+- PRIVACY_REDACTED: 12
+- REVIEW_REQUIRED: 2
 - REJECTED: 0
 - PRIVACY_SCREENED: 13
 - REDACTION_REQUIRED: 12
@@ -21,12 +26,15 @@
 - IN_SCOPE: 10
 - OUT_OF_SCOPE: 5
 - ANNOTATED: 15
-- HUMAN_REVIEW_PENDING: 15
-- EVALUATION_ELIGIBLE: 0
-- READY_FOR_PUBLIC_WEB_EVALUATION: false
-- PUBLIC_WEB images tracked by Git: 0
-- `.local_cache/` ignore check: PASS
-- Formal PUBLIC_WEB Agent evaluation: **NOT EXECUTED**
+- ANNOTATION_APPROVED: 9
+- HUMAN_REVIEW_APPROVED: 12
+- HUMAN_REVIEW_PENDING: 3
+- EVALUATION_ELIGIBLE: 9
+- READY_FOR_PUBLIC_WEB_EVALUATION: true
+- BLOCKED_ITEMS: {"PW-001": ["OUT_OF_SCOPE", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"], "PW-005": ["OUT_OF_SCOPE", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"], "PW-008": ["ORIGINAL_DOWNLOAD_FAILED", "SANITIZED_IMAGE_MISSING", "PRIVACY_REVIEW_REQUIRED", "MANUAL_REVIEW_PENDING", "VALID_HUMAN_REVIEWER_MISSING", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"], "PW-010": ["OUT_OF_SCOPE", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"], "PW-011": ["SANITIZED_IMAGE_MISSING", "OUT_OF_SCOPE", "MANUAL_REVIEW_PENDING", "VALID_HUMAN_REVIEWER_MISSING", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"], "PW-013": ["ORIGINAL_DOWNLOAD_FAILED", "SANITIZED_IMAGE_MISSING", "PRIVACY_REVIEW_REQUIRED", "OUT_OF_SCOPE", "MANUAL_REVIEW_PENDING", "VALID_HUMAN_REVIEWER_MISSING", "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING", "GROUND_TRUTH_HUMAN_REVIEW_PENDING"]}
+- Git image tracking: verify with `git ls-files` before handoff
+- `.local_cache/` and `.sanitized_cache/` ignore requirement: enabled
+- Formal PUBLIC_WEB Agent evaluation: not recorded by this preflight-only audit; see `outputs/evaluation/public_web/public_web_report.md` for the latest formal-run status
 - Agent core modified: no
 
-The local cache contains 13 of 15 selected images. Codex-assisted visual privacy screening is recorded for 13 cached images; 12 require redaction before approval. This screening does not claim independent human approval. Failed downloads and all human review gates remain pending, so the formal OCR/Agent evaluation was not executed.
+The local cache contains 13 of 15 selected images. R01 human approval is recorded for 12 sanitized images. The sanitized cache contains 12 integrity-valid images. Formal OCR/Agent evaluation is permitted only while the generated lock status is READY and its bound inputs remain unchanged.

@@ -8,18 +8,21 @@ This directory is a source-audited validation layer, not a real-campus capture s
 - `source_records/sources.json` preserves source and rights decisions.
 - `source_verification.csv` records the latest official-page identity and accessibility check.
 - `cache_manifest.csv` records every download attempt plus integrity and duplicate metadata.
+- `sanitized_manifest.csv` links each approved local redaction to its original and records independent integrity metadata.
 - `manual_review_checklist.csv` is the project-owner privacy and Ground Truth checklist.
 - `evaluation_set.lock.json` freezes only samples that have passed every preflight gate.
-- `.local_cache/` is Git-ignored. Images must never be committed unless an explicit redistribution licence is recorded.
+- `.local_cache/` contains original downloads and `.sanitized_cache/` contains separately stored redacted copies. Both are Git-ignored. Images must never be committed unless an explicit redistribution licence is recorded.
 
-The local preflight cache currently contains 13 of 15 selected images. Codex-assisted visual screening has been recorded for those 13 files without claiming independent human approval: one image has no observed personal detail or QR, while 12 require redaction of public names, portraits, meeting details, and/or QR codes before they can be approved. Two failed downloads remain visually unreviewed. The manifest therefore stays `PAGE_TEXT_VERIFIED_IMAGE_PENDING`, the evaluation lock stays `NOT_READY`, and the formal OCR/Agent run remains `NOT EXECUTED` with no rates reported.
+The original cache contains 13 of 15 selected images. Human reviewer `R01` approved 12 separately stored redacted copies after names, portraits, meeting details, and/or QR codes were irreversibly covered. `PW-011` was not part of that modified-image review. `PW-008` remains a TLS certificate download failure and `PW-013` remains an undecodable-image failure; neither was replaced or marked successful. Reviewer `R01` also approved the Ground Truth for all 9 in-scope, evaluation-eligible samples. The READY lock freezes exactly those 9 samples; the other 6 selected samples remain excluded with their complete failure or out-of-scope records intact.
+
+Formal PUBLIC_WEB OCR/Agent results are written under `outputs/evaluation/public_web/`. They are validation results for public-web notification images only, not evidence from a real-campus capture set or a human-user experiment.
 
 Public availability is not redistribution permission. All selected rows currently use `redistribution_allowed=false` and `local_file_committed=false`.
 
-Run the local preparation audit with:
+Run the local preparation audit without downloading again:
 
 ```powershell
-.\.venv\Scripts\python.exe -m glanceflow.evaluation.public_web_preflight --download
+.\.venv\Scripts\python.exe -m glanceflow.evaluation.public_web_preflight
 ```
 
-The command does not run OCR or Agent evaluation. If downloads are blocked or human review remains pending, it truthfully returns `READY_FOR_PUBLIC_WEB_EVALUATION = false`.
+The command verifies original and sanitized integrity but does not itself run OCR or Agent evaluation. If any required review for an otherwise eligible sample remains pending, it truthfully returns `READY_FOR_PUBLIC_WEB_EVALUATION = false`; otherwise it generates a hash-bound READY lock for formal evaluation.

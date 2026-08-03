@@ -1,9 +1,65 @@
 {
-  "dataset_version": "stage8-public-web-preflight-v1",
-  "created_at": "2026-08-03T10:22:02.532527+00:00",
-  "status": "NOT_READY",
-  "sample_ids": [],
-  "sample_count": 0,
-  "source_manifest_hash": "d0d3db588a4b581be924716ff773558437296031448a4b21ef995533d5adb197",
-  "annotation_manifest_hash": "1e230f1145e9688485b7c95440cba48e4c5854cc8d0e90f8c57c4a5857dafad2"
+  "dataset_version": "stage8-public-web-preflight-v2",
+  "created_at": "2026-08-03T11:56:15.132469+00:00",
+  "status": "READY",
+  "sample_ids": [
+    "PW-002",
+    "PW-003",
+    "PW-004",
+    "PW-006",
+    "PW-007",
+    "PW-009",
+    "PW-012",
+    "PW-014",
+    "PW-015"
+  ],
+  "sample_count": 9,
+  "blocked_items": {
+    "PW-001": [
+      "OUT_OF_SCOPE",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ],
+    "PW-005": [
+      "OUT_OF_SCOPE",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ],
+    "PW-008": [
+      "ORIGINAL_DOWNLOAD_FAILED",
+      "SANITIZED_IMAGE_MISSING",
+      "PRIVACY_REVIEW_REQUIRED",
+      "MANUAL_REVIEW_PENDING",
+      "VALID_HUMAN_REVIEWER_MISSING",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ],
+    "PW-010": [
+      "OUT_OF_SCOPE",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ],
+    "PW-011": [
+      "SANITIZED_IMAGE_MISSING",
+      "OUT_OF_SCOPE",
+      "MANUAL_REVIEW_PENDING",
+      "VALID_HUMAN_REVIEWER_MISSING",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ],
+    "PW-013": [
+      "ORIGINAL_DOWNLOAD_FAILED",
+      "SANITIZED_IMAGE_MISSING",
+      "PRIVACY_REVIEW_REQUIRED",
+      "OUT_OF_SCOPE",
+      "MANUAL_REVIEW_PENDING",
+      "VALID_HUMAN_REVIEWER_MISSING",
+      "ANNOTATION_PAGE_TEXT_VERIFIED_IMAGE_PENDING",
+      "GROUND_TRUTH_HUMAN_REVIEW_PENDING"
+    ]
+  },
+  "source_manifest_hash": "355e5eee16805506e2e853e25445b8f8786cee6a6c458cd587f6cea3565298db",
+  "sanitized_manifest_hash": "203068d45940fe86a35871ee41ab8d55b8fc8bba0c730e3e2fbe5311d767edf9",
+  "manual_review_manifest_hash": "2c4895c1486bd519251dda25818d88cc7ead55fe42010c40f1ffd1b17b642956",
+  "annotation_manifest_hash": "d1b2798cfbad3713ed186329115eb361a7a0f3445d12b2fb8cac1b61fc6bf99d"
 }

@@ -1,1 +1,10 @@
-﻿sample_id,agent_final_classification
+﻿sample_id,input_type,ocr_success,expected_title,predicted_title,expected_event_time,predicted_event_time,expected_location,predicted_location,expected_deadline,predicted_deadline,expected_behavior,agent_final_classification,business_completed,safe_deferred,safe_blocked,recovery_pending,wrong_execution,system_failed,confirmation_count,clarification_count,recapture_requested,unsafe_tool_calls,confirmation_bypass,duplicate_execution,latency_ms,final_reason
+PW-002,IMAGE,True,多模态超分辨显微成像技术开发与应用,华南轩乾大学 1933 華南師范大学,2025-04-15T10:00:00+08:00,2025-04-15T10:00:00+08:00,生命科学学院138会议室,生命科学学院138会议室,,,BUSINESS_COMPLETED,SAFE_BLOCKED,False,False,True,False,False,False,0,0,False,0,0,0,4509.512,核对通知是否仍然有效以及活动时间。; 请靠近通知并重新采集清晰画面。
+PW-003,IMAGE,True,短视频国际传播，你准备好了吗？,,2025-03-05T10:00:00+08:00,,闵行第二教学楼218,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,8213.807,未解析时间表达：周三上午
+PW-004,IMAGE,True,理解“论文”：学术写作的形式逻辑,,2025-10-14T13:00:00+08:00,,传播学院212报告厅,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,8849.496,缺少可确定的活动日期和开始时间。
+PW-006,IMAGE,True,东方佛教第一圣地,,2025-11-18T14:30:00+08:00,,五楼521教室,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,11990.123,缺少可确定的活动日期和开始时间。
+PW-007,IMAGE,True,国际政治经济学的新景观：迈向新议程,,2025-03-17T10:00:00+08:00,,东校区新图书馆7318,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,5910.799,缺少可确定的活动日期和开始时间。
+PW-009,IMAGE,True,语法隐喻的跨学科特性：基于语料库的研究,西南交浦大学 外国语学院,2025-03-26T09:50:00+08:00,2025-03-26T09:50:00+08:00,犀浦校区X30824,,,,BUSINESS_COMPLETED,SAFE_BLOCKED,False,False,True,False,False,False,0,0,False,0,0,0,5898.357,核对通知是否仍然有效以及活动时间。; 请补充活动地点。; 为缺失字段补充可追溯的证据行。; 请靠近通知并重新采集清晰画面。
+PW-012,IMAGE,True,自然的力量：我的乡建之路,,2025-03-27T14:00:00+08:00,,办公楼三楼B347,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,0,True,0,0,0,4123.169,图片分辨率过低。
+PW-014,IMAGE,True,上海大学中国国际大学生创新大赛（2025）系列培训讲座（第一讲）,,2024-12-06T13:30:00+08:00,,J101,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,4503.294,未解析时间表达：周五
+PW-015,IMAGE,True,拥抱第四次工业革命——人工智能赋能传统行业,,2025-11-01T17:00:00+08:00,,博思楼3楼多功能厅,,,,BUSINESS_COMPLETED,SAFE_DEFERRED,False,True,False,False,False,False,0,1,False,0,0,0,5016.213,缺少可确定的活动日期和开始时间。

@@ -22,6 +22,7 @@ tmp/
 evaluation/real_data/originals/
 evaluation/real_data/quarantine/
 evaluation/real_data/public_web/.local_cache/
+evaluation/real_data/public_web/.sanitized_cache/
 *.log
 .DS_Store
 Thumbs.db
