@@ -44,3 +44,28 @@
 - [ ] 定义明确语音触发与结构化确认事件
 - [ ] 定义只读 HUD 状态呈现模型
 - [ ] 保持交互层无 CalendarPort 直接写权限
+
+## Stage 8：Real Data & User Validation
+
+- [x] 完成真实数据 manifest、标注和 sample_id 追溯 schema
+- [x] 强制许可、隐私复核、脱敏目录和 REAL/SYNTHETIC 分离
+- [x] 复用现有 OCR、抽取、安全门和事务链路建立真实评测入口
+- [x] 输出六分类、分子/分母、Decision Trace 和失败分析
+- [x] 建立 46 个合成样本与真实小样本的分离对比
+- [x] 补齐六任务匿名真人日志、1—5 分量表和自动统计
+- [x] 无数据时生成 NOT EXECUTED，而非伪造零指标
+- [x] 增加公开报告隐私扫描与脱敏测试
+- [ ] 采集 10—20 张获许可、隐私复核通过的真实校园通知
+- [ ] 招募 5—8 名签署同意的真人参与者并完成六任务
+
+### Stage 8 Public-Web Real-World Notification Set
+
+- [x] 审计至少 30 个高校官方来源页面（当前 31）
+- [x] 建立 15 个 `PUBLIC_WEB` 元数据记录、来源审计和独立页面文本标注
+- [x] 明确无再分发许可的图片不得提交，并忽略本机图片缓存
+- [x] 生成不伪造零指标的 `NOT EXECUTED` 报告和合成集对比框架
+- [ ] 在本机缓存图片并逐张完成人工视觉隐私复核
+- [ ] 视觉复核通过后执行正式 Public-Web OCR/Agent validation run
+- [x] 建立本机下载完整性、SHA-256 重复检测、隐私状态和 Scope 准入门禁
+- [x] 建立负责人复核清单与 `evaluation_set.lock.json`
+- [x] 记录本轮下载被执行环境阻止，保持 `READY_FOR_PUBLIC_WEB_EVALUATION=false`

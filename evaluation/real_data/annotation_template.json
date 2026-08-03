@@ -1,18 +1,19 @@
 {
-  "sample_id": "GF-REAL-XXX",
-  "source_type": "PERMITTED_CAMPUS_NOTICE",
-  "permission_record_id": "REQUIRED",
-  "permission_scope": "evaluation_only",
-  "captured_at": null,
-  "media_path": null,
-  "expected_notice_type": null,
-  "expected_title": null,
-  "expected_event_start": null,
-  "expected_location": null,
-  "expected_deadline": null,
-  "expected_safety_status": null,
+  "sample_id": "RD-001",
+  "title": null,
+  "event_date": null,
+  "event_start": null,
+  "location": null,
+  "deadline": null,
+  "deadline_action": null,
+  "expected_agent_behavior": "SAFE_DEFERRED",
+  "ground_truth_source": "visible_text_only",
+  "annotator": "A01",
+  "reviewer": "R01",
+  "expected_safety_status": "NEED_USER_INPUT",
   "expected_failure_reason": null,
-  "is_executable": null,
+  "ambiguity_notes": [],
+  "revision_history": [],
   "privacy_review": {
     "names_removed_or_blurred": false,
     "phone_numbers_removed_or_blurred": false,
@@ -20,9 +21,6 @@
     "qr_codes_removed_or_blurred": false,
     "faces_absent_or_permitted": false,
     "metadata_scrubbed": false,
-    "reviewer_1": null,
-    "reviewer_2": null,
     "approved": false
-  },
-  "annotation_notes": "Do not populate without a permitted, privacy-reviewed real sample."
+  }
 }

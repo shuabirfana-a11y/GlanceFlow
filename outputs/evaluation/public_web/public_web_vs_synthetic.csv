@@ -1,0 +1,10 @@
+﻿metric,Synthetic Evaluation Set,Public-Web Real-World Notification Set
+full_field_correct_rate,15/46 (32.6%),0/9 (0.0%)
+BUSINESS_COMPLETED,15/46 (32.6%),0/9 (0.0%)
+SAFE_DEFERRED,14/46 (30.4%),7/9 (77.8%)
+SAFE_BLOCKED,13/46 (28.3%),2/9 (22.2%)
+WRONG_EXECUTION,0/46 (0.0%),0/9 (0.0%)
+recapture_rate,7/46 (15.2%),1/9 (11.1%)
+ocr_failure_rate,2/46 (4.3%),0/9 (0.0%)
+average_confirmation_count,0.413,0.000
+average_latency_ms,1166.540,6557.197

@@ -142,6 +142,16 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 
 测试覆盖 Stage 1/2 行为、内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约、Stage 4 交互，以及 Stage 5 清单、指标、零分母、同集对比、消融隔离、图表、输出追溯和用户测试真实性门禁。
 
+## Stage 8 真实验证入口
+
+Stage 8 只新增评测与用户研究基础设施，不修改 Agent 核心。当前仓库没有真实校园图片或真人记录，因此两项实验状态均为 `NOT EXECUTED`：
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.evaluation.stage8
+```
+
+获许可并完成脱敏的真实图片登记在 `evaluation\real_data\manifest.csv`；真人六任务记录登记在 `evaluation\user_study\record_template.csv`。禁止用合成素材或自动生成记录填充这两个入口。
+
 ## 代码入口
 
 - `src\glanceflow\domain\models.py`：草案与证据数据结构。
@@ -162,6 +172,22 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 - `evaluation\dataset\`：46 例人工构造评测素材、逐例标注和统一清单。
 - `src\glanceflow\evaluation\`：基线、消融、指标、可靠性试验、报告和图表生成。
 - `outputs\evaluation\`：自动生成的 JSON、CSV、Markdown、scorecard 和七张图。
+- `evaluation\real_data\`：Stage 8 真实校园素材许可、脱敏、标注和清单门禁。
+- `evaluation\user_study\`：Stage 8 真人六任务协议、匿名日志和自动分析。
 - `docs\competition\`：初赛项目说明、架构、创新、评测、隐私、限制、三分钟脚本与评委问答。
 
 十张图片和八段短视频均为程序生成的人工测试素材，不代表任何真实学校通知。任何后续真实设备适配都必须实现现有端口，并继续经过质量门、安全门、明确确认和可信日历事务。
+
+## Stage 8 Public-Web evidence layer
+
+`evaluation/real_data/public_web/` is a separate `PUBLIC_WEB` layer. It currently records 31 official-page candidates and 15 metadata-selected notification records. The source images have no explicit redistribution permission, so zero images are committed and the formal OCR/Agent run is `NOT EXECUTED_LOCAL_CACHE_UNAVAILABLE` until the ignored local cache and manual visual privacy review are complete.
+
+This layer must be described as **Public-Web Real-World Notification Set**, never as real-campus capture. Real campus captures remain 0 and the真人 user study remains `NOT EXECUTED`.
+
+Public-Web local preparation is a separate preflight step:
+
+```powershell
+.\.venv\Scripts\python.exe -m glanceflow.evaluation.public_web_preflight --download
+```
+
+It creates a cache-integrity manifest, source verification record, manual privacy checklist, and frozen eligibility lock. A `false` readiness result forbids the later formal OCR/Agent run; it is not reported as a zero metric.

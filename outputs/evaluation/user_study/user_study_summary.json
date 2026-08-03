@@ -1,0 +1,11 @@
+{
+  "status": "尚未执行",
+  "execution_status": "NOT_EXECUTED",
+  "participants": 0,
+  "sessions": 0,
+  "results_available": false,
+  "target_met": false,
+  "protocol_complete": false,
+  "message": "尚未执行真人用户实验。",
+  "summary": "没有真实记录，不计算 0%、0 秒或 0 分作为实验结果。"
+}

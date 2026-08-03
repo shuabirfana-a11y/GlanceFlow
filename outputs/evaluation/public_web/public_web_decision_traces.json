@@ -1,0 +1,109 @@
+{
+  "traces": [
+    {
+      "sample_id": "PW-003",
+      "Observe": {
+        "ocr_usable": true,
+        "input_type": "IMAGE"
+      },
+      "Risk": {
+        "expected_behavior": "BUSINESS_COMPLETED",
+        "public_reason": "未解析时间表达：周三上午"
+      },
+      "Decision": "SAFE_DEFERRED",
+      "Tool": "no_side_effect_tool",
+      "Result": {
+        "business_completed": false,
+        "recapture_requested": false
+      },
+      "Verify": {
+        "wrong_execution": false,
+        "system_failed": false
+      }
+    },
+    {
+      "sample_id": "PW-004",
+      "Observe": {
+        "ocr_usable": true,
+        "input_type": "IMAGE"
+      },
+      "Risk": {
+        "expected_behavior": "BUSINESS_COMPLETED",
+        "public_reason": "缺少可确定的活动日期和开始时间。"
+      },
+      "Decision": "SAFE_DEFERRED",
+      "Tool": "no_side_effect_tool",
+      "Result": {
+        "business_completed": false,
+        "recapture_requested": false
+      },
+      "Verify": {
+        "wrong_execution": false,
+        "system_failed": false
+      }
+    },
+    {
+      "sample_id": "PW-006",
+      "Observe": {
+        "ocr_usable": true,
+        "input_type": "IMAGE"
+      },
+      "Risk": {
+        "expected_behavior": "BUSINESS_COMPLETED",
+        "public_reason": "缺少可确定的活动日期和开始时间。"
+      },
+      "Decision": "SAFE_DEFERRED",
+      "Tool": "no_side_effect_tool",
+      "Result": {
+        "business_completed": false,
+        "recapture_requested": false
+      },
+      "Verify": {
+        "wrong_execution": false,
+        "system_failed": false
+      }
+    },
+    {
+      "sample_id": "PW-007",
+      "Observe": {
+        "ocr_usable": true,
+        "input_type": "IMAGE"
+      },
+      "Risk": {
+        "expected_behavior": "BUSINESS_COMPLETED",
+        "public_reason": "缺少可确定的活动日期和开始时间。"
+      },
+      "Decision": "SAFE_DEFERRED",
+      "Tool": "no_side_effect_tool",
+      "Result": {
+        "business_completed": false,
+        "recapture_requested": false
+      },
+      "Verify": {
+        "wrong_execution": false,
+        "system_failed": false
+      }
+    },
+    {
+      "sample_id": "PW-012",
+      "Observe": {
+        "ocr_usable": true,
+        "input_type": "IMAGE"
+      },
+      "Risk": {
+        "expected_behavior": "BUSINESS_COMPLETED",
+        "public_reason": "图片分辨率过低。"
+      },
+      "Decision": "SAFE_DEFERRED",
+      "Tool": "no_side_effect_tool",
+      "Result": {
+        "business_completed": false,
+        "recapture_requested": true
+      },
+      "Verify": {
+        "wrong_execution": false,
+        "system_failed": false
+      }
+    }
+  ]
+}

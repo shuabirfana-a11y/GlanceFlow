@@ -1,0 +1,19 @@
+{
+  "dataset": "stage8_real_campus_small_sample",
+  "summary": {
+    "status": "NOT_EXECUTED",
+    "sample_count": 0,
+    "target_met": false,
+    "message": "尚未采集真实校园素材。",
+    "outcome_counts": {
+      "BUSINESS_COMPLETED": null,
+      "SAFE_DEFERRED": null,
+      "SAFE_BLOCKED": null,
+      "RECOVERY_PENDING": null,
+      "WRONG_EXECUTION": null,
+      "SYSTEM_FAILED": null
+    },
+    "metrics": {}
+  },
+  "results": []
+}

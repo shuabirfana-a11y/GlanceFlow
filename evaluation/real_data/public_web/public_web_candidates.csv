@@ -1,0 +1,32 @@
+candidate_id,source_page_url,publisher,published_at,status,reason,image_url
+CAND-001,https://www.szcu.edu.cn/2025/1117/c210a81747/page.htm,深圳城市学院,2025-11-17,REJECTED,official page but insufficient independently verifiable event fields,
+CAND-002,https://www.hqu.edu.cn/info/1077/715573.htm,华侨大学,2025-01-01,REJECTED,official page but sparse accessible metadata,
+CAND-003,https://science.sysu.edu.cn/article/938,中山大学理学院,2025-04-02,SELECTED,official page and direct poster image,https://science.sysu.edu.cn/sites/default/files/inline-images/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250402150307.jpg
+CAND-004,https://kyc.hfnu.edu.cn/info/1391/40240.htm,合肥师范学院,2025-04-01,REJECTED,multi-event schedule unsuitable for one-notice ground truth,
+CAND-005,https://life.scnu.edu.cn/a/20250410/6465.html,华南师范大学生命科学学院,2025-04-10,SELECTED,official page and direct poster image,https://statics.scnu.edu.cn/pics/life/2025/0410/1744274255355560.jpg
+CAND-006,https://www.lsu.edu.cn/2025/0924/c111a358643/page.htm,丽水学院,2025-09-24,REJECTED,page date and weekday conflict but no stable direct image URL,
+CAND-007,https://zxxy.sxu.edu.cn/xzhd/111a8a7e3ced45f6bcb27cee16cd4ff0.htm,山西大学哲学学院,2025-01-01,REJECTED,sparse accessible page metadata,
+CAND-008,https://www.smbu.edu.cn/info/4591/124671.htm,深圳北理莫斯科大学,2025-01-01,REJECTED,contact details require privacy handling,
+CAND-009,https://chjxy.qut.edu.cn/info/1122/2358.htm,青岛理工大学,2025-01-01,REJECTED,incomplete time and location fields,
+CAND-010,https://comm.ecnu.edu.cn/46/a2/c41514a673442/page.htm,华东师范大学传播学院,2025-03-01,SELECTED,official page and direct poster image,https://comm.ecnu.edu.cn/_upload/article/images/fc/29/b6d553144e2e8fdf7556bf5d3006/76755e80-3037-43c1-9502-52b21f40b3e5.jpg
+CAND-011,https://www.nwnu.edu.cn/xsjz/list2.htm,西北师范大学,2025-01-01,REJECTED,list page rather than one notice,
+CAND-012,https://comm.ecnu.edu.cn/fb/7e/c41514a719742/page.htm,华东师范大学传播学院,2025-10-01,SELECTED,official page and direct poster image,https://comm.ecnu.edu.cn/_upload/article/images/c5/e7/c62265b94310869c0a61a6adbbec/08abe12e-2b92-4a7c-9b38-d309f0b820a2.jpg
+CAND-013,https://neunews.neu.edu.cn/info/1781/962801.htm,东北大学,2025-11-28,SELECTED,official page and direct poster image,https://neunews.neu.edu.cn/__local/C/B8/AC/7276F5EFFC58C8B6989EED5ADC8_69C3D649_88CE3.jpg
+CAND-014,https://cie.bjut.edu.cn/info/1019/1818.htm,北京工业大学,2025-05-01,REJECTED,no stable direct image URL,
+CAND-015,https://archaeology.sxu.edu.cn/sylm/xsjz/e52ce803c2fc474d82d3fab7f7b45378.htm,山西大学考古文博学院,2025-11-01,SELECTED,official page and direct poster image,https://archaeology.sxu.edu.cn/images/2025-11/68d3b18c6efc44afbdb239eab1c03c0d.jpg
+CAND-016,https://aa.sustech.edu.cn/study/noticed/id/2802.html,南方科技大学校友会,2025-01-01,REJECTED,page access or metadata ambiguity,
+CAND-017,https://cidga.cau.edu.cn/art/2025/3/13/art_52417_1068543.html,中国农业大学,2025-03-13,SELECTED,official page and direct poster image,https://cidga.cau.edu.cn/picture/0/257e4a78632b4d89b0778eea0b4e4454.jpg
+CAND-018,https://cob.sufe.edu.cn/MBA/Detail/26984,上海财经大学商学院,2025-10-31,SELECTED,official page and direct image with visual privacy review pending,https://usercenter.sufe.edu.cn/Service/UeditorDownload?name=upload%2Fimage%2F20251031%2F6389749853251801944422123.jpg
+CAND-019,https://gdcs.stu.edu.cn/Announcement/Content/891,汕头大学,2025-01-01,REJECTED,private contact information risk,
+CAND-020,https://cidga.cau.edu.cn/art/2025/4/13/art_54275_1068866.html,中国农业大学,2025-04-13,REJECTED,source page error and unresolved image,
+CAND-021,https://xxgcxy.gdut.edu.cn/info/1209/8543.htm,广东工业大学信息工程学院,2025-01-01,REJECTED,QR and form privacy ambiguity,
+CAND-022,https://www.art.pku.edu.cn/jzhb/f83aec79ae61440eaec606bf2988ab1a.htm,北京大学艺术学院,2025-06-12,SELECTED,official page and direct poster image,https://www.art.pku.edu.cn/images/2025-06/71558c00148843789e3abdd157fd8b52.png
+CAND-023,https://news.swjtu.edu.cn/info/1019/76825.htm,西南交通大学,2025-03-24,SELECTED,official page and direct image; page explicitly restricts reuse,https://news.swjtu.edu.cn/__local/0/2B/E4/AA2DBB895E44CBE150D1E1B70C6_30FFBDBE_7CCFC.jpg
+CAND-024,https://math.fudan.edu.cn/11/13/c30300a725267/page.htm,复旦大学数学科学学院,2025-04-01,SELECTED,official page and direct poster image,https://math.fudan.edu.cn/_upload/article/images/f4/85/4343d97f4b4a96d86e31c8e6ac7d/41eb14c5-d4a5-466a-abed-c6782b01e963.png
+CAND-025,https://science.sysu.edu.cn/article/922,中山大学理学院,2025-01-01,REJECTED,QR and group privacy ambiguity,
+CAND-026,https://science.westlake.edu.cn/newsevents/news/202506/t20250627_56409.shtml,西湖大学理学院,2025-06-27,SELECTED,official page and direct poster image,https://science.westlake.edu.cn/newsevents/news/202506/W020250627617129026877.jpg
+CAND-027,https://architecture.sdada.edu.cn/info/1046/4512.htm,山东工艺美术学院建筑与景观设计学院,2025-03-25,SELECTED,official page and direct poster image,https://architecture.sdada.edu.cn/__local/E/66/4B/7DED9B34B56413904998133C2FB_D124C31D_92EF.jpeg
+CAND-028,https://jgxy.fzu.edu.cn/info/1142/24087.htm,福州大学经济与管理学院,2025-10-27,SELECTED,official page and poster PDF,https://jgxy.fzu.edu.cn/system/_content/download.jsp?owner=1746866770&urltype=news.DownloadAttachUrl&wbfileid=16728658
+CAND-029,https://www.shu.edu.cn/info/1062/362405.htm,上海大学,2024-12-01,SELECTED,official page and direct poster image,https://www.shu.edu.cn/__local/9/D1/D7/F778B62EECDD39129DC30D003FD_31108433_A00C1.jpg
+CAND-030,https://stl.pku.edu.cn/cn/news/39/a3968.html,北京大学国际法学院,2025-01-01,REJECTED,no stable direct image URL and QR risk,
+CAND-031,https://www.lit.sdu.edu.cn/info/1048/4758.htm,山东大学文学院,2025-01-01,REJECTED,restrictive copyright and private submission details,
