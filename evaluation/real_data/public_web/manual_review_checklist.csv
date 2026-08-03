@@ -1,16 +1,16 @@
 sample_id,source_verified,image_downloaded,privacy_status,qr_present,redaction_required,ground_truth_complete,scope_status,weekday_checked,deadline_checked,review_status,review_notes,evaluation_eligible
-PW-001,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,false,true,PENDING,multiple sessions; image unavailable for visual review,false
-PW-002,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-003,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-004,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,first event selected from series; image unavailable,false
-PW-005,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,true,true,PENDING,pure online event; image unavailable,false
-PW-006,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-007,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-008,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,page published after event; image unavailable,false
-PW-009,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,restricted reuse; image unavailable,false
-PW-010,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,true,true,PENDING,multi-day multi-room schedule; image unavailable,false
-PW-011,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,true,true,PENDING,multi-day conference and multiple deadlines,false
-PW-012,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-013,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,true,true,PENDING,pure online event and poster is PDF,false
-PW-014,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,image unavailable for visual review,false
-PW-015,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,possible QR/contact content; image unavailable,false
+PW-001,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,OUT_OF_SCOPE,false,true,PENDING,Codex visual screen 2026-08-03: multiple public speaker names visible; redact names before evaluation; independent human approval pending,false
+PW-002,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name and portrait visible; redact both before evaluation; independent human approval pending,false
+PW-003,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name and portrait visible; redact both before evaluation; independent human approval pending,false
+PW-004,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name and portrait visible; first event selected from series; redact before evaluation; independent human approval pending,false
+PW-005,true,true,PRIVACY_REVIEW_REQUIRED,true,true,true,OUT_OF_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name and portrait plus livestream QR visible; redact before evaluation; pure online event; independent human approval pending,false
+PW-006,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name visible; redact before evaluation; independent human approval pending,false
+PW-007,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker and moderator names plus portrait visible; redact before evaluation; independent human approval pending,false
+PW-008,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,IN_SCOPE,true,true,PENDING,Download failed because TLS certificate validation failed; visual and independent human review remain pending,false
+PW-009,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name visible; redact before evaluation; source also restricts reuse; independent human approval pending,false
+PW-010,true,true,PRIVACY_REVIEW_REQUIRED,false,true,true,OUT_OF_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: multiple public speaker names visible; redact before evaluation; multi-day multi-room schedule; independent human approval pending,false
+PW-011,true,true,PRIVACY_CLEAR,false,false,true,OUT_OF_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: conference title date and city only; no person name portrait contact detail or QR observed; independent human approval pending,false
+PW-012,true,true,PRIVACY_REVIEW_REQUIRED,true,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker name and portrait plus meeting QR and meeting ID visible; redact before evaluation; independent human approval pending,false
+PW-013,true,false,PRIVACY_REVIEW_REQUIRED,unknown,unknown,true,OUT_OF_SCOPE,true,true,PENDING,Downloaded response was not a decodable supported image and was removed; visual and independent human review remain pending; pure online event,false
+PW-014,true,true,PRIVACY_REVIEW_REQUIRED,true,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: two public names and portraits plus registration QR visible; redact before evaluation; independent human approval pending,false
+PW-015,true,true,PRIVACY_REVIEW_REQUIRED,true,true,true,IN_SCOPE,true,true,PENDING,Codex visual screen 2026-08-03: public speaker identity and portrait plus registration QR visible; redact before evaluation; independent human approval pending,false

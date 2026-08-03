@@ -286,6 +286,13 @@ def run_preflight(
         "PRIVACY_REDACTED": privacy_counts[PrivacyStatus.REDACTED.value],
         "REVIEW_REQUIRED": privacy_counts[PrivacyStatus.REVIEW_REQUIRED.value],
         "REJECTED": privacy_counts[PrivacyStatus.REJECTED.value],
+        "PRIVACY_SCREENED": sum(
+            _bool(r["image_downloaded"])
+            and r["qr_present"] != "unknown"
+            and r["redaction_required"] != "unknown"
+            for r in reviews.values()
+        ),
+        "REDACTION_REQUIRED": sum(r["redaction_required"] == "true" for r in reviews.values()),
         "QR_PRESENT_CONFIRMED": sum(r["qr_present"] == "true" for r in reviews.values()),
         "QR_REVIEW_PENDING": sum(r["qr_present"] == "unknown" for r in reviews.values()),
         "IN_SCOPE": sum(r["scope_status"] == ScopeStatus.IN_SCOPE.value for r in reviews.values()),
@@ -302,8 +309,11 @@ def run_preflight(
         *[f"- {key}: {str(value).lower() if isinstance(value, bool) else value}" for key, value in summary.items()],
         "- PUBLIC_WEB images tracked by Git: 0", "- `.local_cache/` ignore check: PASS",
         "- Formal PUBLIC_WEB Agent evaluation: **NOT EXECUTED**", "- Agent core modified: no", "",
-        "The local runner attempted every selected download, but this execution environment blocked outbound file sockets. "
-        "No image was fabricated. Visual privacy screening and human review therefore remain pending.",
+        f"The local cache contains {summary['DOWNLOADED']} of {summary['SELECTED']} selected images. "
+        f"Codex-assisted visual privacy screening is recorded for {summary['PRIVACY_SCREENED']} cached images; "
+        f"{summary['REDACTION_REQUIRED']} require redaction before approval. "
+        "This screening does not claim independent human approval. Failed downloads and all human review gates remain pending, "
+        "so the formal OCR/Agent evaluation was not executed.",
     ]
     audit_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return summary
