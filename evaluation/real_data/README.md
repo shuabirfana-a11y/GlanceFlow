@@ -6,7 +6,7 @@
 
 ## 数据边界
 
-- `manifest.csv` 只接受 `RD-001` 格式的真实样本；46 个固定种子合成样本继续保存在 `evaluation/dataset/`，两者不混算。
+- `manifest.csv` 只接受 `RD-001` 格式且 `source_type=REAL_CAMPUS_CAPTURE` 的团队实拍样本；46 个固定种子合成样本和 `PUBLIC_WEB` 样本分别保存在各自目录，三者不混算。
 - 原始未脱敏文件必须留在 Git 之外；只有获得许可、完成隐私复核并脱敏的文件才能进入 `sanitized/`。
 - 每个样本须有 `annotations/RD-xxx.json`，缺失字段使用 `null`，真实歧义写入 `ambiguity_notes`。
 - 失败样本必须保留。若证明确为标注错误，修改时在 `revision_history` 写明时间、人员与原因。
@@ -14,7 +14,7 @@
 
 ## 正式清单门禁
 
-每行必须同时满足：`source_type=REAL`、`permission_confirmed=true`、`privacy_reviewed=true`、`sanitized=true`、`annotation_status=APPROVED`，且图片位于 `evaluation/real_data/sanitized/`。标注者、复核者及 sample_id 必须和 JSON 一致。
+每行必须同时满足：`source_type=REAL_CAMPUS_CAPTURE`、`permission_confirmed=true`、`privacy_reviewed=true`、`sanitized=true`、`annotation_status=APPROVED`，且图片位于 `evaluation/real_data/sanitized/`。标注者、复核者及 sample_id 必须和 JSON 一致。
 
 ## 运行
 

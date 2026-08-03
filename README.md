@@ -177,3 +177,9 @@ Stage 8 只新增评测与用户研究基础设施，不修改 Agent 核心。�
 - `docs\competition\`：初赛项目说明、架构、创新、评测、隐私、限制、三分钟脚本与评委问答。
 
 十张图片和八段短视频均为程序生成的人工测试素材，不代表任何真实学校通知。任何后续真实设备适配都必须实现现有端口，并继续经过质量门、安全门、明确确认和可信日历事务。
+
+## Stage 8 Public-Web evidence layer
+
+`evaluation/real_data/public_web/` is a separate `PUBLIC_WEB` layer. It currently records 31 official-page candidates and 15 metadata-selected notification records. The source images have no explicit redistribution permission, so zero images are committed and the formal OCR/Agent run is `NOT EXECUTED_LOCAL_CACHE_UNAVAILABLE` until the ignored local cache and manual visual privacy review are complete.
+
+This layer must be described as **Public-Web Real-World Notification Set**, never as real-campus capture. Real campus captures remain 0 and the真人 user study remains `NOT EXECUTED`.

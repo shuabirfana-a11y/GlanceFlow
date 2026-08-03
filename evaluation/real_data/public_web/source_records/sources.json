@@ -1,0 +1,25 @@
+{
+  "audit_date": "2026-08-03",
+  "candidate_count": 31,
+  "selected_count": 15,
+  "source_policy": "Official university or university-unit pages only",
+  "rights_policy": "Public access is not redistribution permission",
+  "selected_image_files_committed": 0,
+  "selected_records": [
+    {"sample_id":"PW-001","publisher":"中山大学理学院","redistribution_allowed":false},
+    {"sample_id":"PW-002","publisher":"华南师范大学生命科学学院","redistribution_allowed":false},
+    {"sample_id":"PW-003","publisher":"华东师范大学传播学院","redistribution_allowed":false},
+    {"sample_id":"PW-004","publisher":"华东师范大学传播学院","redistribution_allowed":false},
+    {"sample_id":"PW-005","publisher":"东北大学","redistribution_allowed":false},
+    {"sample_id":"PW-006","publisher":"山西大学考古文博学院","redistribution_allowed":false},
+    {"sample_id":"PW-007","publisher":"中国农业大学","redistribution_allowed":false},
+    {"sample_id":"PW-008","publisher":"北京大学艺术学院","redistribution_allowed":false},
+    {"sample_id":"PW-009","publisher":"西南交通大学","redistribution_allowed":false},
+    {"sample_id":"PW-010","publisher":"复旦大学数学科学学院","redistribution_allowed":false},
+    {"sample_id":"PW-011","publisher":"西湖大学理学院","redistribution_allowed":false},
+    {"sample_id":"PW-012","publisher":"山东工艺美术学院建筑与景观设计学院","redistribution_allowed":false},
+    {"sample_id":"PW-013","publisher":"福州大学经济与管理学院","redistribution_allowed":false},
+    {"sample_id":"PW-014","publisher":"上海大学","redistribution_allowed":false},
+    {"sample_id":"PW-015","publisher":"上海财经大学商学院","redistribution_allowed":false}
+  ]
+}

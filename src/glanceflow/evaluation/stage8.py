@@ -7,6 +7,7 @@ from typing import Any
 
 from glanceflow.evaluation.real_comparison import compare_real_vs_synthetic
 from glanceflow.evaluation.real_data import OUTCOMES, evaluate_real_data
+from glanceflow.evaluation.public_web import evaluate_public_web, compare_public_web_vs_synthetic
 from glanceflow.evaluation.user_study import load_records, run_user_study_analysis
 
 
@@ -189,6 +190,8 @@ def _handoff_report(
 
 def run_stage8(*, full_test_result: str = "PENDING FINAL RUN") -> dict[str, Any]:
     real_payload = evaluate_real_data()
+    public_web_payload = evaluate_public_web()
+    compare_public_web_vs_synthetic()
     user_summary = run_user_study_analysis()
     user_rows = load_records()
     comparison = compare_real_vs_synthetic()
@@ -206,6 +209,10 @@ def run_stage8(*, full_test_result: str = "PENDING FINAL RUN") -> dict[str, Any]
             else "NOT EXECUTED"
         ),
         "real_sample_count": real_payload["summary"]["sample_count"],
+        "public_web_status": public_web_payload["summary"]["status"],
+        "public_web_candidates_audited": public_web_payload["candidate_count"],
+        "public_web_metadata_selected": public_web_payload["summary"]["selected_sample_count"],
+        "public_web_samples_evaluated": public_web_payload["summary"]["sample_count"],
         "participant_count": user_summary["participants"],
         "agent_core_modified": False,
         "full_test_result": full_test_result,

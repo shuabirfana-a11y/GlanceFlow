@@ -1,0 +1,22 @@
+{
+  "dataset": "Public-Web Real-World Notification Set",
+  "source_type": "PUBLIC_WEB",
+  "candidate_count": 31,
+  "summary": {
+    "status": "NOT_EXECUTED_LOCAL_CACHE_UNAVAILABLE",
+    "selected_sample_count": 15,
+    "evaluation_ready_count": 0,
+    "sample_count": 0,
+    "outcome_counts": {
+      "BUSINESS_COMPLETED": null,
+      "SAFE_DEFERRED": null,
+      "SAFE_BLOCKED": null,
+      "RECOVERY_PENDING": null,
+      "WRONG_EXECUTION": null,
+      "SYSTEM_FAILED": null
+    },
+    "metrics": {},
+    "message": "Metadata and independent page-text annotations are prepared, but formal OCR/Agent evaluation has not run because the ignored image cache and visual privacy review are incomplete."
+  },
+  "results": []
+}

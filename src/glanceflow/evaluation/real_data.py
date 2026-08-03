@@ -39,8 +39,9 @@ TRACE_STEPS = ("Observe", "Risk", "Decision", "Tool", "Result", "Verify")
 
 
 class RealSourceType(StrEnum):
-    REAL = "REAL"
     SYNTHETIC = "SYNTHETIC"
+    PUBLIC_WEB = "PUBLIC_WEB"
+    REAL_CAMPUS_CAPTURE = "REAL_CAMPUS_CAPTURE"
 
 
 class AgentOutcome(StrEnum):
@@ -73,8 +74,10 @@ class RealManifestRow(Stage8Model):
 
     @model_validator(mode="after")
     def eligible_real_sample(self) -> "RealManifestRow":
-        if self.source_type is not RealSourceType.REAL:
-            raise ValueError("Synthetic samples must remain in the synthetic dataset, not manifest.csv")
+        if self.source_type is not RealSourceType.REAL_CAMPUS_CAPTURE:
+            raise ValueError(
+                "Synthetic samples and PUBLIC_WEB samples cannot enter the REAL_CAMPUS_CAPTURE manifest"
+            )
         if not (self.permission_confirmed and self.privacy_reviewed and self.sanitized):
             raise ValueError("Real samples require permission, privacy review, and sanitization")
         if self.annotation_status != "APPROVED":

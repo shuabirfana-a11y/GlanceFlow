@@ -27,7 +27,7 @@ from glanceflow.evaluation.user_study import REQUIRED_FIELDS, analyze, run_user_
 
 def _manifest_row(**updates):
     row = {
-        "sample_id": "RD-001", "source_type": "REAL", "capture_context": "permitted campus board",
+        "sample_id": "RD-001", "source_type": "REAL_CAMPUS_CAPTURE", "capture_context": "permitted campus board",
         "permission_confirmed": True, "privacy_reviewed": True, "sanitized": True,
         "annotation_status": "APPROVED", "annotator_id": "A01", "reviewer_id": "R01",
         "contains_event": True, "contains_deadline": False,
