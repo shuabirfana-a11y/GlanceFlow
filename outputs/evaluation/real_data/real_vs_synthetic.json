@@ -1,0 +1,75 @@
+{
+  "scope": "46 synthetic samples vs small permitted real-campus sample",
+  "statistical_significance_claimed": false,
+  "synthetic": {
+    "status": "EXECUTED",
+    "sample_count": 46,
+    "outcome_counts": {
+      "BUSINESS_COMPLETED": 15,
+      "SAFE_DEFERRED": 14,
+      "SAFE_BLOCKED": 13,
+      "RECOVERY_PENDING": 0,
+      "WRONG_EXECUTION": 0,
+      "SYSTEM_FAILED": 4
+    },
+    "metrics": {
+      "full_field_correct_rate": {
+        "value": 0.32608695652173914,
+        "numerator": 15,
+        "denominator": 46,
+        "display": "15/46 (32.6%)"
+      },
+      "BUSINESS_COMPLETED": {
+        "value": 0.32608695652173914,
+        "numerator": 15,
+        "denominator": 46,
+        "display": "15/46 (32.6%)"
+      },
+      "SAFE_DEFERRED": {
+        "value": 0.30434782608695654,
+        "numerator": 14,
+        "denominator": 46,
+        "display": "14/46 (30.4%)"
+      },
+      "SAFE_BLOCKED": {
+        "value": 0.2826086956521739,
+        "numerator": 13,
+        "denominator": 46,
+        "display": "13/46 (28.3%)"
+      },
+      "WRONG_EXECUTION": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 46,
+        "display": "0/46 (0.0%)"
+      },
+      "recapture_rate": {
+        "value": 0.15217391304347827,
+        "numerator": 7,
+        "denominator": 46,
+        "display": "7/46 (15.2%)"
+      },
+      "ocr_failure_rate": {
+        "value": 0.043478260869565216,
+        "numerator": 2,
+        "denominator": 46,
+        "display": "2/46 (4.3%)"
+      },
+      "average_confirmation_count": 0.41304347826086957,
+      "average_latency_ms": 1166.5401478260462
+    }
+  },
+  "real": {
+    "status": "NOT_EXECUTED",
+    "sample_count": 0,
+    "outcome_counts": {
+      "BUSINESS_COMPLETED": null,
+      "SAFE_DEFERRED": null,
+      "SAFE_BLOCKED": null,
+      "RECOVERY_PENDING": null,
+      "WRONG_EXECUTION": null,
+      "SYSTEM_FAILED": null
+    },
+    "metrics": {}
+  }
+}

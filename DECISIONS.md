@@ -67,3 +67,11 @@ Stage 1 的 `GF-CONFIDENCE-001` 仅在字段已有证据引用时检查字段置
 ## ADR-017：Google 适配器与真实验证分开
 
 代码使用官方 Google 客户端和最小 `calendar.events` 权限，私有扩展字段保存事务标识，且拒绝 `primary`。当前没有专用测试凭据，因此只通过假服务契约测试；未执行真实创建、回读或删除。
+
+## ADR-018：Stage 8 的工程完成与实验执行分开
+
+真实数据格式、许可/隐私门禁、评测适配、用户实验分析和报告生成完成后，只能标记 `Stage 8 infrastructure complete`。只有存在获许可、完成隐私复核的真实样本才能标记 `Real-data validation executed`；只有存在真实匿名参与者记录才能标记 `User study executed`。空数据输出 `NOT EXECUTED`，不生成零比例或推断性结论。
+
+## ADR-019：真实输入复用既有可信链路
+
+Stage 8 将获许可且脱敏的真实图片适配到现有 OCR、确定性抽取、Safety Gate 和可信日历事务评测，不在旁边建立第二套业务实现，也不修改 Agent 核心。公开产物保留匿名 sample_id，但不保存 OCR 全文；合成数据与真实数据始终分开统计。

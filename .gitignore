@@ -19,6 +19,8 @@ token*.json
 google-calendar-credentials*.json
 temp/
 tmp/
+evaluation/real_data/originals/
+evaluation/real_data/quarantine/
 *.log
 .DS_Store
 Thumbs.db
