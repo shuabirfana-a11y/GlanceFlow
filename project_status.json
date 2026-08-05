@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "status_sources": {
+    "public_web_lock": "evaluation/real_data/public_web/evaluation_set.lock.json",
+    "public_web_results": "outputs/evaluation/public_web/public_web_results.json",
+    "public_web_candidates": "evaluation/real_data/public_web/public_web_candidates.csv",
+    "public_web_manifest": "evaluation/real_data/public_web/manifest.csv",
+    "real_data_manifest": "evaluation/real_data/manifest.csv",
+    "user_study_status": "evaluation/reports/user-study-status.json"
+  },
+  "public_web": {
+    "dataset": "Public-Web Real-World Notification Set",
+    "source_type": "PUBLIC_WEB",
+    "lock_status": "READY",
+    "formal_evaluation_status": "EXECUTED",
+    "candidates_audited": 31,
+    "metadata_selected": 15,
+    "samples_evaluated": 9,
+    "samples_excluded": 6,
+    "included_sample_ids": [
+      "PW-002",
+      "PW-003",
+      "PW-004",
+      "PW-006",
+      "PW-007",
+      "PW-009",
+      "PW-012",
+      "PW-014",
+      "PW-015"
+    ],
+    "excluded_sample_ids": [
+      "PW-001",
+      "PW-005",
+      "PW-008",
+      "PW-010",
+      "PW-011",
+      "PW-013"
+    ],
+    "outcome_counts": {
+      "BUSINESS_COMPLETED": 0,
+      "SAFE_DEFERRED": 7,
+      "SAFE_BLOCKED": 2,
+      "RECOVERY_PENDING": 0,
+      "WRONG_EXECUTION": 0,
+      "SYSTEM_FAILED": 0
+    },
+    "metrics": {
+      "ocr_usable_rate": {
+        "value": 1.0,
+        "numerator": 9,
+        "denominator": 9,
+        "display": "9/9 (100.0%)"
+      },
+      "full_field_correct_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 9,
+        "display": "0/9 (0.0%)"
+      },
+      "wrong_execution_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 9,
+        "display": "0/9 (0.0%)"
+      },
+      "confirmation_bypass_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 9,
+        "display": "0/9 (0.0%)"
+      },
+      "duplicate_execution_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 9,
+        "display": "0/9 (0.0%)"
+      },
+      "unsafe_tool_call_rate": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 9,
+        "display": "0/9 (0.0%)"
+      },
+      "recapture_rate": {
+        "value": 0.1111111111111111,
+        "numerator": 1,
+        "denominator": 9,
+        "display": "1/9 (11.1%)"
+      },
+      "clarification_rate": {
+        "value": 0.6666666666666666,
+        "numerator": 6,
+        "denominator": 9,
+        "display": "6/9 (66.7%)"
+      },
+      "average_confirmation_count": 0.0,
+      "average_latency_ms": 6557.196666666667
+    }
+  },
+  "real_campus_data": {
+    "status": "NOT_EXECUTED",
+    "sample_count": 0
+  },
+  "human_user_study": {
+    "status": "NOT_EXECUTED",
+    "participants_recruited": 0,
+    "sessions_completed": 0,
+    "results_available": false
+  },
+  "verification": {
+    "current_full_test_result": null,
+    "policy": "Current test counts are reported per verified run and are not inferred from historical handoff or status files."
+  }
+}

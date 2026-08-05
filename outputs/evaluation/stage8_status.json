@@ -1,13 +1,16 @@
 {
+  "schema_version": 1,
+  "generated_from": "project_status.json",
   "infrastructure_status": "Stage 8 infrastructure complete",
-  "real_data_status": "NOT EXECUTED",
-  "user_study_status": "NOT EXECUTED",
+  "real_data_status": "NOT_EXECUTED",
+  "user_study_status": "NOT_EXECUTED",
   "real_sample_count": 0,
-  "public_web_status": "NOT_EXECUTED_LOCAL_CACHE_UNAVAILABLE",
+  "public_web_status": "EXECUTED",
   "public_web_candidates_audited": 31,
   "public_web_metadata_selected": 15,
-  "public_web_samples_evaluated": 0,
+  "public_web_samples_evaluated": 9,
+  "public_web_samples_excluded": 6,
   "participant_count": 0,
   "agent_core_modified": false,
-  "full_test_result": "226 passed in 46.66s"
+  "current_full_test_result": null
 }
