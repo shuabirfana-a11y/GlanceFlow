@@ -32,6 +32,18 @@ from glanceflow.evaluation.public_web_preflight import (
 )
 
 
+PUBLIC_WEB_ROOT = Path("evaluation/real_data/public_web")
+PUBLIC_WEB_LOCAL_CACHE = PUBLIC_WEB_ROOT / ".local_cache"
+PUBLIC_WEB_SANITIZED_CACHE = PUBLIC_WEB_ROOT / ".sanitized_cache"
+requires_public_web_local_cache = pytest.mark.skipif(
+    not (PUBLIC_WEB_LOCAL_CACHE.is_dir() and PUBLIC_WEB_SANITIZED_CACHE.is_dir()),
+    reason=(
+        "requires the ignored, human-reviewed local PUBLIC_WEB caches; "
+        "their absence is expected in a fresh collaborator clone"
+    ),
+)
+
+
 def _row(**changes):
     row = {
         "sample_id": "PW-001", "source_type": "PUBLIC_WEB",
@@ -110,6 +122,7 @@ def _formal_result(sample_id: str) -> dict:
     }
 
 
+@requires_public_web_local_cache
 def test_public_web_evaluation_uses_lock_frozen_nine(monkeypatch, tmp_path):
     monkeypatch.setattr(
         public_web_module,
@@ -124,6 +137,7 @@ def test_public_web_evaluation_uses_lock_frozen_nine(monkeypatch, tmp_path):
     assert summary["metrics"]["ocr_usable_rate"]["denominator"] == 9
 
 
+@requires_public_web_local_cache
 def test_public_outputs_name_public_web_not_real_campus(monkeypatch, tmp_path):
     monkeypatch.setattr(
         public_web_module,
@@ -143,6 +157,7 @@ def test_source_record_declares_no_committed_images():
     assert all(not item["redistribution_allowed"] for item in record["selected_records"])
 
 
+@requires_public_web_local_cache
 def test_comparison_uses_correct_dataset_labels(monkeypatch, tmp_path):
     result_dir = tmp_path / "results"
     monkeypatch.setattr(
@@ -290,6 +305,7 @@ def test_repo_annotations_record_only_r01_human_approvals():
     assert all(item.reviewer is None and not item.ground_truth_reviewed for item in annotations if item.sample_id not in approved)
 
 
+@requires_public_web_local_cache
 def test_preflight_lock_matches_eligible_set_and_allows_formal_run(tmp_path):
     lock = tmp_path / "evaluation_set.lock.json"
     audit = tmp_path / "audit.md"

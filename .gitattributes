@@ -1,0 +1,4 @@
+evaluation/real_data/public_web/manifest.csv text eol=lf
+evaluation/real_data/public_web/sanitized_manifest.csv text eol=lf
+evaluation/real_data/public_web/manual_review_checklist.csv text eol=lf
+evaluation/real_data/public_web/annotations/*.json text eol=lf

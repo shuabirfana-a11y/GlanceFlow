@@ -142,6 +142,24 @@ Stage 3 明确拒绝 `primary` 日历，使用最小 `calendar.events` 权限，
 
 测试覆盖 Stage 1/2 行为、内存 CalendarPort、确认、重复、冲突、幂等超时重试、原子创建、回读验证、补偿失败、精准撤销、Google 契约、Stage 4 交互，以及 Stage 5 清单、指标、零分母、同集对比、消融隔离、图表、输出追溯和用户测试真实性门禁。
 
+<!-- glanceflow-project-status:start -->
+## 当前项目状态（机器生成）
+
+本状态块由 `project_status.json` 生成；锁文件和正式评测结果优先于历史交接记录。
+
+- PUBLIC_WEB lock：`READY`
+- PUBLIC_WEB 正式评测：`EXECUTED`，纳入 9，排除 6
+- OCR usable：9/9 (100.0%)
+- Full-field correct：0/9 (0.0%)
+- SAFE_DEFERRED：7；SAFE_BLOCKED：2；WRONG_EXECUTION：0
+- 真实校园数据：`NOT_EXECUTED`，样本 0
+- 真人用户实验：`NOT_EXECUTED`，参与者 0
+- 当前全量测试次数：不写入状态汇总；仅以本次实际测试输出单独报告。
+- 状态检查：`python scripts/check_status_consistency.py`
+
+PUBLIC_WEB 只能称为 **Public-Web Real-World Notification Set**，不是校园实拍或真人实验。
+<!-- glanceflow-project-status:end -->
+
 ## Stage 8 真实验证入口
 
 Stage 8 只新增评测与用户研究基础设施，不修改 Agent 核心。当前仓库没有真实校园图片或真人记录，因此两项实验状态均为 `NOT EXECUTED`：
@@ -180,7 +198,7 @@ Stage 8 只新增评测与用户研究基础设施，不修改 Agent 核心。�
 
 ## Stage 8 Public-Web evidence layer
 
-`evaluation/real_data/public_web/` is a separate `PUBLIC_WEB` layer. It currently records 31 official-page candidates and 15 metadata-selected notification records. The source images have no explicit redistribution permission, so zero images are committed and the formal OCR/Agent run is `NOT EXECUTED_LOCAL_CACHE_UNAVAILABLE` until the ignored local cache and manual visual privacy review are complete.
+`evaluation/real_data/public_web/` is a separate `PUBLIC_WEB` layer. Its current lock and formal-run status are reported only in the generated project-status block above and in `outputs/evaluation/public_web/public_web_report.md`. Source images have no explicit redistribution permission, so zero images are committed; a fresh formal run is forbidden unless the ignored local cache passes the complete integrity, privacy, Ground Truth, scope, and lock checks again.
 
 This layer must be described as **Public-Web Real-World Notification Set**, never as real-campus capture. Real campus captures remain 0 and the真人 user study remains `NOT EXECUTED`.
 
