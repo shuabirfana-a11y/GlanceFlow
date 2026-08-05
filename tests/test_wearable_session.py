@@ -57,7 +57,36 @@ def test_normal_flow_confirmation_readback_and_undo(monkeypatch):
     sid=service.create_session("normal").session_id
     waiting=arrange(service,sid); assert waiting.status is SessionStatus.WAIT_CONFIRM; assert provider.event_count == 0
     success=service.handle_voice_command(sid,"确认",confidence=1,captured_at=NOW); assert success.status is SessionStatus.SUCCESS; assert provider.event_count == 2
-    undone=service.handle_voice_command(sid,"撤销上一步",confidence=1,captured_at=NOW); assert undone.transaction.status.value == "UNDONE"; assert provider.event_count == 0
+    pending=service.handle_voice_command(sid,"撤销上一步",confidence=1,captured_at=NOW)
+    assert pending.undo_confirmation_pending is True
+    assert pending.pending_undo_transaction_id == success.last_successful_transaction_id
+    assert provider.event_count == 2
+    assert service.get_hud(sid).headline == "确认撤销"
+    undone=service.handle_voice_command(sid,"确认",confidence=1,captured_at=NOW)
+    assert undone.transaction.status.value == "UNDONE"
+    assert undone.undo_confirmation_pending is False
+    assert provider.event_count == 0
+
+
+def test_undo_confirmation_is_fresh_motion_gated_and_cancellable(monkeypatch):
+    service, motion, provider = make_service(monkeypatch)
+    sid = service.create_session("undo-gates").session_id
+    arrange(service, sid)
+    service.handle_voice_command(sid, "确认", confidence=1, captured_at=NOW)
+    service.handle_voice_command(sid, "撤销上一步", confidence=1, captured_at=NOW)
+
+    low = service.handle_voice_command(sid, "确认", confidence=0.2, captured_at=NOW)
+    assert low.undo_confirmation_pending is True
+    assert provider.event_count == 1
+
+    motion.set_motion_state(sid, MotionState.MOVING)
+    moving = service.handle_voice_command(sid, "确认", confidence=1, captured_at=NOW)
+    assert moving.undo_confirmation_pending is True
+    assert provider.event_count == 1
+
+    cancelled = service.handle_voice_command(sid, "取消", confidence=1, captured_at=NOW)
+    assert cancelled.undo_confirmation_pending is False
+    assert provider.event_count == 1
 
 
 @pytest.mark.parametrize(("filename","status"), [("03_weekday_contradiction.png",SessionStatus.BLOCKED),("04_unresolved_time.png",SessionStatus.NEED_INPUT)])

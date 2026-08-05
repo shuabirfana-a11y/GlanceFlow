@@ -158,6 +158,8 @@ class GlanceFlowSession(WearableModel):
     conflict_confirmation_pending: bool = False
     cancellation_requested: bool = False
     last_successful_transaction_id: str | None = None
+    undo_confirmation_pending: bool = False
+    pending_undo_transaction_id: str | None = None
     last_voice_event: VoiceTriggerEvent | None = None
     audit_events: list[SessionAuditEvent] = Field(default_factory=list)
 
