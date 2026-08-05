@@ -6,7 +6,7 @@ from pathlib import Path
 from glanceflow.agent.registry import AgentToolFailure
 from glanceflow.agent.tools import AgentRuntimePorts, ToolOutput
 from glanceflow.application.scheduling_service import SchedulingValidationError, TrustedSchedulingService
-from glanceflow.calendar.models import EventRole, TransactionStatus, UserConfirmation
+from glanceflow.calendar.models import EventRole, TransactionStatus, UserConfirmation, calendar_request_digest
 from glanceflow.domain.models import NoticePackageDraft
 from glanceflow.extraction.extractor import DraftExtractor
 from glanceflow.ocr.base import OcrProvider
@@ -112,6 +112,8 @@ class ExistingCapabilityAdapter:
             confirmed_event_start=main.start_time,
             confirmed_location=main.location,
             confirmed_deadline=deadline.start_time if deadline else None,
+            confirmed_calendar_id=record.calendar_id,
+            confirmed_request_hash=calendar_request_digest(record.planned_requests),
             accepted_conflict=phrase == "仍然创建",
             confirmation_source="agent-structured-confirmation",
         )

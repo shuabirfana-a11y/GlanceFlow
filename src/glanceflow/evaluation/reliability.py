@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from glanceflow.application.scheduling_service import TrustedSchedulingService
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider, MemoryFaultPlan
-from glanceflow.calendar.models import EventRole, UserConfirmation
+from glanceflow.calendar.models import EventRole, UserConfirmation, calendar_request_digest
 from glanceflow.calendar.port import CalendarTransientError
 from glanceflow.evaluation.metrics import ratio
 from glanceflow.evaluation.runners import CAPTURED_AT, Observation, _extract
@@ -23,6 +23,8 @@ def _confirmation(service: TrustedSchedulingService, tx_id: str) -> UserConfirma
         confirmed=True, confirmed_at=CAPTURED_AT, confirmed_title=main.title,
         confirmed_event_start=main.start_time, confirmed_location=main.location,
         confirmed_deadline=deadline.start_time if deadline else None,
+        confirmed_calendar_id=record.calendar_id,
+        confirmed_request_hash=calendar_request_digest(record.planned_requests),
         confirmation_source="stage5-reliability-test",
     )
 

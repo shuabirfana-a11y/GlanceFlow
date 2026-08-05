@@ -5,7 +5,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from glanceflow.application.scheduling_service import SchedulingValidationError, TrustedSchedulingService
-from glanceflow.calendar.models import EventRole, TransactionStatus, UserConfirmation
+from glanceflow.calendar.models import EventRole, TransactionStatus, UserConfirmation, calendar_request_digest
 from glanceflow.domain.enums import SafetyGateStatus
 from glanceflow.pipeline import process_image
 from glanceflow.wearable.capture import CaptureError
@@ -93,14 +93,19 @@ class GlanceFlowSessionService:
                 return session.model_copy(deep=True)
             return self.start_capture(session_id, capture_request)
         if event.intent is VoiceIntent.CONFIRM:
-            return self.confirm(session_id, StructuredConfirmationEvent(
+            confirmation_event = StructuredConfirmationEvent(
                 raw_text=raw_text, normalized_text=event.normalized_text, confidence=confidence,
                 captured_at=captured_at, source=source, session_id=session_id,
                 accepted_conflict=bool(session.preflight_result and session.preflight_result.requires_conflict_confirmation),
-            ))
+            )
+            if session.undo_confirmation_pending:
+                return self.confirm_undo(session_id, confirmation_event)
+            return self.confirm(session_id, confirmation_event)
         if event.intent is VoiceIntent.CANCEL:
+            if session.undo_confirmation_pending:
+                return self.cancel_undo(session_id)
             return self.cancel(session_id)
-        return self.undo_last(session_id)
+        return self.request_undo(session_id)
 
     def start_capture(self, session_id: str, request: CaptureRequest) -> GlanceFlowSession:
         session = self._session(session_id)
@@ -179,6 +184,8 @@ class GlanceFlowSessionService:
             confirmed_event_start=main.start_time,
             confirmed_location=main.location,
             confirmed_deadline=deadline.start_time if deadline else None,
+            confirmed_calendar_id=record.calendar_id,
+            confirmed_request_hash=calendar_request_digest(record.planned_requests),
             accepted_conflict=event.accepted_conflict,
             confirmation_source=event.source,
         )
@@ -207,17 +214,63 @@ class GlanceFlowSessionService:
         self._transition(session, SessionStatus.CANCELLED, "SESSION_CANCELLED", "用户取消，未创建事件。")
         return session.model_copy(deep=True)
 
-    def undo_last(self, session_id: str) -> GlanceFlowSession:
+    def request_undo(self, session_id: str) -> GlanceFlowSession:
         session = self._session(session_id)
         if session.status is not SessionStatus.SUCCESS or not session.last_successful_transaction_id:
             raise SessionValidationError("没有可撤销的成功事务。")
+        if session.transaction and session.transaction.status is TransactionStatus.UNDONE:
+            raise SessionValidationError("最近事务已经撤销。")
+        session.undo_confirmation_pending = True
+        session.pending_undo_transaction_id = session.last_successful_transaction_id
+        self._audit(
+            session,
+            "UNDO_CONFIRMATION_REQUESTED",
+            "撤销会删除刚创建的日程；等待独立的明确确认。",
+            transaction_id=session.pending_undo_transaction_id,
+        )
+        return session.model_copy(deep=True)
+
+    def undo_last(self, session_id: str) -> GlanceFlowSession:
+        """Compatibility entry point: request undo without performing a write."""
+        return self.request_undo(session_id)
+
+    def confirm_undo(self, session_id: str, event: StructuredConfirmationEvent) -> GlanceFlowSession:
+        session = self._session(session_id)
+        transaction_id = session.pending_undo_transaction_id
+        if (
+            session.status is not SessionStatus.SUCCESS
+            or not session.undo_confirmation_pending
+            or not transaction_id
+        ):
+            raise SessionValidationError("当前会话没有等待确认的撤销操作。")
+        if event.session_id != session_id:
+            raise SessionValidationError("撤销确认与会话不匹配。")
+        if transaction_id != session.last_successful_transaction_id:
+            session.undo_confirmation_pending = False
+            session.pending_undo_transaction_id = None
+            self._audit(session, "UNDO_CONFIRMATION_INVALIDATED", "目标事务发生变化，原撤销确认已失效。")
+            return session.model_copy(deep=True)
         session.motion_state = self.motion_provider.get_motion_state(session_id)
         if session.motion_state is not MotionState.STATIONARY:
             self._audit(session, "UNDO_DEFERRED_FOR_MOTION", "移动或姿态未知时禁止日历写入。")
             return session.model_copy(deep=True)
+        if event.confidence < 0.72:
+            self._audit(session, "UNDO_CONFIRMATION_IGNORED", "撤销确认置信度不足，未删除日程。")
+            return session.model_copy(deep=True)
         self._transition(session, SessionStatus.EXECUTING, "UNDO_STARTED", "按事务 event_id 精准撤销。")
-        session.transaction = self.scheduling_service.undo(session.last_successful_transaction_id)
+        session.transaction = self.scheduling_service.undo(transaction_id)
+        session.undo_confirmation_pending = False
+        session.pending_undo_transaction_id = None
         self._transition(session, SessionStatus.SUCCESS, "UNDO_VERIFIED", "事件已删除并验证不存在。")
+        return session.model_copy(deep=True)
+
+    def cancel_undo(self, session_id: str) -> GlanceFlowSession:
+        session = self._session(session_id)
+        if session.status is not SessionStatus.SUCCESS or not session.undo_confirmation_pending:
+            raise SessionValidationError("当前会话没有等待确认的撤销操作。")
+        session.undo_confirmation_pending = False
+        session.pending_undo_transaction_id = None
+        self._audit(session, "UNDO_CANCELLED", "已取消撤销；刚创建的日程保持不变。")
         return session.model_copy(deep=True)
 
     def get_hud(self, session_id: str) -> HudState:

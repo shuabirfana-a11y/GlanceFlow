@@ -21,6 +21,7 @@ def test_precise_undo_removes_all_transaction_events(scheduling_factory, confirm
     assert undone.status is TransactionStatus.UNDONE
     assert provider.event_count == 0
     assert all(item.absence_verified for item in undone.undo_results)
+    assert all(item.calendar_id == provider.calendar_id for item in undone.undo_results)
     assert undone.audit_events[-1].action == "UNDO_COMPLETED"
 
 
@@ -79,3 +80,12 @@ def test_non_verified_transaction_cannot_be_undone(
         service.undo("GF-TX-NOT-VERIFIED")
     assert provider.event_count == 0
 
+
+def test_undo_rejects_calendar_binding_mismatch(scheduling_factory, confirmation_factory):
+    service, provider, _ = verified_record(
+        scheduling_factory, confirmation_factory, tx="GF-TX-CALENDAR-MISMATCH"
+    )
+    service._records["GF-TX-CALENDAR-MISMATCH"].calendar_id = "memory://different-calendar"
+    with pytest.raises(ValueError, match="calendar_id"):
+        service.undo("GF-TX-CALENDAR-MISMATCH")
+    assert provider.event_count == 2

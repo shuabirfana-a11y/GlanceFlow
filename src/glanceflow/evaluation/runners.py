@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 
 from glanceflow.application.scheduling_service import TrustedSchedulingService
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider, MemoryFaultPlan
-from glanceflow.calendar.models import CreateEventRequest, EventRole, TransactionStatus, UserConfirmation
+from glanceflow.calendar.models import CreateEventRequest, EventRole, TransactionStatus, UserConfirmation, calendar_request_digest
 from glanceflow.calendar.rollback import rollback_events
 from glanceflow.calendar.transaction import plan_event_requests
 from glanceflow.calendar.verification import verify_readback
@@ -211,6 +211,8 @@ def _confirmation(service: TrustedSchedulingService, tx_id: str) -> UserConfirma
         confirmed=True, confirmed_at=CAPTURED_AT, confirmed_title=main.title,
         confirmed_event_start=main.start_time, confirmed_location=main.location,
         confirmed_deadline=deadline.start_time if deadline else None,
+        confirmed_calendar_id=record.calendar_id,
+        confirmed_request_hash=calendar_request_digest(record.planned_requests),
         accepted_conflict=False, confirmation_source="stage5-evaluation-protocol",
     )
 
@@ -299,7 +301,7 @@ def _direct_write(provider: MemoryCalendarProvider, draft: NoticePackageDraft, t
         reasons.append(f"创建失败：{type(exc).__name__}")
         if atomic_rollback and created:
             rollback_attempted = True
-            results = rollback_events(provider, created)
+            results = rollback_events(provider, created, provider.calendar_id)
             rollback_succeeded = all(item.delete_succeeded and item.absence_verified for item in results)
             status = "ROLLED_BACK" if rollback_succeeded else "FAILED"
         else:
@@ -314,7 +316,7 @@ def _direct_write(provider: MemoryCalendarProvider, draft: NoticePackageDraft, t
                 reasons.append("回读字段不一致。")
                 if atomic_rollback:
                     rollback_attempted = True
-                    results = rollback_events(provider, created)
+                    results = rollback_events(provider, created, provider.calendar_id)
                     rollback_succeeded = all(item.delete_succeeded and item.absence_verified for item in results)
                     status = "ROLLED_BACK" if rollback_succeeded else "FAILED"
                 else:

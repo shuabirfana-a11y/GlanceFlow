@@ -156,7 +156,7 @@ class CalendarTransactionManager:
     def _rollback(self, record: CalendarTransactionRecord) -> CalendarTransactionRecord:
         record.status = TransactionStatus.ROLLING_BACK
         append_audit(record, "ROLLBACK_STARTED", "删除本事务已创建的全部事件。")
-        record.rollback_results = rollback_events(self.provider, record.created_event_ids)
+        record.rollback_results = rollback_events(self.provider, record.created_event_ids, record.calendar_id)
         complete = all(result.delete_succeeded and result.absence_verified for result in record.rollback_results)
         record.status = TransactionStatus.ROLLED_BACK if complete else TransactionStatus.FAILED
         append_audit(
@@ -178,7 +178,7 @@ class CalendarTransactionManager:
             raise TransactionStateError(f"仅 VERIFIED 事务可以撤销，当前为 {record.status.value}。")
         record.status = TransactionStatus.UNDOING
         append_audit(record, "UNDO_STARTED", "按事务记录中的 event_id 精准撤销。")
-        record.undo_results = undo_events(self.provider, record.created_event_ids)
+        record.undo_results = undo_events(self.provider, record.created_event_ids, record.calendar_id)
         complete = all(result.delete_succeeded and result.absence_verified for result in record.undo_results)
         record.status = TransactionStatus.UNDONE if complete else TransactionStatus.FAILED
         append_audit(
@@ -188,4 +188,3 @@ class CalendarTransactionManager:
             remaining_event_ids=[result.event_id for result in record.undo_results if not result.absence_verified],
         )
         return record.model_copy(deep=True)
-

@@ -95,6 +95,10 @@ def run_wearable_demo() -> dict:
         normal_success.session_id, "撤销上一步", confidence=1.0,
         captured_at=CAPTURED_AT + timedelta(minutes=2), source="wearable-demo",
     )
+    normal_service.handle_voice_command(
+        normal_success.session_id, "确认", confidence=1.0,
+        captured_at=CAPTURED_AT + timedelta(minutes=3), source="wearable-demo",
+    )
     undo_snapshot = _snapshot(normal_service, normal_success.session_id, normal_provider)
 
     blur_service, _, blur_provider = _new_service()

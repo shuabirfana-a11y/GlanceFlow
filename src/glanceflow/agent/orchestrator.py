@@ -19,6 +19,8 @@ from glanceflow.agent.registry import AgentToolRegistry
 from glanceflow.agent.risk import assess_risk
 from glanceflow.agent.state import AgentSession, AgentStateError, confirmation_digest
 from glanceflow.agent.trace import DecisionTrace, DecisionTraceStep, result_for_trace
+from glanceflow.agent.workflow import WorkflowState, migrate_legacy_state
+from glanceflow.agent.models import SideEffectLevel
 
 
 class AgentOrchestrationError(RuntimeError):
@@ -56,7 +58,13 @@ class GlanceFlowAgent:
 
     def observe(self, session_id: str, observation: AgentObservation | dict[str, Any]) -> AgentSession:
         session = self._session(session_id)
-        before = confirmation_digest(session.observation, session.risk_level) if session.confirmation_snapshot else None
+        before = confirmation_digest(
+            session.observation,
+            session.risk_level,
+            draft_revision=session.draft_revision,
+            action_type=session.goal.goal_type.value,
+        ) if session.confirmation_snapshot else None
+        previous_draft = session.observation.notice_draft
         if isinstance(observation, AgentObservation):
             if observation.session_state is not session.observation.session_state:
                 raise AgentOrchestrationError("observe cannot change agent state; use the centralized state machine")
@@ -71,13 +79,20 @@ class GlanceFlowAgent:
             payload["timestamp"] = payload.get("timestamp") or datetime.now(timezone.utc)
             updated = AgentObservation.model_validate(payload)
         session.observation = updated
+        if updated.notice_draft != previous_draft:
+            session.draft_revision += 1
         assessment = assess_risk(updated)
         severity = {RiskLevel.LOW: 0, RiskLevel.MEDIUM: 1, RiskLevel.HIGH: 2, RiskLevel.CRITICAL: 3}
         if severity[assessment.level] > severity[session.risk_level] and session.confirmation_snapshot:
             session.invalidate_confirmation()
         session.risk_level = assessment.level
         session.observation.detected_risks = assessment.factors
-        if before and before != confirmation_digest(session.observation, session.risk_level):
+        if before and before != confirmation_digest(
+            session.observation,
+            session.risk_level,
+            draft_revision=session.draft_revision,
+            action_type=session.goal.goal_type.value,
+        ):
             session.invalidate_confirmation()
             if "draft_changed_after_confirmation" not in session.observation.detected_risks:
                 session.observation.detected_risks.append("draft_changed_after_confirmation")
@@ -107,6 +122,12 @@ class GlanceFlowAgent:
             session.transition(AgentSessionState.CAPTURING)
         if decision.selected_action is AgentActionType.EXECUTE_TRANSACTION and current is AgentSessionState.WAIT_CONFIRM:
             session.transition(AgentSessionState.EXECUTING)
+            session.transition_workflow(WorkflowState.EXECUTION_PENDING)
+        if decision.selected_action is AgentActionType.UNDO_TRANSACTION and current is AgentSessionState.WAIT_CONFIRM:
+            session.transition(AgentSessionState.EXECUTING)
+            session.transition_workflow(WorkflowState.EXECUTION_PENDING)
+        if decision.selected_action is AgentActionType.ROLLBACK_TRANSACTION:
+            session.transition_workflow(WorkflowState.ROLLBACK_PENDING)
 
         raw_input: dict[str, Any] = {
             "session_id": session.session_id,
@@ -124,6 +145,18 @@ class GlanceFlowAgent:
                 self.handle_tool_result(session_id, decision, result, current, available)
                 return result
             raw_input["transaction_id"] = transaction_id
+
+        contract = self.registry.contract(decision.tool_name)
+        if contract.side_effect_level is SideEffectLevel.EXTERNAL_REVERSIBLE_ACTION:
+            rollback = decision.selected_action is AgentActionType.ROLLBACK_TRANSACTION
+            if decision.selected_action not in available or not session.external_write_allowed(rollback=rollback):
+                result = self._synthetic_failure(
+                    decision.tool_name,
+                    "POLICY_BLOCK",
+                    "显式工作流状态、静止条件或确认快照不允许外部写操作。",
+                )
+                self.handle_tool_result(session_id, decision, result, current, available)
+                return result
 
         result = self.registry.execute(
             decision.tool_name,
@@ -162,7 +195,10 @@ class GlanceFlowAgent:
             if recovery.action is RecoveryAction.RETRY:
                 session.retry_counts[result.tool_name] = retries + 1
             elif recovery.action in {RecoveryAction.CHECK_IDEMPOTENCY_KEY, RecoveryAction.ROLLBACK}:
-                session.invalidate_confirmation()
+                if result.error_type == "TIMEOUT" and session.workflow_state is WorkflowState.EXECUTION_PENDING:
+                    session.transition_workflow(WorkflowState.EXECUTION_UNKNOWN)
+                elif session.workflow_state is WorkflowState.EXECUTION_PENDING:
+                    session.transition_workflow(WorkflowState.RECOVERY_REQUIRED)
                 if session.observation.session_state is not AgentSessionState.RECOVERING:
                     session.transition(AgentSessionState.RECOVERING)
                 if result.error_type in {"PARTIAL_SUCCESS", "READBACK_MISMATCH"}:
@@ -203,8 +239,10 @@ class GlanceFlowAgent:
             main[field] = value
             draft["main_event"] = main
             session.observation.notice_draft = draft
+            session.draft_revision += 1
             session.observation.unresolved_fields.remove(field)
             session.invalidate_confirmation()
+            session.transition_workflow(WorkflowState.DRAFT)
             session.transition(AgentSessionState.VALIDATING)
         elif state is AgentSessionState.WAIT_CONFIRM:
             phrase = str(response).strip()
@@ -213,6 +251,8 @@ class GlanceFlowAgent:
             required = "仍然创建" if conflict else ("重新确认" if changed else "确认")
             if phrase != required:
                 raise AgentOrchestrationError(f"当前需要明确回复“{required}”。")
+            if session.workflow_state in {WorkflowState.CONFIRMATION_INVALIDATED, WorkflowState.CONFIRMATION_EXPIRED}:
+                session.transition_workflow(WorkflowState.CONFIRMATION_PENDING)
             session.issue_confirmation(phrase)
             session.observation.user_confirmation = {
                 "phrase": phrase,
@@ -241,8 +281,9 @@ class GlanceFlowAgent:
             raise AgentOrchestrationError("只有已验证成功的事务可以精确撤销。")
         session.goal = session.goal.model_copy(update={"goal_type": AgentGoalType.UNDO_LAST_TRANSACTION, "target_transaction_id": transaction_id})
         session.last_transaction_id = transaction_id
-        session.issue_confirmation("确认")
-        session.transition(AgentSessionState.EXECUTING)
+        session.confirmation_snapshot = None
+        session.transition_workflow(WorkflowState.CONFIRMATION_PENDING)
+        session.transition(AgentSessionState.WAIT_CONFIRM)
         return session.model_copy(deep=True)
 
     def get_state(self, session_id: str) -> AgentSession:
@@ -255,20 +296,46 @@ class GlanceFlowAgent:
     def snapshot_session(self, session_id: str) -> dict[str, Any]:
         session = self._session(session_id)
         return {
-            "schema_version": "agent-session-v1",
+            "schema_version": "agent-session-v2",
             "session": session.model_dump(mode="json"),
             "trace": self._traces[session_id].model_dump(mode="json"),
         }
 
     def restore_session(self, snapshot: dict[str, Any]) -> AgentSession:
-        if snapshot.get("schema_version") != "agent-session-v1":
+        schema_version = snapshot.get("schema_version")
+        if schema_version not in {"agent-session-v1", "agent-session-v2"}:
             raise AgentOrchestrationError("unsupported agent snapshot schema")
-        session = AgentSession.model_validate(snapshot.get("session"))
-        trace = DecisionTrace.model_validate(snapshot.get("trace"))
+        raw_session = dict(snapshot.get("session") or {})
+        raw_observation = dict(raw_session.get("observation") or {})
+        legacy_state = raw_observation.get("session_state")
+        if schema_version == "agent-session-v1":
+            raw_session["workflow_state"] = migrate_legacy_state(legacy_state).value
+            raw_session["draft_revision"] = max(1, int(raw_session.get("draft_revision", 1)))
+            raw_session["confirmation_snapshot"] = None
+            if legacy_state not in {item.value for item in AgentSessionState}:
+                raw_observation["session_state"] = AgentSessionState.BLOCKED.value
+                raw_session["workflow_state"] = WorkflowState.MANUAL_REVIEW_REQUIRED.value
+            raw_session["observation"] = raw_observation
+        session = AgentSession.model_validate(raw_session)
+        raw_trace = dict(snapshot.get("trace") or {})
+        if schema_version == "agent-session-v1":
+            raw_trace["steps"] = [
+                {
+                    **step,
+                    "workflow_state": step.get("workflow_state")
+                    or migrate_legacy_state(step.get("next_state")).value,
+                }
+                for step in raw_trace.get("steps", [])
+            ]
+        trace = DecisionTrace.model_validate(raw_trace)
         if session.session_id in self._sessions or trace.session_id != session.session_id:
             raise AgentOrchestrationError("snapshot session identity is invalid or already active")
         session.invalidate_confirmation()
-        if session.observation.session_state in {AgentSessionState.EXECUTING, AgentSessionState.VERIFYING}:
+        if session.observation.session_state is AgentSessionState.EXECUTING:
+            session.workflow_state = WorkflowState.EXECUTION_UNKNOWN
+            session.transition(AgentSessionState.RECOVERING)
+        elif session.observation.session_state is AgentSessionState.VERIFYING:
+            session.workflow_state = WorkflowState.EXECUTED_UNVERIFIED
             session.transition(AgentSessionState.RECOVERING)
         self._sessions[session.session_id] = session
         self._traces[session.session_id] = trace
@@ -294,50 +361,77 @@ class GlanceFlowAgent:
         elif action is AgentActionType.EXTRACT_DRAFT:
             observation.notice_draft = data.get("notice_draft") or data
             observation.unresolved_fields = list(data.get("unresolved_fields", []))
-            session.transition(AgentSessionState.VALIDATING if not observation.unresolved_fields else AgentSessionState.NEED_INPUT)
+            if observation.unresolved_fields:
+                session.transition_workflow(WorkflowState.NEED_USER_INPUT)
+                session.transition(AgentSessionState.NEED_INPUT)
+            else:
+                session.transition(AgentSessionState.VALIDATING)
         elif action is AgentActionType.RUN_SAFETY_GATE:
             observation.safety_decision = data
             status = data.get("status")
             if status == "READY_TO_CONFIRM":
+                session.transition_workflow(WorkflowState.PREFLIGHT_PENDING)
                 session.transition(AgentSessionState.PREFLIGHTING)
             elif status == "NEED_USER_INPUT":
                 observation.unresolved_fields = list(data.get("required_user_inputs", observation.unresolved_fields))
+                session.transition_workflow(WorkflowState.NEED_USER_INPUT)
                 session.transition(AgentSessionState.NEED_INPUT)
             elif status == "RECAPTURE_REQUIRED":
+                session.transition_workflow(WorkflowState.RECAPTURE_REQUIRED)
                 session.transition(AgentSessionState.RECAPTURE_REQUIRED)
             else:
+                session.transition_workflow(WorkflowState.CONTRADICTION_BLOCKED)
                 session.transition(AgentSessionState.BLOCKED)
         elif action is AgentActionType.RUN_PREFLIGHT:
             observation.preflight_result = data
             session.last_transaction_id = data.get("transaction_id")
             if (data.get("duplicate_result") or {}).get("is_duplicate") or not data.get("passed", False):
                 observation.detected_risks.append("duplicate_event")
+                session.transition_workflow(WorkflowState.PREFLIGHT_REJECTED)
                 session.transition(AgentSessionState.BLOCKED)
             else:
                 if (data.get("conflict_result") or {}).get("has_conflict"):
                     observation.detected_risks.append("calendar_conflict")
+                session.transition_workflow(WorkflowState.PREFLIGHT_PASSED)
+                session.transition_workflow(WorkflowState.READY_TO_CONFIRM)
+                session.transition_workflow(WorkflowState.CONFIRMATION_PENDING)
                 session.transition(AgentSessionState.WAIT_CONFIRM)
         elif action is AgentActionType.EXECUTE_TRANSACTION:
             observation.calendar_transaction = data
-            session.invalidate_confirmation()
             if data.get("status") in {"PARTIAL", "ROLLED_BACK", "FAILED"}:
                 observation.detected_risks.append("partial_transaction")
+                session.transition_workflow(WorkflowState.RECOVERY_REQUIRED)
                 session.transition(AgentSessionState.RECOVERING)
             else:
+                session.transition_workflow(WorkflowState.EXECUTED_UNVERIFIED)
                 session.transition(AgentSessionState.VERIFYING)
         elif action is AgentActionType.VERIFY_TRANSACTION:
             observation.calendar_transaction = data
             if verified and data.get("status") in {"VERIFIED", "UNDONE"}:
+                if session.workflow_state is WorkflowState.EXECUTION_UNKNOWN:
+                    session.transition_workflow(WorkflowState.EXECUTED_UNVERIFIED)
+                session.transition_workflow(
+                    WorkflowState.VERIFIED_SUCCESS if data.get("status") == "VERIFIED" else WorkflowState.ROLLBACK_VERIFIED
+                )
                 session.transition(AgentSessionState.SUCCESS if data.get("status") == "VERIFIED" else AgentSessionState.UNDONE)
             else:
                 observation.detected_risks.append("readback_mismatch")
+                session.transition_workflow(WorkflowState.VERIFICATION_FAILED)
+                session.transition_workflow(WorkflowState.RECOVERY_REQUIRED)
                 session.transition(AgentSessionState.RECOVERING)
         elif action is AgentActionType.ROLLBACK_TRANSACTION:
             observation.calendar_transaction = data
+            session.transition_workflow(
+                WorkflowState.ROLLBACK_VERIFIED if verified else WorkflowState.MANUAL_RECOVERY_REQUIRED
+            )
             session.transition(AgentSessionState.FAILED if verified else AgentSessionState.BLOCKED)
         elif action is AgentActionType.UNDO_TRANSACTION:
             observation.calendar_transaction = data
-            session.invalidate_confirmation()
+            if verified:
+                session.transition_workflow(WorkflowState.EXECUTED_UNVERIFIED)
+                session.transition_workflow(WorkflowState.ROLLBACK_VERIFIED)
+            else:
+                session.transition_workflow(WorkflowState.RECOVERY_REQUIRED)
             session.transition(AgentSessionState.UNDONE if verified else AgentSessionState.RECOVERING)
         return verified
 
@@ -377,6 +471,7 @@ class GlanceFlowAgent:
             tool_call=decision.tool_name,
             tool_result=result_for_trace(result),
             next_state=session.observation.session_state,
+            workflow_state=session.workflow_state,
             side_effect_occurred=bool(result and result.side_effect_occurred),
             verification_completed=verification_completed,
             public_rationale=decision.public_rationale,

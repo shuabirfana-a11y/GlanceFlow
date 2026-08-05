@@ -11,6 +11,7 @@ from glanceflow.agent.models import (
     ToolExecutionResult,
 )
 from glanceflow.agent.orchestrator import GlanceFlowAgent
+from glanceflow.agent.workflow import WorkflowState
 
 __all__ = [
     "AgentActionType",
@@ -22,4 +23,5 @@ __all__ = [
     "GlanceFlowAgent",
     "RiskLevel",
     "ToolExecutionResult",
+    "WorkflowState",
 ]

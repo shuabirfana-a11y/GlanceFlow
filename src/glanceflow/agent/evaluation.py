@@ -107,6 +107,7 @@ class ScenarioRuntime:
             unresolved.append(self.scenario.missing_field)
         draft = {
             "notice_package_id": f"GF-PKG-{self.scenario.scenario_id[-3:]}",
+            "timezone": "Asia/Shanghai",
             "main_event": main,
             "deadline_action": {"deadline": "2026-08-06T20:00:00+08:00", "action": "完成报名"} if self.scenario.with_deadline else None,
             "evidence_lines": [{"line_id": "agent-eval-line-1"}, {"line_id": "agent-eval-line-2"}],
@@ -122,6 +123,7 @@ class ScenarioRuntime:
         self._count("run_action_preflight")
         return ToolOutput(data={
             "transaction_id": self.transaction_id,
+            "calendar_id": "memory://agent-evaluation",
             "passed": not self.scenario.duplicate,
             "duplicate_result": {"is_duplicate": self.scenario.duplicate},
             "conflict_result": {"has_conflict": self.scenario.conflict, "overlap_minutes": 30 if self.scenario.conflict else 0},
@@ -196,7 +198,7 @@ def _run_scenario(scenario: AgentScenario) -> dict[str, Any]:
             continue
         if status is AgentSessionState.WAIT_CONFIRM:
             decision = agent.decide_next_action(goal.session_id)
-            if decision.selected_action is AgentActionType.EXECUTE_TRANSACTION:
+            if decision.selected_action in {AgentActionType.EXECUTE_TRANSACTION, AgentActionType.UNDO_TRANSACTION}:
                 agent.execute_next_action(goal.session_id)
                 continue
             if scenario.moving:

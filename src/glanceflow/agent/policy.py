@@ -29,10 +29,21 @@ class AgentPolicy:
 
     def enumerate_allowed_actions(self, session: AgentSession) -> list[AgentActionType]:
         state = session.observation.session_state
+        if session.risk_level is RiskLevel.CRITICAL and state not in {
+            AgentSessionState.RECOVERING,
+            AgentSessionState.VERIFYING,
+        }:
+            return [AgentActionType.BLOCK]
         if session.goal.goal_type is AgentGoalType.CANCEL_CURRENT_ACTION:
             return [AgentActionType.COMPLETE] if state is AgentSessionState.CANCELLED else [AgentActionType.BLOCK]
         if session.goal.goal_type is AgentGoalType.UNDO_LAST_TRANSACTION:
-            return [AgentActionType.UNDO_TRANSACTION] if state in {AgentSessionState.IDLE, AgentSessionState.SUCCESS, AgentSessionState.EXECUTING} else [AgentActionType.BLOCK]
+            if state is AgentSessionState.WAIT_CONFIRM:
+                return (
+                    [AgentActionType.WAIT_FOR_CONFIRMATION, AgentActionType.UNDO_TRANSACTION]
+                    if session.confirmation_valid()
+                    else [AgentActionType.WAIT_FOR_CONFIRMATION]
+                )
+            return [AgentActionType.UNDO_TRANSACTION] if state is AgentSessionState.EXECUTING else [AgentActionType.BLOCK]
         mapping = {
             AgentSessionState.IDLE: [AgentActionType.START_CAPTURE],
             AgentSessionState.CAPTURING: [AgentActionType.SELECT_FRAME],
@@ -41,9 +52,9 @@ class AgentPolicy:
             AgentSessionState.EXTRACTING: [AgentActionType.EXTRACT_DRAFT],
             AgentSessionState.VALIDATING: [AgentActionType.RUN_SAFETY_GATE],
             AgentSessionState.PREFLIGHTING: [AgentActionType.RUN_PREFLIGHT],
-            AgentSessionState.NEED_INPUT: [AgentActionType.ASK_USER, AgentActionType.BLOCK],
+            AgentSessionState.NEED_INPUT: [AgentActionType.ASK_USER, AgentActionType.REQUEST_RECAPTURE, AgentActionType.BLOCK],
             AgentSessionState.RECAPTURE_REQUIRED: [AgentActionType.REQUEST_RECAPTURE],
-            AgentSessionState.WAIT_CONFIRM: [AgentActionType.WAIT_FOR_CONFIRMATION, AgentActionType.EXECUTE_TRANSACTION],
+            AgentSessionState.WAIT_CONFIRM: [AgentActionType.WAIT_FOR_CONFIRMATION],
             AgentSessionState.EXECUTING: [AgentActionType.EXECUTE_TRANSACTION],
             AgentSessionState.VERIFYING: [AgentActionType.VERIFY_TRANSACTION],
             AgentSessionState.RECOVERING: [AgentActionType.ROLLBACK_TRANSACTION, AgentActionType.VERIFY_TRANSACTION, AgentActionType.FAIL],
@@ -53,7 +64,14 @@ class AgentPolicy:
             AgentSessionState.BLOCKED: [AgentActionType.BLOCK],
             AgentSessionState.FAILED: [AgentActionType.FAIL],
         }
-        return mapping.get(state, [AgentActionType.FAIL])
+        allowed = mapping.get(state, [AgentActionType.FAIL])
+        if (
+            state is AgentSessionState.WAIT_CONFIRM
+            and session.confirmation_valid()
+            and session.observation.motion_state == "STATIONARY"
+        ):
+            allowed = [*allowed, AgentActionType.EXECUTE_TRANSACTION]
+        return allowed
 
     def select(self, session: AgentSession) -> AgentDecision:
         available = self.enumerate_allowed_actions(session)
@@ -105,10 +123,15 @@ class AgentPolicy:
                 changed = "draft_changed_after_confirmation" in session.observation.detected_risks
                 required = ["仍然创建" if conflict else ("重新确认" if changed else "确认")]
                 rationale = "存在冲突，等待明确的“仍然创建”。" if conflict else ("草稿在确认后变化，旧确认已失效。" if changed else "草稿通过安全门和行动预检，等待用户确认。")
+            if session.goal.goal_type is AgentGoalType.UNDO_LAST_TRANSACTION and session.confirmation_valid():
+                selected = AgentActionType.UNDO_TRANSACTION
+                rules.append("undo_confirmation_snapshot_valid")
+                rationale = "撤销确认快照有效，可以按原事务标识执行精确撤销。"
         rejected = [action for action in AgentActionType if action not in available and action is not selected]
         return AgentDecision(
             session_id=session.session_id,
             selected_action=selected,
+            allowed_actions=available,
             tool_name=ACTION_TO_TOOL.get(selected),
             risk_level=risk,
             preconditions_met=selected not in {AgentActionType.BLOCK, AgentActionType.FAIL},

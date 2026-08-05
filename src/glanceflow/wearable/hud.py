@@ -42,6 +42,16 @@ def build_hud(session: GlanceFlowSession) -> HudState:
         return HudState(**common, headline="正在创建", primary_text="写入后将立即回读核验。", severity="info")
     if status is SessionStatus.SUCCESS:
         undone = bool(session.transaction and session.transaction.status.value == "UNDONE")
+        if session.undo_confirmation_pending:
+            return HudState(
+                **common,
+                headline="确认撤销",
+                primary_text="将删除刚创建且已验证的日程。",
+                prompt="说“确认”或“取消”",
+                severity="warning",
+                can_confirm=True,
+                can_cancel=True,
+            )
         return HudState(**common, headline="已撤销" if undone else "创建成功", primary_text="刚才的日程已删除。" if undone else "日程已创建并通过回读核验。", severity="success", can_undo=not undone)
     if status is SessionStatus.CANCELLED:
         return HudState(**common, headline="已取消", primary_text="没有创建新的日历事件。", severity="info")

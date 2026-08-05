@@ -6,7 +6,7 @@ from pathlib import Path
 
 from glanceflow.application.scheduling_service import SchedulingValidationError, TrustedSchedulingService
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider, MemoryFaultPlan
-from glanceflow.calendar.models import CreateEventRequest, EventRole, UserConfirmation
+from glanceflow.calendar.models import CreateEventRequest, EventRole, UserConfirmation, calendar_request_digest
 from glanceflow.pipeline import ImagePipelineResult
 
 
@@ -43,6 +43,8 @@ def _confirmation(service: TrustedSchedulingService, transaction_id: str, *, acc
         confirmed_event_start=main.start_time,
         confirmed_location=main.location,
         confirmed_deadline=deadline.start_time if deadline else None,
+        confirmed_calendar_id=record.calendar_id,
+        confirmed_request_hash=calendar_request_digest(record.planned_requests),
         accepted_conflict=accepted,
         confirmation_source="calendar-demo-structured-confirmation",
     )
@@ -177,4 +179,3 @@ def run_calendar_demo(stage2_results_path: Path) -> dict:
             },
         },
     }
-
