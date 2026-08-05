@@ -123,3 +123,26 @@ def test_confirmation_invalidated_if_planned_field_changes(
     with pytest.raises(SchedulingValidationError, match="原确认已失效"):
         service.execute("GF-TX-MUTATED")
     assert provider.event_count == 0
+
+
+def test_confirmation_rejects_different_target_calendar(scheduling_factory, confirmation_factory):
+    service, provider, *_ = scheduling_factory(transaction_id="GF-TX-WRONG-CALENDAR")
+    record = service.get_transaction("GF-TX-WRONG-CALENDAR")
+    with pytest.raises(SchedulingValidationError, match="calendar_id"):
+        service.confirm(
+            "GF-TX-WRONG-CALENDAR",
+            confirmation_factory(record, confirmed_calendar_id="memory://other-calendar"),
+        )
+    assert provider.event_count == 0
+
+
+def test_any_planned_request_change_invalidates_request_hash(
+    scheduling_factory, confirmation_factory
+):
+    service, provider, *_ = scheduling_factory(transaction_id="GF-TX-REQUEST-HASH")
+    record = service.get_transaction("GF-TX-REQUEST-HASH")
+    service.confirm("GF-TX-REQUEST-HASH", confirmation_factory(record))
+    service._records["GF-TX-REQUEST-HASH"].planned_requests[0].timezone = "UTC"
+    with pytest.raises(SchedulingValidationError, match="request_hash"):
+        service.execute("GF-TX-REQUEST-HASH")
+    assert provider.event_count == 0

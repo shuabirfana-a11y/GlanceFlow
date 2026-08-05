@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from datetime import datetime
 from enum import StrEnum
-from typing import Any
+from typing import Any, Literal
+from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -113,6 +116,7 @@ class DuplicateResult(CalendarModel):
 
 class CalendarPreflightResult(CalendarModel):
     transaction_id: str
+    calendar_id: str
     passed: bool
     duplicate_result: DuplicateResult
     conflict_result: ConflictResult
@@ -122,12 +126,16 @@ class CalendarPreflightResult(CalendarModel):
 
 
 class UserConfirmation(CalendarModel):
+    schema_version: Literal["calendar-confirmation-v2"] = "calendar-confirmation-v2"
+    confirmation_nonce: str = Field(default_factory=lambda: uuid4().hex)
     confirmed: bool
     confirmed_at: datetime
     confirmed_title: str
     confirmed_event_start: datetime
     confirmed_location: str | None = None
     confirmed_deadline: datetime | None = None
+    confirmed_calendar_id: str
+    confirmed_request_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
     accepted_conflict: bool = False
     confirmation_source: str
 
@@ -138,6 +146,12 @@ class UserConfirmation(CalendarModel):
     @classmethod
     def deadline_aware(cls, value: datetime | None):
         return _aware(value) if value is not None else None
+
+
+def calendar_request_digest(requests: list[CreateEventRequest]) -> str:
+    payload = [request.model_dump(mode="json") for request in requests]
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
 class FieldVerificationResult(CalendarModel):
@@ -158,6 +172,7 @@ class ReadbackVerificationResult(CalendarModel):
 
 
 class RollbackResult(CalendarModel):
+    calendar_id: str
     event_id: str
     delete_succeeded: bool
     absence_verified: bool
@@ -165,6 +180,7 @@ class RollbackResult(CalendarModel):
 
 
 class UndoResult(CalendarModel):
+    calendar_id: str
     event_id: str
     delete_succeeded: bool
     absence_verified: bool
@@ -182,6 +198,7 @@ class AuditEvent(CalendarModel):
 
 class CalendarTransactionRecord(CalendarModel):
     transaction_id: str
+    calendar_id: str
     notice_package_id: str
     source_draft_snapshot: dict[str, Any]
     safety_decision_snapshot: dict[str, Any]

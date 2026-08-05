@@ -9,6 +9,7 @@ from glanceflow.calendar.models import (
     EventRole,
     TransactionStatus,
     UserConfirmation,
+    calendar_request_digest,
 )
 from glanceflow.calendar.port import CalendarError, CalendarPort
 from glanceflow.calendar.preflight import check_conflict, check_duplicate
@@ -52,6 +53,7 @@ class TrustedSchedulingService:
         timestamp = now_utc()
         record = CalendarTransactionRecord(
             transaction_id=tx_id,
+            calendar_id=getattr(self.provider, "calendar_id", "UNSPECIFIED"),
             notice_package_id=draft.notice_package_id,
             source_draft_snapshot=draft.model_dump(mode="json"),
             safety_decision_snapshot=safety_decision.model_dump(mode="json"),
@@ -89,6 +91,7 @@ class TrustedSchedulingService:
         passed = not duplicate.is_duplicate
         result = CalendarPreflightResult(
             transaction_id=tx_id,
+            calendar_id=getattr(self.provider, "calendar_id", "UNSPECIFIED"),
             passed=passed,
             duplicate_result=duplicate,
             conflict_result=conflict,
@@ -116,6 +119,10 @@ class TrustedSchedulingService:
             None,
         )
         mismatches = []
+        if confirmation.confirmed_calendar_id != record.calendar_id:
+            mismatches.append("calendar_id")
+        if confirmation.confirmed_request_hash != calendar_request_digest(record.planned_requests):
+            mismatches.append("request_hash")
         if confirmation.confirmed_title != main.title:
             mismatches.append("title")
         if confirmation.confirmed_event_start.astimezone(timezone.utc) != main.start_time.astimezone(timezone.utc):
@@ -157,7 +164,9 @@ class TrustedSchedulingService:
         if record.user_confirmation:
             mismatches = self._confirmation_mismatches(record, record.user_confirmation)
             if mismatches:
-                raise SchedulingValidationError("确认后计划字段发生变化，原确认已失效。")
+                raise SchedulingValidationError(
+                    f"确认后计划字段发生变化，原确认已失效：{', '.join(mismatches)}"
+                )
         return self._manager.execute(transaction_id)
 
     def undo(self, transaction_id: str) -> CalendarTransactionRecord:

@@ -27,12 +27,21 @@ def _delete_and_verify(provider: CalendarPort, event_id: str) -> tuple[bool, boo
     return delete_succeeded, absence_verified, error_message
 
 
-def rollback_events(provider: CalendarPort, event_ids: list[str]) -> list[RollbackResult]:
+def _bound_calendar_id(provider: CalendarPort, expected_calendar_id: str) -> str:
+    actual = getattr(provider, "calendar_id", "UNSPECIFIED")
+    if expected_calendar_id == "UNSPECIFIED" or actual != expected_calendar_id:
+        raise ValueError("rollback calendar_id does not match the transaction binding")
+    return actual
+
+
+def rollback_events(provider: CalendarPort, event_ids: list[str], calendar_id: str) -> list[RollbackResult]:
+    bound_calendar_id = _bound_calendar_id(provider, calendar_id)
     results = []
     for event_id in reversed(event_ids):
         deleted, absent, error = _delete_and_verify(provider, event_id)
         results.append(
             RollbackResult(
+                calendar_id=bound_calendar_id,
                 event_id=event_id,
                 delete_succeeded=deleted,
                 absence_verified=absent,
@@ -42,12 +51,14 @@ def rollback_events(provider: CalendarPort, event_ids: list[str]) -> list[Rollba
     return results
 
 
-def undo_events(provider: CalendarPort, event_ids: list[str]) -> list[UndoResult]:
+def undo_events(provider: CalendarPort, event_ids: list[str], calendar_id: str) -> list[UndoResult]:
+    bound_calendar_id = _bound_calendar_id(provider, calendar_id)
     results = []
     for event_id in reversed(event_ids):
         deleted, absent, error = _delete_and_verify(provider, event_id)
         results.append(
             UndoResult(
+                calendar_id=bound_calendar_id,
                 event_id=event_id,
                 delete_succeeded=deleted,
                 absence_verified=absent,
@@ -55,4 +66,3 @@ def undo_events(provider: CalendarPort, event_ids: list[str]) -> list[UndoResult
             )
         )
     return results
-

@@ -22,6 +22,7 @@ class CalendarEventNotFound(CalendarError):
 
 class CalendarPort(Protocol):
     provider_name: str
+    calendar_id: str
 
     def list_events(self, time_min: datetime, time_max: datetime) -> list[CalendarEventSnapshot]: ...
 
@@ -32,4 +33,3 @@ class CalendarPort(Protocol):
     def get_event(self, event_id: str) -> CalendarEventSnapshot: ...
 
     def delete_event(self, event_id: str) -> None: ...
-

@@ -8,6 +8,7 @@ from typing import Any
 from pydantic import Field, field_validator
 
 from glanceflow.agent.models import AgentActionType, AgentGoalType, AgentModel, AgentSessionState, RiskLevel, ToolExecutionResult, _aware
+from glanceflow.agent.workflow import WorkflowState
 
 
 SENSITIVE_KEYS = {"api_key", "access_token", "refresh_token", "oauth_token", "credentials", "raw_audio", "video_bytes", "chain_of_thought"}
@@ -41,6 +42,7 @@ class DecisionTraceStep(AgentModel):
     tool_call: str | None = None
     tool_result: dict[str, Any] | None = None
     next_state: AgentSessionState
+    workflow_state: WorkflowState
     side_effect_occurred: bool
     verification_completed: bool
     public_rationale: str
@@ -71,6 +73,7 @@ class DecisionTrace(AgentModel):
             lines.extend([
                 f"## {index}. {step.selected_action.value}", "",
                 f"- 状态：`{step.current_state.value}` → `{step.next_state.value}`",
+                f"- 安全工作流状态：`{step.workflow_state.value}`",
                 f"- 风险：`{step.risk_level.value}`",
                 f"- 工具：`{step.tool_call or '无'}`",
                 f"- 依据：{step.public_rationale}",

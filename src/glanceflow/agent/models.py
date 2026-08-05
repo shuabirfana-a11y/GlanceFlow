@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import StrEnum
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
 class AgentModel(BaseModel):
@@ -113,6 +113,7 @@ class AgentDecision(AgentModel):
     decision_id: str = Field(default_factory=lambda: f"GF-DECISION-{uuid4().hex}")
     session_id: str
     selected_action: AgentActionType
+    allowed_actions: list[AgentActionType]
     tool_name: str | None = None
     risk_level: RiskLevel
     preconditions_met: bool
@@ -144,11 +145,39 @@ class ToolExecutionResult(AgentModel):
 
 
 class ConfirmationSnapshot(AgentModel):
+    schema_version: Literal["confirmation-snapshot-v2"] = "confirmation-snapshot-v2"
+    snapshot_id: str = Field(default_factory=lambda: f"GF-CONF-{uuid4().hex}")
+    draft_revision: int = Field(ge=1)
+    draft_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    evidence_hash: str = Field(pattern=r"^[0-9a-f]{64}$")
+    risk_rule_version: str = Field(min_length=1)
+    calendar_id: str = Field(min_length=1)
+    action_type: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    timezone: str = Field(min_length=1)
+    all_day: bool
+    start_time: str = Field(min_length=1)
+    end_time: str | None = None
+    location: str | None = None
+    deadline_type: str
+    deadline: str | None = None
+    reminder_policy: str
+    recurrence: str | None = None
+    attendee_policy: str
+    conference_policy: str
+    has_conflict: bool
+    confirmation_nonce: str = Field(default_factory=lambda: uuid4().hex)
     digest: str
-    created_at: datetime
+    confirmed_at: datetime
     expires_at: datetime
     risk_level: RiskLevel
     confirmation_phrase: str
 
-    _created_at_aware = field_validator("created_at")(_aware)
+    _confirmed_at_aware = field_validator("confirmed_at")(_aware)
     _expires_at_aware = field_validator("expires_at")(_aware)
+
+    @model_validator(mode="after")
+    def expiry_follows_confirmation(self) -> "ConfirmationSnapshot":
+        if self.expires_at <= self.confirmed_at:
+            raise ValueError("expires_at must be after confirmed_at")
+        return self

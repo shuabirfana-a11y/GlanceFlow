@@ -5,7 +5,7 @@ import pytest
 from glanceflow.domain.models import NoticePackageDraft
 from glanceflow.application.scheduling_service import TrustedSchedulingService
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider
-from glanceflow.calendar.models import EventRole, UserConfirmation
+from glanceflow.calendar.models import EventRole, UserConfirmation, calendar_request_digest
 from glanceflow.safety.gate import evaluate_notice
 
 
@@ -97,6 +97,8 @@ def confirmation_factory():
             "confirmed_event_start": main.start_time,
             "confirmed_location": main.location,
             "confirmed_deadline": deadline.start_time if deadline else None,
+            "confirmed_calendar_id": record.calendar_id,
+            "confirmed_request_hash": calendar_request_digest(record.planned_requests),
             "accepted_conflict": accepted_conflict,
             "confirmation_source": "pytest-structured-confirmation",
         }

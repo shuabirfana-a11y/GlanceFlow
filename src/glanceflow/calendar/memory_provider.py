@@ -23,6 +23,7 @@ class MemoryFaultPlan:
 
 class MemoryCalendarProvider:
     provider_name = "memory-calendar"
+    calendar_id = "memory://glanceflow-local-test"
 
     def __init__(self, fault_plan: MemoryFaultPlan | None = None) -> None:
         self._events: dict[str, CalendarEventSnapshot] = {}
@@ -101,4 +102,3 @@ class MemoryCalendarProvider:
         for key, value in list(self._idempotency.items()):
             if value == event_id:
                 del self._idempotency[key]
-
