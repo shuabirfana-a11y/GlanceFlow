@@ -1,6 +1,8 @@
+from datetime import datetime, timezone
+
 from glanceflow.agent.models import AgentSessionState
 from glanceflow.agent.registry import AgentToolRegistry, ToolRegistryError
-from glanceflow.agent.tools import AgentRuntimePorts, ToolOutput
+from glanceflow.agent.tools import AgentRuntimePorts, ConfirmedTransactionInput, ToolOutput
 from glanceflow.agent.evaluation import AgentScenario, ScenarioRuntime
 from glanceflow.agent.adapters import ExistingCapabilityAdapter
 from types import SimpleNamespace
@@ -57,7 +59,14 @@ def test_existing_capability_adapter_uses_trusted_transaction_layer(scheduling_f
     preflight_input = SimpleNamespace(payload={"observation": {"notice_draft": draft.model_dump(mode="json"), "safety_decision": safety.data}})
     preflight = adapter.run_action_preflight(preflight_input)
     tx_id = preflight.data["transaction_id"]
-    transaction_input = SimpleNamespace(transaction_id=tx_id, payload={"observation": {"user_confirmation": {"phrase": "确认"}}})
+    transaction_input = ConfirmedTransactionInput(
+        session_id="session-adapter-test",
+        transaction_id=tx_id,
+        calendar_id=calendar.calendar_id,
+        confirmation_snapshot_id="GF-CONF-adapter-test",
+        confirmation_digest="a" * 64,
+        confirmed_at=datetime.now(timezone.utc),
+    )
     created = adapter.create_calendar_transaction(transaction_input)
     verified = adapter.verify_calendar_transaction(transaction_input)
     assert created.data["status"] == "VERIFIED"

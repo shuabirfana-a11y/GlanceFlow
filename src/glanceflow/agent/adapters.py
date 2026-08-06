@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 from glanceflow.agent.registry import AgentToolFailure
@@ -102,20 +102,24 @@ class ExistingCapabilityAdapter:
 
     def create_calendar_transaction(self, tool_input) -> ToolOutput:
         record = self.scheduling_service.get_transaction(tool_input.transaction_id)
+        if record.calendar_id != tool_input.calendar_id:
+            raise AgentToolFailure(
+                "CALENDAR_BINDING_MISMATCH",
+                "trusted calendar binding changed after confirmation",
+            )
         main = next(item for item in record.planned_requests if item.event_role is EventRole.MAIN_EVENT)
         deadline = next((item for item in record.planned_requests if item.event_role is EventRole.DEADLINE_EVENT), None)
-        phrase = (self._observation(tool_input).get("user_confirmation") or {}).get("phrase", "")
         confirmation = UserConfirmation(
             confirmed=True,
-            confirmed_at=datetime.now(timezone.utc),
+            confirmed_at=tool_input.confirmed_at,
             confirmed_title=main.title,
             confirmed_event_start=main.start_time,
             confirmed_location=main.location,
             confirmed_deadline=deadline.start_time if deadline else None,
             confirmed_calendar_id=record.calendar_id,
             confirmed_request_hash=calendar_request_digest(record.planned_requests),
-            accepted_conflict=phrase == "仍然创建",
-            confirmation_source="agent-structured-confirmation",
+            accepted_conflict=tool_input.accepted_conflict,
+            confirmation_source=f"agent-confirmation-snapshot:{tool_input.confirmation_snapshot_id}",
         )
         try:
             self.scheduling_service.confirm(record.transaction_id, confirmation)

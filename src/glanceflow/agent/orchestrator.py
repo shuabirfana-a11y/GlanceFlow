@@ -19,6 +19,12 @@ from glanceflow.agent.registry import AgentToolRegistry
 from glanceflow.agent.risk import assess_risk
 from glanceflow.agent.state import AgentSession, AgentStateError, confirmation_digest
 from glanceflow.agent.trace import DecisionTrace, DecisionTraceStep, result_for_trace
+from glanceflow.agent.tools import (
+    ConfirmedTransactionInput,
+    NotificationContentInput,
+    SystemStateInput,
+    UserCommandInput,
+)
 from glanceflow.agent.workflow import WorkflowState, migrate_legacy_state
 from glanceflow.agent.models import SideEffectLevel
 
@@ -99,6 +105,17 @@ class GlanceFlowAgent:
                 session.risk_level = assess_risk(session.observation).level
         return session.model_copy(deep=True)
 
+    def observe_notification(self, session_id: str, content: NotificationContentInput) -> AgentSession:
+        """Accept untrusted evidence without granting it command or system-state authority."""
+        patch = content.model_dump(mode="python", exclude={"authority"}, exclude_none=True)
+        return self.observe(session_id, patch)
+
+    def observe_system_state(self, session_id: str, state: SystemStateInput) -> AgentSession:
+        session = self._session(session_id)
+        if state.session_state is not session.observation.session_state:
+            raise AgentOrchestrationError("system-state update cannot change the centralized workflow state")
+        return self.observe(session_id, {"motion_state": state.motion_state})
+
     def decide_next_action(self, session_id: str) -> AgentDecision:
         session = self._session(session_id)
         assessment = assess_risk(session.observation)
@@ -145,6 +162,20 @@ class GlanceFlowAgent:
                 self.handle_tool_result(session_id, decision, result, current, available)
                 return result
             raw_input["transaction_id"] = transaction_id
+
+        if decision.selected_action is AgentActionType.EXECUTE_TRANSACTION:
+            snapshot = session.confirmation_snapshot
+            if snapshot is None:
+                result = self._synthetic_failure(
+                    decision.tool_name,
+                    "CONFIRMATION_REQUIRED",
+                    "external write requires a trusted confirmation snapshot",
+                )
+                self.handle_tool_result(session_id, decision, result, current, available)
+                return result
+            raw_input = self._build_confirmed_transaction_input(session, transaction_id).model_dump(
+                mode="python"
+            )
 
         contract = self.registry.contract(decision.tool_name)
         if contract.side_effect_level is SideEffectLevel.EXTERNAL_REVERSIBLE_ACTION:
@@ -221,7 +252,14 @@ class GlanceFlowAgent:
         )
         return session.model_copy(deep=True)
 
+    def handle_user_command(self, session_id: str, command: UserCommandInput) -> AgentSession:
+        return self._apply_user_response(session_id, command.value)
+
     def handle_user_response(self, session_id: str, response: str | dict[str, Any]) -> AgentSession:
+        """Compatibility entry point that explicitly labels the value as USER_COMMAND."""
+        return self.handle_user_command(session_id, UserCommandInput(value=response))
+
+    def _apply_user_response(self, session_id: str, response: str | dict[str, Any]) -> AgentSession:
         session = self._session(session_id)
         state = session.observation.session_state
         if state is AgentSessionState.NEED_INPUT:
@@ -447,6 +485,24 @@ class GlanceFlowAgent:
             "observation": session.observation.model_dump(mode="json"),
             "decision": decision.model_dump(mode="json"),
         }
+
+    @staticmethod
+    def _build_confirmed_transaction_input(
+        session: AgentSession, transaction_id: str
+    ) -> ConfirmedTransactionInput:
+        """Build the external command only from policy-controlled transaction state."""
+        snapshot = session.confirmation_snapshot
+        if snapshot is None:
+            raise AgentOrchestrationError("trusted confirmation snapshot is required")
+        return ConfirmedTransactionInput(
+            session_id=session.session_id,
+            transaction_id=transaction_id,
+            calendar_id=snapshot.calendar_id,
+            confirmation_snapshot_id=snapshot.snapshot_id,
+            confirmation_digest=snapshot.digest,
+            confirmed_at=snapshot.confirmed_at,
+            accepted_conflict=snapshot.has_conflict,
+        )
 
     def _record(
         self,
