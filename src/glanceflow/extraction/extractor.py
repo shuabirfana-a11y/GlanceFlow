@@ -5,15 +5,26 @@ import zlib
 from datetime import datetime
 
 from glanceflow.config import DEFAULT_TIMEZONE
-from glanceflow.domain.enums import DeadlineRole, NoticeType, SafetyGateStatus
+from glanceflow.domain.enums import (
+    DeadlineRole,
+    NoticeType,
+    SafetyGateStatus,
+    TemporalNormalizationStatus,
+    TemporalType,
+)
 from glanceflow.domain.models import DeadlineAction, FieldEvidence, MainEvent, NoticePackageDraft
 from glanceflow.extraction.evidence_linker import EvidenceRow, group_visual_rows, validate_evidence_links
-from glanceflow.extraction.normalization import find_relative_time, normalize_text, parse_datetime_text, strip_label
+from glanceflow.extraction.normalization import find_relative_time, normalize_text, parse_datetime_texts, strip_label
 from glanceflow.extraction.schemas import DraftExtractor, ExtractionIssue, ExtractionResult
+from glanceflow.extraction.temporal import (
+    build_temporal_field,
+    classify_temporal_type,
+    image_sha256,
+    normalize_relative_datetime,
+)
 from glanceflow.ocr.models import OcrResult
 
 
-_DEADLINE_WORDS = ("报名截止", "申请截止")
 _LOCATION_LABELS = ("地点", "活动地点")
 _TITLE_LABELS = ("活动标题", "标题")
 _ACTION_LABELS = ("截止动作", "报名动作", "申请动作")
@@ -40,7 +51,7 @@ def _find_labeled_row(rows: list[EvidenceRow], labels: tuple[str, ...]) -> tuple
 
 
 class DeterministicDraftExtractor(DraftExtractor):
-    version = "deterministic-v1"
+    version = "deterministic-v2"
 
     def extract(
         self,
@@ -66,25 +77,116 @@ class DeterministicDraftExtractor(DraftExtractor):
         location_row, location = _find_labeled_row(rows, _LOCATION_LABELS)
         action_row, deadline_action_text = _find_labeled_row(rows, _ACTION_LABELS)
 
-        deadline_rows = [row for row in rows if any(word in normalize_text(row.text) for word in _DEADLINE_WORDS)]
-        deadline_candidates = [(row, parse_datetime_text(row.text, timezone)) for row in deadline_rows]
-        deadline_candidates = [(row, parsed) for row, parsed in deadline_candidates if parsed is not None]
-
-        event_candidates = []
+        source_image_hash = ocr_result.image_sha256 or image_sha256(ocr_result.image_path)
+        temporal_fields = []
+        candidates = []
         for row in rows:
-            if row in deadline_rows:
+            normalized_row = normalize_text(row.text)
+            temporal_type = classify_temporal_type(normalized_row)
+            parsed_values = parse_datetime_texts(row.text, timezone)
+            if parsed_values:
+                for index, parsed in enumerate(parsed_values):
+                    candidate_type = temporal_type
+                    if (
+                        len(parsed_values) > 1
+                        and "原定" in normalized_row
+                        and temporal_type is TemporalType.RESCHEDULED_TIME
+                        and index == 0
+                    ):
+                        candidate_type = TemporalType.EVENT_START
+                    field = build_temporal_field(
+                        row=row,
+                        value=parsed[0],
+                        temporal_type=candidate_type,
+                        timezone=timezone,
+                        relative_reference_time=None,
+                        image_hash=source_image_hash,
+                        ocr_version=ocr_result.provider_version,
+                        extraction_rule_version=self.version,
+                        normalization_status=(
+                            TemporalNormalizationStatus.CANCELLED
+                            if candidate_type is TemporalType.CANCELLATION_TIME
+                            else None
+                        ),
+                    )
+                    temporal_fields.append(field)
+                    candidates.append((row, parsed, field))
                 continue
-            parsed = parse_datetime_text(row.text, timezone)
-            if parsed is not None:
-                event_candidates.append((row, parsed))
+            relative = find_relative_time(row.text)
+            if relative:
+                value, _ = normalize_relative_datetime(row.text, captured_at, timezone)
+                field = build_temporal_field(
+                    row=row,
+                    value=value,
+                    temporal_type=temporal_type,
+                    timezone=timezone,
+                    relative_reference_time=captured_at,
+                    image_hash=source_image_hash,
+                    ocr_version=ocr_result.provider_version,
+                    extraction_rule_version=self.version,
+                )
+                temporal_fields.append(field)
+                if value is not None:
+                    candidates.append((row, (value, relative, None), field))
+            elif temporal_type is TemporalType.CANCELLATION_TIME:
+                temporal_fields.append(build_temporal_field(
+                    row=row,
+                    value=None,
+                    temporal_type=temporal_type,
+                    timezone=timezone,
+                    relative_reference_time=None,
+                    image_hash=source_image_hash,
+                    ocr_version=ocr_result.provider_version,
+                    extraction_rule_version=self.version,
+                    normalization_status=TemporalNormalizationStatus.CANCELLED,
+                ))
 
-        if len(event_candidates) > 1:
-            ids = [line_id for row, _ in event_candidates for line_id in row.line_ids]
+        cancellation_rows = [
+            row
+            for row in rows
+            if classify_temporal_type(normalize_text(row.text)) is TemporalType.CANCELLATION_TIME
+        ]
+        if cancellation_rows:
+            ids = [line_id for row in cancellation_rows for line_id in row.line_ids]
             return ExtractionResult(
                 success=False,
-                ambiguity_reasons=["发现多个无法区分的活动日期时间。"],
-                issues=[ExtractionIssue(issue_id="GF-EXTRACT-TIME-AMBIGUOUS", message="发现多个无法区分的活动日期时间。", evidence_line_ids=ids)],
+                ambiguity_reasons=["通知表明活动已取消，禁止创建日历事件。"],
+                issues=[ExtractionIssue(
+                    issue_id="GF-EXTRACT-EVENT-CANCELLED",
+                    message="检测到取消状态词；保留时间证据但禁止继续执行。",
+                    evidence_line_ids=ids,
+                )],
                 suggested_status=SafetyGateStatus.CONTRADICTION_BLOCKED,
+                temporal_fields=temporal_fields,
+            )
+
+        deadline_types = {
+            TemporalType.REGISTRATION_DEADLINE,
+            TemporalType.SUBMISSION_DEADLINE,
+        }
+        deadline_candidates = [item for item in candidates if item[2].temporal_type in deadline_types]
+        deadline_rows = [row for row, _, _ in deadline_candidates]
+        rescheduled = [item for item in candidates if item[2].temporal_type is TemporalType.RESCHEDULED_TIME]
+        event_candidates = rescheduled or [
+            item for item in candidates if item[2].temporal_type is TemporalType.EVENT_START
+        ]
+
+        if len(event_candidates) > 1 or len(deadline_candidates) > 1:
+            conflicting = event_candidates if len(event_candidates) > 1 else deadline_candidates
+            conflicting_ids = {item[2].evidence_id for item in conflicting}
+            temporal_fields = [
+                item.model_copy(update={"normalization_status": TemporalNormalizationStatus.CONFLICTING})
+                if item.evidence_id in conflicting_ids
+                else item
+                for item in temporal_fields
+            ]
+            ids = [line_id for row, _, _ in conflicting for line_id in row.line_ids]
+            return ExtractionResult(
+                success=False,
+                ambiguity_reasons=["发现多个同角色且无法区分的时间候选。"],
+                issues=[ExtractionIssue(issue_id="GF-EXTRACT-TIME-AMBIGUOUS", message="发现多个同角色且无法区分的时间候选。", evidence_line_ids=ids)],
+                suggested_status=SafetyGateStatus.CONTRADICTION_BLOCKED,
+                temporal_fields=temporal_fields,
             )
 
         if not event_candidates:
@@ -96,13 +198,19 @@ class DeterministicDraftExtractor(DraftExtractor):
                 missing_fields=["main_event.event_start"],
                 issues=[ExtractionIssue(issue_id="GF-EXTRACT-TIME-MISSING", message=message, evidence_line_ids=ids)],
                 suggested_status=SafetyGateStatus.NEED_USER_INPUT,
+                temporal_fields=temporal_fields,
             )
 
-        event_row, (event_start, raw_date_text, raw_weekday_text) = event_candidates[0]
+        event_row, (event_start, raw_date_text, raw_weekday_text), _ = event_candidates[0]
 
         # If an explicit title label is absent, use the first non-semantic row.
         if title_row is None:
-            excluded = [event_row, location_row, action_row, *deadline_rows]
+            temporal_rows = [
+                row
+                for row in rows
+                if any(field.source_text == row.text for field in temporal_fields)
+            ]
+            excluded = [location_row, action_row, *temporal_rows]
             for row in rows:
                 if row not in excluded and not normalize_text(row.text).startswith("校园通知"):
                     title_row, title = row, normalize_text(row.text)
@@ -110,9 +218,11 @@ class DeterministicDraftExtractor(DraftExtractor):
 
         deadline_action = None
         if deadline_candidates:
-            deadline_row, (deadline_time, _, _) = deadline_candidates[0]
-            deadline_text = normalize_text(deadline_row.text)
-            role = DeadlineRole.APPLICATION if "申请截止" in deadline_text else DeadlineRole.REGISTRATION
+            deadline_row, (deadline_time, _, _), deadline_field = deadline_candidates[0]
+            if deadline_field.temporal_type is TemporalType.SUBMISSION_DEADLINE:
+                role = DeadlineRole.APPLICATION
+            else:
+                role = DeadlineRole.REGISTRATION
             deadline_action = DeadlineAction(
                 deadline=deadline_time,
                 action=deadline_action_text,
@@ -150,6 +260,7 @@ class DeterministicDraftExtractor(DraftExtractor):
             ),
             deadline_action=deadline_action,
             evidence_lines=ocr_result.evidence_lines,
+            temporal_fields=temporal_fields,
             extraction_version=self.version,
             metadata={
                 "ocr_provider": ocr_result.provider_name,
@@ -157,4 +268,4 @@ class DeterministicDraftExtractor(DraftExtractor):
                 "source_image": str(ocr_result.image_path),
             },
         )
-        return ExtractionResult(success=True, draft=draft)
+        return ExtractionResult(success=True, draft=draft, temporal_fields=temporal_fields)

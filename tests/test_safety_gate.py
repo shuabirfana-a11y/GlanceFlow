@@ -18,7 +18,7 @@ def test_valid_plain_event(draft_factory):
     assert decision.status is SafetyGateStatus.READY_TO_CONFIRM
     assert decision.can_proceed_to_confirmation is True
     assert failed_rule_ids(decision) == set()
-    assert len(decision.rule_results) == 15
+    assert len(decision.rule_results) == 16
     assert draft.model_dump_json() == before
 
 

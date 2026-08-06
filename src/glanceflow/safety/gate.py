@@ -15,6 +15,7 @@ _BLOCKING_RULES = {
     "GF-DEADLINE-002",
     "GF-NOTICE-001",
     "GF-DUPLICATE-001",
+    "GF-TEMPORAL-001",
 }
 _RECAPTURE_RULES = {"GF-EVIDENCE-002", "GF-EVIDENCE-003", "GF-CONFIDENCE-001"}
 _INPUT_RULES = {"GF-FIELD-001", "GF-FIELD-002", "GF-TIME-005", "GF-DEADLINE-001", "GF-EVIDENCE-001"}
@@ -59,4 +60,3 @@ def evaluate_notice(
         summary=summary,
         draft_snapshot=draft.model_dump(mode="json"),
     )
-

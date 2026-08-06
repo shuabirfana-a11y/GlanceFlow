@@ -6,7 +6,12 @@ from collections.abc import Iterable
 from datetime import date, datetime
 
 from glanceflow.config import CORE_EVIDENCE_MIN_CONFIDENCE
-from glanceflow.domain.enums import NoticeType, ValidationSeverity
+from glanceflow.domain.enums import (
+    NoticeType,
+    TemporalNormalizationStatus,
+    TemporalType,
+    ValidationSeverity,
+)
 from glanceflow.domain.models import FieldEvidence, NoticePackageDraft
 from glanceflow.safety.results import ValidationResult
 
@@ -319,6 +324,89 @@ def rule_notice_001(draft: NoticePackageDraft, _: list[NoticePackageDraft]) -> V
     )
 
 
+def rule_temporal_001(draft: NoticePackageDraft, _: list[NoticePackageDraft]) -> ValidationResult:
+    """Require new extractor output to bind executable times to complete source evidence."""
+    fields = draft.temporal_fields
+    if not fields:
+        return _result("GF-TEMPORAL-001", True, "旧版草稿没有声明增强时间字段。")
+    unsafe_statuses = {
+        TemporalNormalizationStatus.UNRESOLVED,
+        TemporalNormalizationStatus.CONFLICTING,
+        TemporalNormalizationStatus.CANCELLED,
+        TemporalNormalizationStatus.EVIDENCE_INCOMPLETE,
+    }
+    main_matches = [
+        item
+        for item in fields
+        if item.temporal_type in {TemporalType.EVENT_START, TemporalType.RESCHEDULED_TIME}
+        and item.value == draft.main_event.event_start
+    ]
+    deadline_matches = []
+    if draft.deadline_action is not None:
+        deadline_matches = [
+            item
+            for item in fields
+            if item.temporal_type
+            in {
+                TemporalType.REGISTRATION_DEADLINE,
+                TemporalType.SUBMISSION_DEADLINE,
+                TemporalType.CHECK_IN_TIME,
+            }
+            and item.value == draft.deadline_action.deadline
+        ]
+    known_lines = {line.line_id: line for line in draft.evidence_lines}
+
+    def binding_matches_ocr(item) -> bool:
+        try:
+            lines = [known_lines[line_id] for line_id in item.evidence.evidence_line_ids]
+        except KeyError:
+            return False
+        boxes = [line.bbox for line in lines if line.bbox is not None]
+        if not lines or len(boxes) != len(lines):
+            return False
+        bbox = (
+            min(box[0] for box in boxes),
+            min(box[1] for box in boxes),
+            max(box[2] for box in boxes),
+            max(box[3] for box in boxes),
+        )
+        text = " ".join(line.text.strip() for line in lines if line.text.strip())
+        confidence = min(line.confidence for line in lines)
+        return (
+            text == item.evidence.ocr_text
+            and bbox == item.evidence.bbox
+            and confidence == item.evidence.ocr_confidence
+        )
+
+    incomplete = [
+        item
+        for item in fields
+        if item.normalization_status in unsafe_statuses
+        or item.evidence.image_sha256 is None
+        or item.evidence.source_frame_id != draft.source_frame_id
+        or any(
+            line_id not in known_lines
+            or known_lines[line_id].source_frame_id != item.evidence.source_frame_id
+            for line_id in item.evidence.evidence_line_ids
+        )
+        or not binding_matches_ocr(item)
+    ]
+    passed = (
+        len(main_matches) == 1
+        and (draft.deadline_action is None or len(deadline_matches) == 1)
+        and not incomplete
+    )
+    return _result(
+        "GF-TEMPORAL-001",
+        passed,
+        "执行时间具有明确语义和完整证据绑定。" if passed else "时间语义未唯一绑定，或图片、帧、OCR 与版本证据不完整。",
+        severity=ValidationSeverity.BLOCKING,
+        fields=["temporal_fields"],
+        evidence=[item.evidence_id for item in incomplete],
+        action="重新采集或澄清时间语义；禁止使用不完整时间证据执行。",
+    )
+
+
 def _normalize_title(value: str) -> str:
     normalized = unicodedata.normalize("NFKC", value).casefold()
     return "".join(character for character in normalized if character.isalnum())
@@ -359,5 +447,6 @@ ALL_RULES = (
     rule_evidence_003,
     rule_confidence_001,
     rule_notice_001,
+    rule_temporal_001,
     rule_duplicate_001,
 )
