@@ -77,7 +77,18 @@ class DeterministicDraftExtractor(DraftExtractor):
         location_row, location = _find_labeled_row(rows, _LOCATION_LABELS)
         action_row, deadline_action_text = _find_labeled_row(rows, _ACTION_LABELS)
 
-        source_image_hash = ocr_result.image_sha256 or image_sha256(ocr_result.image_path)
+        current_image_hash = image_sha256(ocr_result.image_path)
+        if (
+            ocr_result.image_sha256 is not None
+            and current_image_hash is not None
+            and ocr_result.image_sha256 != current_image_hash
+        ):
+            return ExtractionResult(
+                success=False,
+                suggested_status=SafetyGateStatus.RECAPTURE_REQUIRED,
+                error_message="源图片内容在 OCR 后发生变化，证据哈希已失效。",
+            )
+        source_image_hash = current_image_hash or ocr_result.image_sha256
         temporal_fields = []
         candidates = []
         for row in rows:
@@ -175,7 +186,7 @@ class DeterministicDraftExtractor(DraftExtractor):
             conflicting = event_candidates if len(event_candidates) > 1 else deadline_candidates
             conflicting_ids = {item[2].evidence_id for item in conflicting}
             temporal_fields = [
-                item.model_copy(update={"normalization_status": TemporalNormalizationStatus.CONFLICTING})
+                item.with_normalization_status(TemporalNormalizationStatus.CONFLICTING)
                 if item.evidence_id in conflicting_ids
                 else item
                 for item in temporal_fields
@@ -262,10 +273,12 @@ class DeterministicDraftExtractor(DraftExtractor):
             evidence_lines=ocr_result.evidence_lines,
             temporal_fields=temporal_fields,
             extraction_version=self.version,
+            source_image_path=(
+                ocr_result.image_path if ocr_result.image_path.is_file() else None
+            ),
             metadata={
                 "ocr_provider": ocr_result.provider_name,
                 "ocr_provider_version": ocr_result.provider_version,
-                "source_image": str(ocr_result.image_path),
             },
         )
         return ExtractionResult(success=True, draft=draft, temporal_fields=temporal_fields)

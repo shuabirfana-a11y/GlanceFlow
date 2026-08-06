@@ -22,11 +22,14 @@ The supported temporal roles are `EVENT_START`, `EVENT_END`, `REGISTRATION_DEADL
 
 Relative expressions are resolved only when they have a bounded day expression and an explicit clock time. The reference is the capture timestamp converted to the declared user timezone. Ambiguous expressions remain unresolved. A publication time or event end is never promoted to event start. A rescheduled time supersedes an original time while both evidence records remain. Cancellation blocks execution. Multiple candidates with the same executable role are preserved and marked conflicting rather than guessed.
 
-The Safety Gate verifies that executable event and deadline values have exactly one matching temporal field and complete image/frame evidence. Legacy stored drafts without enhanced fields remain readable; new deterministic extraction emits version `deterministic-v2` and the enhanced fields.
+Supported bounded day expressions include today, tonight, tomorrow, the day after tomorrow, this-week weekdays that have not passed, and next-week weekdays. Morning/afternoon/evening qualifiers adjust an explicit clock but never supply a missing clock. Month, year, leap-day, and timezone boundaries are derived from the capture timestamp rather than the server clock.
+
+The evidence ID is a digest of the complete temporal value, role, timezone, normalization status, OCR binding, image hash, and parser/Safety Gate versions. Model validation and the Safety Gate independently recompute this digest. The Safety Gate also verifies the retained selected image when it is still locally available, exact OCR line/text/bounding-box/confidence binding, expected rule versions, relative-time replay, and role-specific correspondence with compatibility fields. Legacy stored drafts without enhanced fields remain readable; `deterministic-v2` drafts must contain the enhanced fields and cannot use the legacy bypass.
 
 ## Consequences
 
 - Calendar planning continues to receive the existing validated draft fields, preserving provider and transaction behavior.
 - Evidence mutations that disagree with OCR text, normalized value, confidence, or source frame fail model validation or the Safety Gate.
+- The selected image path is an excluded runtime-only validation handle; serialized drafts, confirmation snapshots, and transaction records retain the hash but not a local absolute path.
 - Missing image hashes, unresolved time expressions, cancellations, and same-role conflicts cannot become external Calendar writes.
 - The change adds no external API calls, persistent personal data, or formal PUBLIC_WEB evaluation.

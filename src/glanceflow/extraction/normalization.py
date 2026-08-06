@@ -9,7 +9,9 @@ from zoneinfo import ZoneInfo
 DATE_PATTERN = re.compile(r"(?P<year>20\d{2})\s*[年./-]\s*(?P<month>\d{1,2})\s*[月./-]\s*(?P<day>\d{1,2})\s*日?")
 TIME_PATTERN = re.compile(r"(?<!\d)(?P<hour>[01]?\d|2[0-3])\s*:\s*(?P<minute>[0-5]\d)(?!\d)")
 WEEKDAY_PATTERN = re.compile(r"(?:星期|周)\s*[一二三四五六日天]")
-RELATIVE_TIME_PATTERN = re.compile(r"(?:本?周[一二三四五六日天](?:上午|下午|晚上)?|近期|稍后|月底前|今天|明天|后天)")
+RELATIVE_TIME_PATTERN = re.compile(
+    r"(?:(?:本周|下周|周)[一二三四五六日天](?:上午|下午|晚上)?|近期|稍后|月底前|今晚|今天|明天|后天)"
+)
 
 
 def normalize_text(value: str) -> str:

@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
@@ -46,6 +47,7 @@ def test_ocr_unique_line_ids_bbox_and_source(tmp_path):
     assert len({line.line_id for line in result.evidence_lines}) == 2
     assert all(line.source_frame_id == "frame-中文-001" for line in result.evidence_lines)
     assert result.evidence_lines[0].bbox == (10.0, 10.0, 110.0, 40.0)
+    assert result.image_sha256 == hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def test_empty_and_invalid_files_do_not_crash(tmp_path):

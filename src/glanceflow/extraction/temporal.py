@@ -1,18 +1,22 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import re
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from glanceflow.domain.enums import TemporalNormalizationStatus, TemporalType
-from glanceflow.domain.models import TemporalEvidenceBinding, TemporalField
+from glanceflow.domain.models import (
+    TEMPORAL_SAFETY_RULE_VERSION,
+    TemporalEvidenceBinding,
+    TemporalField,
+    temporal_evidence_id,
+)
 from glanceflow.extraction.evidence_linker import EvidenceRow
 
 
-SAFETY_GATE_RULE_VERSION = "safety-gate-v1"
+SAFETY_GATE_RULE_VERSION = TEMPORAL_SAFETY_RULE_VERSION
 
 _TIME = re.compile(
     r"(?<!\d)(?P<hour>[01]?\d|2[0-3])(?:\s*[:：点时]\s*)(?P<minute>[0-5]\d)(?:\s*分)?(?!\d)"
@@ -51,18 +55,26 @@ def normalize_relative_datetime(
         return None, None
     hour = int(time_match.group("hour"))
     minute = int(time_match.group("minute"))
+    if any(period in text for period in ("下午", "晚上", "今晚")) and hour < 12:
+        hour += 12
+    elif "上午" in text and hour == 12:
+        hour = 0
 
-    if "明天" in text:
-        target_date = local_reference.date() + timedelta(days=1)
-    elif "后天" in text:
+    if "后天" in text:
         target_date = local_reference.date() + timedelta(days=2)
-    elif "今天" in text:
+    elif "明天" in text:
+        target_date = local_reference.date() + timedelta(days=1)
+    elif "今天" in text or "今晚" in text:
         target_date = local_reference.date()
     else:
-        weekday = re.search(r"本周([一二三四五六日天])", text)
+        weekday = re.search(r"(本周|下周)([一二三四五六日天])", text)
         if weekday is None:
             return None, None
-        delta = _WEEKDAYS[weekday.group(1)] - local_reference.weekday()
+        target_weekday = _WEEKDAYS[weekday.group(2)]
+        if weekday.group(1) == "下周":
+            delta = 7 - local_reference.weekday() + target_weekday
+        else:
+            delta = target_weekday - local_reference.weekday()
         if delta < 0:
             return None, None
         target_date = local_reference.date() + timedelta(days=delta)
@@ -122,18 +134,16 @@ def build_temporal_field(
         extraction_rule_version=extraction_rule_version,
         safety_gate_rule_version=SAFETY_GATE_RULE_VERSION,
     )
-    identity = {
-        "temporal_type": temporal_type.value,
-        "timezone": timezone,
-        "source_text": row.text,
-        "relative_reference_time": (
-            relative_reference_time.isoformat() if relative_reference_time is not None else None
-        ),
-        "evidence": binding.model_dump(mode="json"),
-    }
-    evidence_id = hashlib.sha256(
-        json.dumps(identity, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
+    evidence_id = temporal_evidence_id(
+        value=value,
+        temporal_type=temporal_type,
+        timezone=timezone,
+        source_text=row.text,
+        confidence=row.confidence,
+        relative_reference_time=relative_reference_time,
+        normalization_status=status,
+        evidence=binding,
+    )
     return TemporalField(
         value=value,
         temporal_type=temporal_type,

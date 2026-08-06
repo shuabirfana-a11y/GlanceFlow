@@ -7,12 +7,18 @@ from datetime import date, datetime
 
 from glanceflow.config import CORE_EVIDENCE_MIN_CONFIDENCE
 from glanceflow.domain.enums import (
+    DeadlineRole,
     NoticeType,
     TemporalNormalizationStatus,
     TemporalType,
     ValidationSeverity,
 )
-from glanceflow.domain.models import FieldEvidence, NoticePackageDraft
+from glanceflow.domain.models import (
+    TEMPORAL_SAFETY_RULE_VERSION,
+    FieldEvidence,
+    NoticePackageDraft,
+)
+from glanceflow.extraction.temporal import image_sha256, normalize_relative_datetime
 from glanceflow.safety.results import ValidationResult
 
 
@@ -328,33 +334,56 @@ def rule_temporal_001(draft: NoticePackageDraft, _: list[NoticePackageDraft]) ->
     """Require new extractor output to bind executable times to complete source evidence."""
     fields = draft.temporal_fields
     if not fields:
-        return _result("GF-TEMPORAL-001", True, "旧版草稿没有声明增强时间字段。")
+        passed = draft.extraction_version != "deterministic-v2"
+        return _result(
+            "GF-TEMPORAL-001",
+            passed,
+            (
+                "旧版草稿没有声明增强时间字段。"
+                if passed
+                else "deterministic-v2 草稿缺少增强时间字段。"
+            ),
+            severity=ValidationSeverity.BLOCKING,
+            fields=["temporal_fields"],
+            action="重新抽取并绑定可执行时间的字段级证据。",
+        )
     unsafe_statuses = {
         TemporalNormalizationStatus.UNRESOLVED,
         TemporalNormalizationStatus.CONFLICTING,
         TemporalNormalizationStatus.CANCELLED,
         TemporalNormalizationStatus.EVIDENCE_INCOMPLETE,
     }
+    main_evidence_ids = set(draft.main_event.time_evidence.evidence_line_ids)
     main_matches = [
         item
         for item in fields
         if item.temporal_type in {TemporalType.EVENT_START, TemporalType.RESCHEDULED_TIME}
         and item.value == draft.main_event.event_start
+        and set(item.evidence.evidence_line_ids) == main_evidence_ids
     ]
     deadline_matches = []
     if draft.deadline_action is not None:
+        expected_deadline_type = (
+            TemporalType.REGISTRATION_DEADLINE
+            if draft.deadline_action.role is DeadlineRole.REGISTRATION
+            else TemporalType.SUBMISSION_DEADLINE
+        )
+        deadline_evidence_ids = set(
+            draft.deadline_action.deadline_evidence.evidence_line_ids
+        )
         deadline_matches = [
             item
             for item in fields
-            if item.temporal_type
-            in {
-                TemporalType.REGISTRATION_DEADLINE,
-                TemporalType.SUBMISSION_DEADLINE,
-                TemporalType.CHECK_IN_TIME,
-            }
+            if item.temporal_type is expected_deadline_type
             and item.value == draft.deadline_action.deadline
+            and set(item.evidence.evidence_line_ids) == deadline_evidence_ids
         ]
     known_lines = {line.line_id: line for line in draft.evidence_lines}
+    current_image_hash = (
+        image_sha256(draft.source_image_path)
+        if draft.source_image_path is not None
+        else None
+    )
 
     def binding_matches_ocr(item) -> bool:
         try:
@@ -378,12 +407,49 @@ def rule_temporal_001(draft: NoticePackageDraft, _: list[NoticePackageDraft]) ->
             and confidence == item.evidence.ocr_confidence
         )
 
+    def relative_value_matches(item) -> bool:
+        if item.relative_reference_time is None:
+            return True
+        expected, _ = normalize_relative_datetime(
+            item.source_text, item.relative_reference_time, item.timezone
+        )
+        return expected == item.value
+
+    normalized_role_counts = {
+        temporal_type: sum(
+            item.temporal_type is temporal_type
+            and item.normalization_status is TemporalNormalizationStatus.NORMALIZED
+            for item in fields
+        )
+        for temporal_type in TemporalType
+    }
+    duplicate_roles = {
+        temporal_type
+        for temporal_type, count in normalized_role_counts.items()
+        if count > 1
+    }
+
     incomplete = [
         item
         for item in fields
         if item.normalization_status in unsafe_statuses
+        or item.temporal_type in duplicate_roles
+        or item.timezone != draft.timezone
         or item.evidence.image_sha256 is None
+        or (
+            current_image_hash is not None
+            and item.evidence.image_sha256 != current_image_hash
+        )
         or item.evidence.source_frame_id != draft.source_frame_id
+        or item.evidence.ocr_version != draft.metadata.get("ocr_provider_version")
+        or item.evidence.extraction_rule_version != draft.extraction_version
+        or item.evidence.safety_gate_rule_version != TEMPORAL_SAFETY_RULE_VERSION
+        or item.evidence.normalized_value
+        != (item.value.isoformat() if item.value is not None else None)
+        or item.source_text != item.evidence.ocr_text
+        or item.confidence != item.evidence.ocr_confidence
+        or item.evidence_id != item.canonical_evidence_id()
+        or not relative_value_matches(item)
         or any(
             line_id not in known_lines
             or known_lines[line_id].source_frame_id != item.evidence.source_frame_id

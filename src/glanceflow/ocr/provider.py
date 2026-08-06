@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from time import perf_counter
 from typing import Any
@@ -30,6 +31,7 @@ class RapidOcrProvider:
         height = 0
         try:
             image = decode_image(path)
+            source_image_hash = hashlib.sha256(path.read_bytes()).hexdigest()
             height, width = image.shape[:2]
             raw_result, _ = self._get_engine()(image)
             parsed: list[tuple[list[list[float]], str, float]] = []
@@ -63,6 +65,7 @@ class RapidOcrProvider:
                 image_path=path,
                 image_width=width,
                 image_height=height,
+                image_sha256=source_image_hash,
                 evidence_lines=evidence_lines,
                 provider_name=OCR_PROVIDER_NAME,
                 provider_version=OCR_PROVIDER_VERSION,
@@ -82,4 +85,3 @@ class RapidOcrProvider:
                 success=False,
                 error_message=f"OCR识别失败：{type(exc).__name__}: {exc}",
             )
-
