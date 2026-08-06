@@ -29,10 +29,10 @@ def make_request(title="创新创业竞赛宣讲", role=EventRole.MAIN_EVENT, tr
 
 def test_duplicate_existing_activity_is_blocked():
     provider = MemoryCalendarProvider()
-    provider.create_event(make_request(transaction="old-tx"), "old-key")
+    existing = provider.create_event(make_request(transaction="old-tx"), "old-key")
     result = check_duplicate(provider, make_request(transaction="new-tx"))
     assert result.is_duplicate is True
-    assert result.matching_events[0].event_id == "mem-event-0001"
+    assert result.matching_events[0].event_id == existing.event_id
     assert "notice_package_id" in result.comparison_basis
     assert "normalized_title_and_start_time" in result.comparison_basis
 
@@ -71,4 +71,3 @@ def test_deadline_event_does_not_trigger_strong_conflict():
     result = check_conflict(provider, make_request(role=EventRole.DEADLINE_EVENT))
     assert result.has_conflict is False
     assert result.overlap_minutes == 0
-

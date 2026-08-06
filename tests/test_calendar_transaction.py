@@ -20,8 +20,8 @@ def test_single_event_transaction_verified(scheduling_factory, confirmation_fact
     service, provider, *_ = scheduling_factory(transaction_id="GF-TX-SINGLE")
     record = confirm_and_execute(service, confirmation_factory, "GF-TX-SINGLE")
     assert record.status is TransactionStatus.VERIFIED
-    assert record.created_event_ids == ["mem-event-0001"]
-    assert provider.event_ids == ["mem-event-0001"]
+    assert record.created_event_ids == [record.planned_requests[0].event_id]
+    assert provider.event_ids == record.created_event_ids
     assert record.verification_results[0].passed is True
     assert {event.action for event in record.audit_events} >= {
         "USER_CONFIRMED",
@@ -35,7 +35,7 @@ def test_two_event_package_is_verified_atomically(scheduling_factory, confirmati
     service, provider, *_ = scheduling_factory(with_deadline=True, transaction_id="GF-TX-DOUBLE")
     record = confirm_and_execute(service, confirmation_factory, "GF-TX-DOUBLE")
     assert record.status is TransactionStatus.VERIFIED
-    assert record.created_event_ids == ["mem-event-0001", "mem-event-0002"]
+    assert record.created_event_ids == [item.event_id for item in record.planned_requests]
     assert provider.event_count == 2
     assert [item.passed for item in record.verification_results] == [True, True]
 
@@ -47,9 +47,9 @@ def test_second_event_failure_rolls_back_first(scheduling_factory, confirmation_
     )
     record = confirm_and_execute(service, confirmation_factory, "GF-TX-SECOND-FAIL")
     assert record.status is TransactionStatus.ROLLED_BACK
-    assert record.created_event_ids == ["mem-event-0001"]
+    assert record.created_event_ids == [record.planned_requests[0].event_id]
     assert provider.event_count == 0
-    assert record.rollback_results[0].event_id == "mem-event-0001"
+    assert record.rollback_results[0].event_id == record.planned_requests[0].event_id
     assert record.rollback_results[0].absence_verified is True
     assert "TRANSACTION_VERIFIED" not in {event.action for event in record.audit_events}
 
@@ -65,7 +65,7 @@ def test_readback_mismatch_rolls_back_all(scheduling_factory, confirmation_facto
     assert record.status is TransactionStatus.ROLLED_BACK
     assert provider.event_count == 0
     assert record.verification_results[1].mismatch_fields == ["title"]
-    assert {item.event_id for item in record.rollback_results} == {"mem-event-0001", "mem-event-0002"}
+    assert {item.event_id for item in record.rollback_results} == {item.event_id for item in record.planned_requests}
 
 
 def test_readback_provider_failure_rolls_back_all(scheduling_factory, confirmation_factory):
@@ -89,11 +89,11 @@ def test_rollback_failure_is_not_hidden(scheduling_factory, confirmation_factory
     )
     record = confirm_and_execute(service, confirmation_factory, "GF-TX-ROLLBACK-FAIL")
     assert record.status is TransactionStatus.FAILED
-    assert provider.event_ids == ["mem-event-0001"]
+    assert provider.event_ids == [record.planned_requests[0].event_id]
     assert record.rollback_results[0].delete_succeeded is False
     assert record.rollback_results[0].absence_verified is False
     assert record.audit_events[-1].action == "ROLLBACK_FAILED"
-    assert record.audit_events[-1].details["remaining_event_ids"] == ["mem-event-0001"]
+    assert record.audit_events[-1].details["remaining_event_ids"] == [record.planned_requests[0].event_id]
 
 
 def test_timeout_after_create_retries_without_duplicate(scheduling_factory, confirmation_factory):
@@ -101,15 +101,12 @@ def test_timeout_after_create_retries_without_duplicate(scheduling_factory, conf
     service, provider, *_ = scheduling_factory(provider=provider, transaction_id="GF-TX-TIMEOUT")
     record = service.get_transaction("GF-TX-TIMEOUT")
     service.confirm("GF-TX-TIMEOUT", confirmation_factory(record))
-    with pytest.raises(CalendarTransientError):
-        service.execute("GF-TX-TIMEOUT")
-    assert provider.event_count == 1
-    assert service.get_transaction("GF-TX-TIMEOUT").status is TransactionStatus.CONFIRMED
-
     recovered = service.execute("GF-TX-TIMEOUT")
-    assert recovered.status is TransactionStatus.VERIFIED
-    assert recovered.created_event_ids == ["mem-event-0001"]
     assert provider.event_count == 1
+    assert recovered.status is TransactionStatus.VERIFIED
+    assert recovered.created_event_ids == [recovered.planned_requests[0].event_id]
+    assert provider.event_count == 1
+    assert "CREATE_RESULT_UNKNOWN" in {event.action for event in recovered.audit_events}
 
 
 def test_second_event_timeout_retries_two_event_package_without_duplicates(
@@ -121,15 +118,11 @@ def test_second_event_timeout_retries_two_event_package_without_duplicates(
     )
     record = service.get_transaction("GF-TX-SECOND-TIMEOUT")
     service.confirm("GF-TX-SECOND-TIMEOUT", confirmation_factory(record))
-    with pytest.raises(CalendarTransientError):
-        service.execute("GF-TX-SECOND-TIMEOUT")
-    assert provider.event_ids == ["mem-event-0001", "mem-event-0002"]
-    assert service.get_transaction("GF-TX-SECOND-TIMEOUT").created_event_ids == ["mem-event-0001"]
-
     recovered = service.execute("GF-TX-SECOND-TIMEOUT")
     assert recovered.status is TransactionStatus.VERIFIED
-    assert recovered.created_event_ids == ["mem-event-0001", "mem-event-0002"]
+    assert recovered.created_event_ids == [item.event_id for item in recovered.planned_requests]
     assert provider.event_count == 2
+    assert "CREATE_RESULT_UNKNOWN" in {event.action for event in recovered.audit_events}
 
 
 def test_verified_transaction_cannot_execute_again(scheduling_factory, confirmation_factory):

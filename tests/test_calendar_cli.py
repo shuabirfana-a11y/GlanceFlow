@@ -40,8 +40,7 @@ def test_calendar_demo_cli_generates_all_scenarios(tmp_path):
     normal = scenarios["normal_verified_then_undone"]
     assert normal["verified_transaction"]["status"] == "VERIFIED"
     assert normal["verified_transaction"]["created_event_ids"] == [
-        "mem-event-0001",
-        "mem-event-0002",
+        item["event_id"] for item in normal["verified_transaction"]["planned_requests"]
     ]
     assert normal["undone_transaction"]["status"] == "UNDONE"
     assert normal["final_event_ids"] == []
@@ -53,7 +52,9 @@ def test_calendar_demo_cli_generates_all_scenarios(tmp_path):
 
     create_failure = scenarios["second_create_failed"]
     assert create_failure["transaction"]["status"] == "ROLLED_BACK"
-    assert create_failure["transaction"]["rollback_results"][0]["event_id"] == "mem-event-0001"
+    assert create_failure["transaction"]["rollback_results"][0]["event_id"] == (
+        create_failure["transaction"]["planned_requests"][0]["event_id"]
+    )
     assert create_failure["final_event_ids"] == []
 
     mismatch = scenarios["readback_mismatch"]
@@ -61,4 +62,3 @@ def test_calendar_demo_cli_generates_all_scenarios(tmp_path):
     assert mismatch["transaction"]["verification_results"][0]["mismatch_fields"] == ["title"]
     assert mismatch["final_event_ids"] == []
     assert data["google_calendar"]["real_call_verified"] is False
-

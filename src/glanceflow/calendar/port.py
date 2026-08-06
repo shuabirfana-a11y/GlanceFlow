@@ -16,6 +16,26 @@ class CalendarTransientError(CalendarProviderError):
     """Retryable provider uncertainty such as timeout after submission."""
 
 
+class CalendarAuthorizationError(CalendarProviderError):
+    pass
+
+
+class CalendarPermissionError(CalendarProviderError):
+    pass
+
+
+class CalendarConflictError(CalendarProviderError):
+    pass
+
+
+class CalendarRateLimitError(CalendarTransientError):
+    pass
+
+
+class CalendarServerError(CalendarTransientError):
+    pass
+
+
 class CalendarEventNotFound(CalendarError):
     pass
 

@@ -31,9 +31,13 @@ class TransactionStatus(StrEnum):
     WAITING_CONFIRMATION = "WAITING_CONFIRMATION"
     CONFIRMED = "CONFIRMED"
     CREATING = "CREATING"
+    EXECUTION_UNKNOWN = "EXECUTION_UNKNOWN"
+    EXECUTED_UNVERIFIED = "EXECUTED_UNVERIFIED"
     READBACK_VERIFYING = "READBACK_VERIFYING"
     VERIFIED = "VERIFIED"
     ROLLING_BACK = "ROLLING_BACK"
+    RECOVERY_REQUIRED = "RECOVERY_REQUIRED"
+    MANUAL_RECOVERY_REQUIRED = "MANUAL_RECOVERY_REQUIRED"
     ROLLED_BACK = "ROLLED_BACK"
     FAILED = "FAILED"
     UNDOING = "UNDOING"
@@ -42,6 +46,7 @@ class TransactionStatus(StrEnum):
 
 
 class CreateEventRequest(CalendarModel):
+    event_id: str = Field(default_factory=lambda: uuid4().hex, min_length=5, max_length=1024)
     title: str = Field(min_length=1)
     start_time: datetime
     end_time: datetime

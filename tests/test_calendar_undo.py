@@ -16,7 +16,7 @@ def verified_record(scheduling_factory, confirmation_factory, *, provider=None, 
 
 def test_precise_undo_removes_all_transaction_events(scheduling_factory, confirmation_factory):
     service, provider, verified = verified_record(scheduling_factory, confirmation_factory)
-    assert verified.created_event_ids == ["mem-event-0001", "mem-event-0002"]
+    assert verified.created_event_ids == [item.event_id for item in verified.planned_requests]
     undone = service.undo("GF-TX-UNDO")
     assert undone.status is TransactionStatus.UNDONE
     assert provider.event_count == 0
@@ -27,14 +27,15 @@ def test_precise_undo_removes_all_transaction_events(scheduling_factory, confirm
 
 def test_partial_undo_failure_preserves_remaining_event_id(scheduling_factory, confirmation_factory):
     provider = MemoryCalendarProvider(MemoryFaultPlan(fail_delete_on_calls={1}))
-    service, provider, _ = verified_record(
+    service, provider, verified = verified_record(
         scheduling_factory, confirmation_factory, provider=provider, tx="GF-TX-PARTIAL-UNDO"
     )
     result = service.undo("GF-TX-PARTIAL-UNDO")
     assert result.status is TransactionStatus.FAILED
-    assert provider.event_ids == ["mem-event-0002"]
+    remaining_id = verified.created_event_ids[1]
+    assert provider.event_ids == [remaining_id]
     assert result.audit_events[-1].action == "UNDO_FAILED"
-    assert result.audit_events[-1].details["remaining_event_ids"] == ["mem-event-0002"]
+    assert result.audit_events[-1].details["remaining_event_ids"] == [remaining_id]
 
 
 def test_repeated_undo_is_safe_noop(scheduling_factory, confirmation_factory):
@@ -56,6 +57,7 @@ def test_undo_does_not_delete_same_title_unrelated_event(
     )
     unrelated_request = verified.planned_requests[0].model_copy(
         update={
+            "event_id": "unrelated-event-0001",
             "transaction_id": "unrelated",
             "notice_package_id": "unrelated-package",
             "private_metadata": {
