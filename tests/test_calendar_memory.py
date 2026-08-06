@@ -5,7 +5,12 @@ from pydantic import ValidationError
 
 from glanceflow.calendar.memory_provider import MemoryCalendarProvider, MemoryFaultPlan
 from glanceflow.calendar.models import CreateEventRequest, EventRole
-from glanceflow.calendar.port import CalendarEventNotFound, CalendarProviderError, CalendarTransientError
+from glanceflow.calendar.port import (
+    CalendarConflictError,
+    CalendarEventNotFound,
+    CalendarProviderError,
+    CalendarTransientError,
+)
 
 
 START = datetime.fromisoformat("2026-08-07T14:00:00+08:00")
@@ -32,8 +37,9 @@ def request(transaction_id="GF-TX-0001", role=EventRole.MAIN_EVENT):
 
 def test_memory_create_read_list_delete():
     provider = MemoryCalendarProvider()
-    created = provider.create_event(request(), "tx-1:main")
-    assert created.event_id == "mem-event-0001"
+    planned = request()
+    created = provider.create_event(planned, "tx-1:main")
+    assert created.event_id == planned.event_id
     assert provider.get_event(created.event_id) == created
     assert [event.event_id for event in provider.list_events(START, START + timedelta(hours=2))] == [created.event_id]
     assert provider.list_events(START + timedelta(hours=2), START + timedelta(hours=3)) == []
@@ -47,8 +53,18 @@ def test_memory_idempotency_key_returns_stable_event():
     provider = MemoryCalendarProvider()
     first = provider.create_event(request(), "same-key")
     second = provider.create_event(request(), "same-key")
-    assert first.event_id == second.event_id == "mem-event-0001"
+    assert first.event_id == second.event_id
     assert provider.event_count == 1
+
+
+def test_memory_event_id_collision_is_not_treated_as_idempotent_success():
+    provider = MemoryCalendarProvider()
+    planned = request()
+    provider.create_event(planned, "first-key")
+    changed = planned.model_copy(update={"title": "unrelated event"})
+    with pytest.raises(CalendarConflictError):
+        provider.create_event(changed, "different-key")
+    assert provider.get_event(planned.event_id).title == planned.title
 
 
 def test_create_failure_injection():
@@ -64,7 +80,7 @@ def test_timeout_after_create_is_idempotently_recoverable():
         provider.create_event(request(), "timeout-key")
     assert provider.event_count == 1
     recovered = provider.create_event(request(), "timeout-key")
-    assert recovered.event_id == "mem-event-0001"
+    assert recovered.event_id == provider.event_ids[0]
     assert provider.event_count == 1
 
 

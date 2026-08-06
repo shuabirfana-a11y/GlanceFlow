@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import timezone
+from pathlib import Path
 from uuid import uuid4
 
 from glanceflow.calendar.models import (
@@ -11,6 +12,7 @@ from glanceflow.calendar.models import (
     UserConfirmation,
     calendar_request_digest,
 )
+from glanceflow.calendar.ledger import LedgerEntry, LocalTransactionLedger
 from glanceflow.calendar.port import CalendarError, CalendarPort
 from glanceflow.calendar.preflight import check_conflict, check_duplicate
 from glanceflow.calendar.transaction import (
@@ -29,10 +31,19 @@ class SchedulingValidationError(RuntimeError):
 
 
 class TrustedSchedulingService:
-    def __init__(self, provider: CalendarPort) -> None:
+    def __init__(
+        self,
+        provider: CalendarPort,
+        *,
+        ledger: LocalTransactionLedger | None = None,
+        ledger_path: Path | None = None,
+    ) -> None:
+        if ledger is not None and ledger_path is not None:
+            raise ValueError("pass either ledger or ledger_path, not both")
         self.provider = provider
         self._records: dict[str, CalendarTransactionRecord] = {}
-        self._manager = CalendarTransactionManager(provider, self._records)
+        self.ledger = ledger or LocalTransactionLedger(ledger_path)
+        self._manager = CalendarTransactionManager(provider, self._records, self.ledger)
 
     def preflight(
         self,
@@ -171,6 +182,9 @@ class TrustedSchedulingService:
 
     def undo(self, transaction_id: str) -> CalendarTransactionRecord:
         return self._manager.undo(transaction_id)
+
+    def recover_incomplete_operations(self) -> list[LedgerEntry]:
+        return self._manager.recover_incomplete_operations()
 
     def get_transaction(self, transaction_id: str) -> CalendarTransactionRecord:
         return self._internal_record(transaction_id).model_copy(deep=True)

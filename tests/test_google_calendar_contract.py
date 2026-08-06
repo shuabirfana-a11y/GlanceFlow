@@ -4,7 +4,7 @@ import pytest
 
 from glanceflow.calendar.google_provider import GoogleCalendarProvider
 from glanceflow.calendar.models import CreateEventRequest, EventRole
-from glanceflow.calendar.port import CalendarEventNotFound, CalendarProviderError
+from glanceflow.calendar.port import CalendarConflictError, CalendarEventNotFound, CalendarProviderError
 
 
 class FakeRequest:
@@ -41,7 +41,11 @@ class FakeGoogleEvents:
         self.calls.append(("insert", kwargs))
 
         def execute():
-            event_id = f"google-event-{self.next_id:04d}"
+            event_id = kwargs["body"].get("id") or f"google-event-{self.next_id:04d}"
+            if event_id in self.items:
+                error = RuntimeError("conflict")
+                error.resp = type("Response", (), {"status": 409})()
+                raise error
             self.next_id += 1
             item = {
                 "id": event_id,
@@ -109,8 +113,9 @@ def request():
 def test_google_contract_create_read_list_delete_and_private_metadata():
     service = FakeGoogleService()
     provider = GoogleCalendarProvider(service, "test-calendar@example.com")
-    created = provider.create_event(request(), "idempotency-1")
-    assert created.event_id == "google-event-0001"
+    planned = request()
+    created = provider.create_event(planned, "idempotency-1")
+    assert created.event_id == planned.event_id
     assert created.private_metadata["notice_package_id"] == "GF-PKG-0001"
     assert created.private_metadata["transaction_id"] == "GF-TX-1"
     assert created.private_metadata["event_role"] == "MAIN_EVENT"
@@ -131,6 +136,17 @@ def test_google_contract_project_idempotency_avoids_second_insert():
     assert len([call for call in service.resource.calls if call[0] == "insert"]) == 1
 
 
+def test_google_contract_event_id_collision_is_an_explicit_conflict():
+    service = FakeGoogleService()
+    provider = GoogleCalendarProvider(service, "test-calendar@example.com")
+    planned = request()
+    provider.create_event(planned, "first-key")
+    changed = planned.model_copy(update={"title": "unrelated event"})
+    with pytest.raises(CalendarConflictError):
+        provider.create_event(changed, "different-key")
+    assert provider.get_event(planned.event_id).title == planned.title
+
+
 def test_google_contract_refuses_primary_calendar():
     with pytest.raises(ValueError, match="primary"):
         GoogleCalendarProvider(FakeGoogleService(), "primary")
@@ -143,4 +159,3 @@ def test_google_credentials_are_not_optional_or_logged(monkeypatch):
         GoogleCalendarProvider.from_environment()
     assert "GLANCEFLOW_GOOGLE_CREDENTIALS" in str(exc_info.value)
     assert "token" not in str(exc_info.value).casefold()
-

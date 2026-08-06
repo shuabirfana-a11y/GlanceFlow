@@ -7,9 +7,13 @@ from typing import Any
 
 from glanceflow.calendar.models import CalendarEventSnapshot, CreateEventRequest
 from glanceflow.calendar.port import (
+    CalendarAuthorizationError,
+    CalendarConflictError,
     CalendarEventNotFound,
+    CalendarPermissionError,
     CalendarProviderError,
-    CalendarTransientError,
+    CalendarRateLimitError,
+    CalendarServerError,
 )
 
 
@@ -86,6 +90,7 @@ class GoogleCalendarProvider:
         if existing:
             return self._to_snapshot(existing[0])
         body = {
+            "id": request.event_id,
             "summary": request.title,
             "start": {"dateTime": request.start_time.isoformat(), "timeZone": request.timezone},
             "end": {"dateTime": request.end_time.isoformat(), "timeZone": request.timezone},
@@ -115,12 +120,18 @@ class GoogleCalendarProvider:
             return request.execute()
         except Exception as exc:
             status = getattr(getattr(exc, "resp", None), "status", None)
+            if status == 401:
+                raise CalendarAuthorizationError("Google Calendar authorization failed (HTTP 401).") from exc
+            if status == 403:
+                raise CalendarPermissionError("Google Calendar permission denied (HTTP 403).") from exc
             if status == 404:
                 raise CalendarEventNotFound("Google Calendar 事件不存在。") from exc
-            if status == 429 or (isinstance(status, int) and status >= 500):
-                raise CalendarTransientError(
-                    f"Google Calendar 暂时不可用（HTTP {status}）。"
-                ) from exc
+            if status == 409:
+                raise CalendarConflictError("Google Calendar conflict (HTTP 409).") from exc
+            if status == 429:
+                raise CalendarRateLimitError("Google Calendar temporarily rate limited (HTTP 429).") from exc
+            if isinstance(status, int) and status >= 500:
+                raise CalendarServerError(f"Google Calendar temporarily unavailable (HTTP {status}).") from exc
             raise CalendarProviderError(
                 f"Google Calendar 操作失败（{type(exc).__name__}）。"
             ) from exc
@@ -150,4 +161,3 @@ class GoogleCalendarProvider:
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise CalendarProviderError("Google Calendar 返回了不完整的定时事件。") from exc
-
