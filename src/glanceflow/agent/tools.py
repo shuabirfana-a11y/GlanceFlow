@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from datetime import datetime
+from enum import StrEnum
+from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from glanceflow.agent.models import AgentSessionState, SideEffectLevel
 
@@ -20,6 +22,55 @@ class SessionInput(ToolModel):
 
 class TransactionInput(SessionInput):
     transaction_id: str = Field(min_length=1)
+
+
+class InputAuthority(StrEnum):
+    USER_COMMAND = "USER_COMMAND"
+    NOTIFICATION_CONTENT = "NOTIFICATION_CONTENT"
+    SYSTEM_STATE = "SYSTEM_STATE"
+
+
+class UserCommandInput(ToolModel):
+    """A user-originated command; notification text must never instantiate this model."""
+
+    authority: Literal[InputAuthority.USER_COMMAND] = InputAuthority.USER_COMMAND
+    value: str | dict[str, Any]
+
+
+class NotificationContentInput(ToolModel):
+    """Untrusted OCR/notification evidence with no action-authority fields."""
+
+    authority: Literal[InputAuthority.NOTIFICATION_CONTENT] = InputAuthority.NOTIFICATION_CONTENT
+    ocr_result: dict[str, Any] | None = None
+    notice_draft: dict[str, Any] | None = None
+
+
+class SystemStateInput(ToolModel):
+    """Trusted runtime state, kept separate from notification-derived content."""
+
+    authority: Literal[InputAuthority.SYSTEM_STATE] = InputAuthority.SYSTEM_STATE
+    session_state: AgentSessionState
+    motion_state: str
+
+
+class ConfirmedTransactionInput(ToolModel):
+    """Deterministic external-write command containing no notification free text."""
+
+    schema_version: Literal["calendar-command-v1"] = "calendar-command-v1"
+    session_id: str = Field(min_length=1)
+    transaction_id: str = Field(min_length=1)
+    calendar_id: str = Field(min_length=1)
+    confirmation_snapshot_id: str = Field(min_length=1)
+    confirmation_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
+    confirmed_at: datetime
+    accepted_conflict: bool = False
+
+    @field_validator("calendar_id")
+    @classmethod
+    def reject_unbound_or_primary_calendar(cls, value: str) -> str:
+        if value == "UNSPECIFIED" or value.casefold() == "primary":
+            raise ValueError("external writes require an explicitly bound non-primary calendar")
+        return value
 
 
 class ToolOutput(ToolModel):
@@ -58,7 +109,7 @@ def standard_contracts() -> tuple[ToolContract, ...]:
         ToolContract("extract_notice_draft", "调用现有字段抽取器形成候选草稿。", SessionInput, ToolOutput, frozenset({state.EXTRACTING}), frozenset({state.VALIDATING, state.NEED_INPUT, state.BLOCKED}), read, False, True, 8, 1, ("RETRY", "ASK_USER", "BLOCK")),
         ToolContract("evaluate_safety", "调用现有 Safety Gate，不修改其规则。", SessionInput, ToolOutput, frozenset({state.VALIDATING}), frozenset({state.PREFLIGHTING, state.NEED_INPUT, state.RECAPTURE_REQUIRED, state.BLOCKED}), read, False, True, 5, 0, ("ASK_USER", "REQUEST_RECAPTURE", "BLOCK")),
         ToolContract("run_action_preflight", "调用现有 Action Preflight 检查重复与冲突。", SessionInput, ToolOutput, frozenset({state.PREFLIGHTING}), frozenset({state.WAIT_CONFIRM, state.BLOCKED}), read, False, True, 10, 1, ("RETRY", "BLOCK")),
-        ToolContract("create_calendar_transaction", "通过 TrustedSchedulingService 执行已确认事务。", TransactionInput, ToolOutput, frozenset({state.EXECUTING}), frozenset({state.VERIFYING, state.RECOVERING}), external, True, True, 20, 0, ("CHECK_IDEMPOTENCY_KEY", "ROLLBACK")),
+        ToolContract("create_calendar_transaction", "通过 TrustedSchedulingService 执行已确认事务。", ConfirmedTransactionInput, ToolOutput, frozenset({state.EXECUTING}), frozenset({state.VERIFYING, state.RECOVERING}), external, True, True, 20, 0, ("CHECK_IDEMPOTENCY_KEY", "ROLLBACK")),
         ToolContract("verify_calendar_transaction", "回读并校验事务创建结果。", TransactionInput, ToolOutput, frozenset({state.VERIFYING, state.RECOVERING}), frozenset({state.SUCCESS, state.RECOVERING}), read, False, True, 10, 2, ("RETRY", "ROLLBACK")),
         ToolContract("rollback_calendar_transaction", "按事务事件标识补偿回滚并验证删除。", TransactionInput, ToolOutput, frozenset({state.RECOVERING}), frozenset({state.FAILED, state.BLOCKED}), external, False, True, 20, 1, ("RETRY", "BLOCK")),
         ToolContract("undo_last_transaction", "按已验证事务精确撤销。", TransactionInput, ToolOutput, frozenset({state.EXECUTING}), frozenset({state.UNDONE, state.RECOVERING}), external, True, True, 20, 0, ("CHECK_IDEMPOTENCY_KEY", "BLOCK")),
