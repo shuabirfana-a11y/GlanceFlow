@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-06","name":"Undo Last Transaction","image":"data/synthetic_posters/01_valid_event.png","command":"撤销刚才的安排","behavior":"UNDO","public_description":"通过 transaction_id 与 event_id 精准撤销。"}

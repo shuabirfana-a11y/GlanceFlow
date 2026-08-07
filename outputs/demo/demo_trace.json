@@ -1,0 +1,171 @@
+{
+  "mode": "AUTO",
+  "step_index": 8,
+  "steps": [
+    {
+      "stage": "CAPTURE",
+      "status": "PASS",
+      "public_reason": "第一视角帧已进入本地设备边界。",
+      "image_hash": "b2a0ab6c"
+    },
+    {
+      "stage": "OCR",
+      "status": "PASS",
+      "public_reason": "RapidOCR 本地识别完成。"
+    },
+    {
+      "stage": "SAFETY",
+      "status": "PASS",
+      "public_reason": "字段与证据通过安全门。"
+    },
+    {
+      "stage": "PREFLIGHT",
+      "status": "PASS",
+      "public_reason": "未发现重复日程。; 发现 1 个冲突事件，共重叠 60 分钟；需要二次明确确认。"
+    },
+    {
+      "stage": "CONFIRMATION",
+      "status": "WAIT",
+      "public_reason": "普通确认不足以接受冲突；等待用户明确选择仍然创建。"
+    },
+    {
+      "stage": "EVENT_CREATED",
+      "status": "PASS",
+      "public_reason": "事件创建返回客户端绑定的稳定 event_id。"
+    },
+    {
+      "stage": "READBACK_VERIFIED",
+      "status": "PASS",
+      "public_reason": "回读关键字段全部一致。"
+    },
+    {
+      "stage": "TRANSACTION_VERIFIED",
+      "status": "PASS",
+      "public_reason": "日程包全部创建且回读一致。"
+    }
+  ],
+  "scenario_id": "GF-DEMO-05",
+  "name": "Calendar Conflict",
+  "final_status": "READY_TO_CONFIRM",
+  "selected_action": "EXECUTION_COMPLETE",
+  "transaction_status": "VERIFIED",
+  "event_ids": [
+    "cfc198eb"
+  ],
+  "calendar_event_count": 2,
+  "wrong_side_effect": false,
+  "duplicate_events": 0,
+  "residual_events": 0,
+  "crash": false,
+  "evidence": [
+    {
+      "field": "ocr_line",
+      "value": "人工构造测试素材",
+      "evidence": "frame-01_valid_event-ocr-0001",
+      "confidence": 0.8069677684042189,
+      "source": "frame-01_valid_event",
+      "hash": "b2a0ab6c"
+    },
+    {
+      "field": "ocr_line",
+      "value": "活动标题：创新创业竞赛宣讲",
+      "evidence": "frame-01_valid_event-ocr-0002",
+      "confidence": 0.8118454473359245,
+      "source": "frame-01_valid_event",
+      "hash": "b2a0ab6c"
+    },
+    {
+      "field": "ocr_line",
+      "value": "2026年8月7日星期五14:00",
+      "evidence": "frame-01_valid_event-ocr-0003",
+      "confidence": 0.8441038727760315,
+      "source": "frame-01_valid_event",
+      "hash": "b2a0ab6c"
+    },
+    {
+      "field": "ocr_line",
+      "value": "地点：科技馆报告厅",
+      "evidence": "frame-01_valid_event-ocr-0004",
+      "confidence": 0.8927146315574646,
+      "source": "frame-01_valid_event",
+      "hash": "b2a0ab6c"
+    }
+  ],
+  "safety": {
+    "IMAGE QUALITY": "PASS",
+    "TEMPORAL SEMANTICS": "PASS",
+    "EVIDENCE": "PASS",
+    "DUPLICATE": "PASS",
+    "CALENDAR CONFLICT": "WARN",
+    "CONFIRMATION": "PASS",
+    "TRANSACTION": "PASS"
+  },
+  "decision_card": {
+    "current_goal": "仍然创建",
+    "agent_state": "READY_TO_CONFIRM",
+    "risk_level": "LOW",
+    "selected_action": "EXECUTION_COMPLETE",
+    "tool": "trusted_calendar_transaction",
+    "public_reason": "证据与安全检查通过。",
+    "waiting_for": "none",
+    "side_effect_allowed": true
+  },
+  "transaction": {
+    "transaction_id": "GF-TX-05",
+    "event_ids": [
+      "cfc198eb"
+    ],
+    "status": "VERIFIED"
+  },
+  "latency_ms": {
+    "capture": 0.266,
+    "ocr_extract_temporal_safety": 1765.062,
+    "preflight": 1.127,
+    "transaction": 2.382,
+    "end_to_end": 1772.123
+  },
+  "latency_environment": "LOCAL WINDOWS SIMULATION",
+  "visible_steps": [
+    {
+      "stage": "CAPTURE",
+      "status": "PASS",
+      "public_reason": "第一视角帧已进入本地设备边界。",
+      "image_hash": "b2a0ab6c"
+    },
+    {
+      "stage": "OCR",
+      "status": "PASS",
+      "public_reason": "RapidOCR 本地识别完成。"
+    },
+    {
+      "stage": "SAFETY",
+      "status": "PASS",
+      "public_reason": "字段与证据通过安全门。"
+    },
+    {
+      "stage": "PREFLIGHT",
+      "status": "PASS",
+      "public_reason": "未发现重复日程。; 发现 1 个冲突事件，共重叠 60 分钟；需要二次明确确认。"
+    },
+    {
+      "stage": "CONFIRMATION",
+      "status": "WAIT",
+      "public_reason": "普通确认不足以接受冲突；等待用户明确选择仍然创建。"
+    },
+    {
+      "stage": "EVENT_CREATED",
+      "status": "PASS",
+      "public_reason": "事件创建返回客户端绑定的稳定 event_id。"
+    },
+    {
+      "stage": "READBACK_VERIFIED",
+      "status": "PASS",
+      "public_reason": "回读关键字段全部一致。"
+    },
+    {
+      "stage": "TRANSACTION_VERIFIED",
+      "status": "PASS",
+      "public_reason": "日程包全部创建且回读一致。"
+    }
+  ]
+}

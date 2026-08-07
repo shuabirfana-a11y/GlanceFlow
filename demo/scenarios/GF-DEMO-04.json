@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-04","name":"Date-Weekday Contradiction","image":"data/synthetic_posters/03_weekday_contradiction.png","command":"安排一下","behavior":"STANDARD","public_description":"日期与星期矛盾时阻断。"}

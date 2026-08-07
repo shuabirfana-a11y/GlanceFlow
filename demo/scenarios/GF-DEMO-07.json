@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-07","name":"Duplicate Notice","image":"data/synthetic_posters/01_valid_event.png","command":"再次安排","behavior":"DUPLICATE","public_description":"同一通知再次出现时由预检阻断重复创建。"}
