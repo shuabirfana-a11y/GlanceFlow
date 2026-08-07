@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="420" viewBox="0 0 1500 420" role="img" aria-labelledby="title desc">
+<title id="title">GlanceFlow final architecture</title><desc id="desc">Compact trusted action chain with a separate public decision trace.</desc>
+<rect width="1500" height="420" fill="#07111f"/><style>.n{fill:#10243a;stroke:#50e3ff;stroke-width:2}.t{fill:#eef7ff;font:16px Segoe UI,sans-serif;text-anchor:middle}.a{stroke:#7daac3;stroke-width:3;marker-end:url(#m)}.s{fill:#162b45;stroke:#ffc857;stroke-width:2}</style>
+<defs><marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7daac3"/></marker></defs>
+<g id="chain">
+<rect class="n" x="25" y="120" width="115" height="70" rx="12"/><text class="t" x="82" y="150"><tspan x="82">First-Person</tspan><tspan x="82" dy="22">Input</tspan></text>
+<rect class="n" x="155" y="120" width="115" height="70" rx="12"/><text class="t" x="212" y="150"><tspan x="212">Device</tspan><tspan x="212" dy="22">Adapter</tspan></text>
+<rect class="n" x="285" y="120" width="115" height="70" rx="12"/><text class="t" x="342" y="160">Perception</text>
+<rect class="n" x="415" y="120" width="115" height="70" rx="12"/><text class="t" x="472" y="150"><tspan x="472">Evidence</tspan><tspan x="472" dy="22">Binding</tspan></text>
+<rect class="n" x="545" y="120" width="115" height="70" rx="12"/><text class="t" x="602" y="150"><tspan x="602">Temporal</tspan><tspan x="602" dy="22">Semantics</tspan></text>
+<rect class="n" x="675" y="120" width="115" height="70" rx="12"/><text class="t" x="732" y="150"><tspan x="732">Risk-Aware</tspan><tspan x="732" dy="22">Agent</tspan></text>
+<rect class="n" x="805" y="120" width="115" height="70" rx="12"/><text class="t" x="862" y="150"><tspan x="862">Safety</tspan><tspan x="862" dy="22">Gate</tspan></text>
+<rect class="n" x="935" y="120" width="115" height="70" rx="12"/><text class="t" x="992" y="150"><tspan x="992">Action</tspan><tspan x="992" dy="22">Preflight</tspan></text>
+<rect class="n" x="1065" y="120" width="115" height="70" rx="12"/><text class="t" x="1122" y="150"><tspan x="1122">User</tspan><tspan x="1122" dy="22">Confirmation</tspan></text>
+<rect class="n" x="1195" y="120" width="115" height="70" rx="12"/><text class="t" x="1252" y="150"><tspan x="1252">Trusted</tspan><tspan x="1252" dy="22">Transaction</tspan></text>
+<rect class="n" x="1325" y="120" width="150" height="70" rx="12"/><text class="t" x="1400" y="150"><tspan x="1400">Readback /</tspan><tspan x="1400" dy="22">Recovery</tspan></text>
+<path class="a" d="M140 155H155M270 155H285M400 155H415M530 155H545M660 155H675M790 155H805M920 155H935M1050 155H1065M1180 155H1195M1310 155H1325"/>
+<rect class="s" x="665" y="285" width="135" height="65" rx="12"/><text class="t" x="732" y="322">Decision Trace</text><path d="M732 190V285" stroke="#ffc857" stroke-width="2" stroke-dasharray="7 7"/>
+</g></svg>
