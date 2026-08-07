@@ -1,0 +1,7 @@
+{
+  "passed": 412,
+  "skipped": 4,
+  "failed": 0,
+  "status": "PASS",
+  "command": "python -m pytest -q"
+}
