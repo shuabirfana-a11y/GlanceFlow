@@ -41,7 +41,7 @@ def test_all_three_systems_use_exactly_same_sample_ids():
 def test_seven_ablation_configs_are_adapter_only_and_core_rules_remain():
     assert len(ABLATIONS) == 7
     assert len({config.ablation_id for config in ABLATIONS}) == 7
-    assert len(ALL_RULES) == 15
+    assert len(ALL_RULES) == 16
     config=json.loads(Path("evaluation/experiments/ablation_config.json").read_text(encoding="utf-8"))
     assert config["adapter_only"] is True
     assert config["production_core_modified"] is False

@@ -57,6 +57,18 @@ class TrustedSchedulingService:
             or not safety_decision.can_proceed_to_confirmation
         ):
             raise SchedulingValidationError("只有 READY_TO_CONFIRM 草案可以进入日历事务层。")
+        try:
+            canonical_safety_snapshot = NoticePackageDraft.model_validate(
+                safety_decision.draft_snapshot
+            ).model_dump(mode="json")
+        except ValueError as exc:
+            raise SchedulingValidationError(
+                "Safety Gate draft snapshot is invalid; revalidation is required before preflight"
+            ) from exc
+        if canonical_safety_snapshot != draft.model_dump(mode="json"):
+            raise SchedulingValidationError(
+                "draft changed after Safety Gate; revalidation is required before preflight"
+            )
         tx_id = transaction_id or f"GF-TX-{uuid4().hex}"
         if tx_id in self._records:
             raise SchedulingValidationError("transaction_id 已存在，禁止创建第二个事务记录。")

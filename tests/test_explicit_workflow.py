@@ -78,6 +78,7 @@ def test_confirmation_snapshot_binds_all_required_execution_fields():
         {"main_event": {"recurrence": "RRULE:FREQ=WEEKLY"}},
         {"timezone": "UTC"},
         {"deadline_action": {"deadline": "2026-08-06T21:00:00+08:00", "action": "报名"}},
+        {"temporal_fields": [{"evidence_id": "changed-temporal-evidence"}]},
         {"reminder_policy": "TEN_MINUTES"},
         {"attendee_policy": "NONE_EXPLICIT"},
         {"conference_policy": "NO_CONFERENCE"},

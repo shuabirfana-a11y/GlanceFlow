@@ -37,6 +37,7 @@ def make_ocr(rows: list[list[tuple[str, float]]], source="frame-01-valid") -> Oc
         image_path=Path("synthetic.png"),
         image_width=1400,
         image_height=900,
+        image_sha256="0" * 64,
         evidence_lines=lines,
         provider_name="fake-ocr",
         provider_version="1",

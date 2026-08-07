@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -31,6 +32,7 @@ class OcrResult(OcrModel):
     image_path: Path
     image_width: int
     image_height: int
+    image_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     evidence_lines: list[EvidenceLine] = Field(default_factory=list)
     provider_name: str
     provider_version: str
@@ -52,4 +54,8 @@ class OcrResult(OcrModel):
             x1, y1, x2, y2 = line.bbox
             if not (0 <= x1 <= x2 <= self.image_width and 0 <= y1 <= y2 <= self.image_height):
                 raise ValueError("OCR evidence bbox must stay within image bounds")
+        if self.image_sha256 is not None and self.image_path.is_file():
+            actual = hashlib.sha256(self.image_path.read_bytes()).hexdigest()
+            if actual != self.image_sha256:
+                raise ValueError("OCR image_sha256 must match the source image")
         return self

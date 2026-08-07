@@ -21,6 +21,18 @@ class EvidenceRow:
     def confidence(self) -> float:
         return min((line.confidence for line in self.lines), default=0.0)
 
+    @property
+    def bbox(self) -> tuple[float, float, float, float]:
+        boxes = [line.bbox for line in self.lines if line.bbox is not None]
+        if not boxes:
+            raise ValueError("evidence row has no positioned OCR lines")
+        return (
+            min(box[0] for box in boxes),
+            min(box[1] for box in boxes),
+            max(box[2] for box in boxes),
+            max(box[3] for box in boxes),
+        )
+
 
 def _center_y(line: EvidenceLine) -> float:
     assert line.bbox is not None
@@ -58,4 +70,3 @@ def group_visual_rows(lines: list[EvidenceLine]) -> list[EvidenceRow]:
 def validate_evidence_links(ocr_result, line_ids: list[str]) -> bool:
     known = {line.line_id for line in ocr_result.evidence_lines}
     return bool(line_ids) and all(line_id in known for line_id in line_ids)
-

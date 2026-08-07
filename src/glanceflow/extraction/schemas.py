@@ -3,7 +3,7 @@ from typing import Protocol
 from pydantic import BaseModel, ConfigDict, Field
 
 from glanceflow.domain.enums import SafetyGateStatus
-from glanceflow.domain.models import NoticePackageDraft
+from glanceflow.domain.models import NoticePackageDraft, TemporalField
 from glanceflow.ocr.models import OcrResult
 
 
@@ -25,9 +25,9 @@ class ExtractionResult(BaseModel):
     ambiguity_reasons: list[str] = Field(default_factory=list)
     suggested_status: SafetyGateStatus | None = None
     error_message: str | None = None
+    temporal_fields: list[TemporalField] = Field(default_factory=list)
 
 
 class DraftExtractor(Protocol):
     def extract(self, ocr_result: OcrResult, captured_at, timezone: str) -> ExtractionResult:
         ...
-
