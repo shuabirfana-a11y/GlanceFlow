@@ -1,0 +1,20 @@
+{
+  "sample_id": "RW-001",
+  "title": null,
+  "event_start": null,
+  "event_end": null,
+  "location": null,
+  "registration_deadline": null,
+  "submission_deadline": null,
+  "checkin_time": null,
+  "publish_time": null,
+  "cancellation": false,
+  "reschedule": false,
+  "temporal_roles": [],
+  "ambiguity": [],
+  "executable": false,
+  "evidence": {},
+  "annotation_status": "DRAFT",
+  "annotator": "",
+  "reviewer": ""
+}

@@ -1,0 +1,14 @@
+﻿metric,numerator,denominator,sample_ids,value
+ocr_character_accuracy,,0,,NOT_EVALUATED
+field_exact_match,,0,,NOT_EVALUATED
+temporal_role_accuracy,,0,,NOT_EVALUATED
+temporal_exact_match,,0,,NOT_EVALUATED
+location_exact_match,,0,,NOT_EVALUATED
+evidence_completeness,,0,,NOT_EVALUATED
+safety_decision_accuracy,,0,,NOT_EVALUATED
+executable_recall,,0,,NOT_EVALUATED
+unsafe_execution_rate,,0,,NOT_EVALUATED
+false_block_rate,,0,,NOT_EVALUATED
+clarification_rate,,0,,NOT_EVALUATED
+recapture_rate,,0,,NOT_EVALUATED
+end_to_end_success,,0,,NOT_EVALUATED
