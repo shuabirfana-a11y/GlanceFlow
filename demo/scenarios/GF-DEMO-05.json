@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-05","name":"Calendar Conflict","image":"data/synthetic_posters/01_valid_event.png","command":"仍然创建","behavior":"CONFLICT","public_description":"预置课程冲突，普通确认不足，需明确接受冲突。"}

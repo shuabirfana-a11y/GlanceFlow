@@ -1,0 +1,607 @@
+{
+  "label": "SIMULATOR REPEATABILITY TEST",
+  "runs_per_scenario": 10,
+  "results": [
+    {
+      "scenario_id": "GF-DEMO-01",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    },
+    {
+      "scenario_id": "GF-DEMO-02",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    },
+    {
+      "scenario_id": "GF-DEMO-03",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "RECAPTURE",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    },
+    {
+      "scenario_id": "GF-DEMO-04",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "BLOCK",
+          "transaction_status": "NOT_STARTED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    },
+    {
+      "scenario_id": "GF-DEMO-05",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "VERIFIED",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    },
+    {
+      "scenario_id": "GF-DEMO-06",
+      "runs": [
+        {
+          "iteration": 1,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 2,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 3,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 4,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 5,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 6,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 7,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 8,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 9,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        },
+        {
+          "iteration": 10,
+          "selected_action": "EXECUTION_COMPLETE",
+          "transaction_status": "UNDONE",
+          "wrong_side_effect": false,
+          "duplicate_events": 0,
+          "residual_events": 0,
+          "crash": false
+        }
+      ],
+      "successful_runs": 10,
+      "wrong_side_effects": 0,
+      "duplicate_events": 0,
+      "unclean_transactions": 0,
+      "crashes": 0
+    }
+  ],
+  "not_a_user_reliability_claim": true
+}

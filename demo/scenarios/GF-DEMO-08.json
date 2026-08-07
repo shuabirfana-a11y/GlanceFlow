@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-08","name":"Readback Failure + Rollback","image":"data/synthetic_posters/02_event_with_deadline.png","command":"安排一下","behavior":"ROLLBACK","public_description":"注入回读不一致并验证回滚删除。"}

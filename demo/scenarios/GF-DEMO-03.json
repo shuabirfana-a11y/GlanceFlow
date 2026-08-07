@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-03","name":"Blurry / Recapture","image":"data/synthetic_posters/08_low_resolution.png","command":"安排一下","behavior":"STANDARD","public_description":"低质量输入应请求重拍，不产生副作用。"}

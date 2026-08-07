@@ -1,0 +1,1 @@
+{"scenario_id":"GF-DEMO-02","name":"Event + Registration Deadline","image":"data/synthetic_posters/02_event_with_deadline.png","command":"安排活动并提醒报名截止","behavior":"STANDARD","public_description":"区分活动开始与报名截止，原子创建两个事件。"}
