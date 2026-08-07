@@ -1,0 +1,12 @@
+{
+  "rapidocr": {
+    "status": "AVAILABLE",
+    "version": "1.2.3"
+  },
+  "paddleocr": {
+    "status": "NOT_EVALUATED",
+    "version": "SDK_UNAVAILABLE",
+    "reason": "optional dependency is not installed"
+  },
+  "production_default_changed": false
+}
