@@ -1,0 +1,106 @@
+{
+  "STATUS": "WAITING_FOR_DATA",
+  "REAL_CAMPUS_SAMPLE_COUNT": 0,
+  "PUBLIC_REPOSITORY_SAMPLE_COUNT": 0,
+  "LOCAL_PRIVATE_SAMPLE_COUNT": 0,
+  "GROUND_TRUTH_COMPLETE_COUNT": 0,
+  "validated_sample_ids": [],
+  "status_reason": "No permitted, independently annotated real campus samples are available.",
+  "metrics": {
+    "ocr_character_accuracy": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "field_exact_match": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "temporal_role_accuracy": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "temporal_exact_match": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "location_exact_match": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "evidence_completeness": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "safety_decision_accuracy": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "executable_recall": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "unsafe_execution_rate": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "false_block_rate": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "clarification_rate": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "recapture_rate": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    },
+    "end_to_end_success": {
+      "numerator": null,
+      "denominator": 0,
+      "sample_ids": [],
+      "value": null
+    }
+  },
+  "failure_taxonomy": [
+    "PERCEPTION_ERROR",
+    "OCR_ERROR",
+    "FIELD_EXTRACTION_ERROR",
+    "TEMPORAL_ROLE_ERROR",
+    "TEMPORAL_NORMALIZATION_ERROR",
+    "EVIDENCE_BINDING_ERROR",
+    "SAFETY_FALSE_BLOCK",
+    "SAFETY_FALSE_ALLOW",
+    "AGENT_DECISION_ERROR",
+    "TRANSACTION_ERROR"
+  ],
+  "rapidocr_vs_paddleocr": {
+    "status": "NOT_EVALUATED",
+    "reason": "Comparison starts only after the first real-campus dataset is available."
+  },
+  "real_calendar_writes": 0
+}

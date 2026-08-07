@@ -23,6 +23,8 @@ evaluation/real_data/originals/
 evaluation/real_data/quarantine/
 evaluation/real_data/public_web/.local_cache/
 evaluation/real_data/public_web/.sanitized_cache/
+evaluation/real_world/raw/
+evaluation/real_world/private/
 *.log
 .DS_Store
 Thumbs.db

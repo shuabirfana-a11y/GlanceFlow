@@ -1,0 +1,1 @@
+sample_id,source_type,capture_date,permission_status,sanitized,contains_name,contains_phone,contains_student_id,contains_qr,contains_face,allowed_for_repository,allowed_for_demo,image_path,sha256,annotation_path,source_url,license,attribution
